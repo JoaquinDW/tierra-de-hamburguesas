@@ -43,7 +43,17 @@ import {
   Trash2,
   Banknote,
   Flag,
+  Star,
+  Settings,
+  ChevronDown,
+  ExternalLink,
 } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { AdminLogin } from "@/components/admin-login"
 import { CompradoresSearch } from "@/components/compradores-search"
 import { ImageUpload } from "@/components/image-upload"
@@ -62,6 +72,7 @@ import { GestionGanadores } from "@/components/gestion-ganadores"
 import { GanadoresExpressModal } from "@/components/ganadores-express-modal"
 import { ConfirmarEliminarModal } from "@/components/confirmar-eliminar-modal"
 import { FinalizarSorteoModal } from "@/components/finalizar-sorteo-modal"
+import { PremiosSecundariosManager } from "@/components/premios-secundarios-manager"
 import {
   obtenerSorteoActivo,
   obtenerTodosSorteos,
@@ -77,8 +88,10 @@ import {
   actualizarPreciosSorteo,
   eliminarComprador,
   obtenerConfiguracionTransferencia,
+  obtenerPremiosSecundarios,
 } from "@/lib/database"
 import type { Sorteo, Comprador } from "@/lib/supabase"
+import type { PremiosSecundarios } from "@/lib/database"
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 
@@ -133,6 +146,14 @@ export default function BackofficePage() {
     alias: "sosamotos",
     titular: "Agustín Sosa",
   })
+  const [premiosSecundarios, setPremiosSecundarios] =
+    useState<PremiosSecundarios>({
+      numeros: [],
+      monto: "$50 mil",
+      titulo: "NÚMEROS BENDECIDOS",
+      visible: true,
+    })
+  const [activeTab, setActiveTab] = useState("informacion")
   const [confirmarEliminarModalAbierto, setConfirmarEliminarModalAbierto] =
     useState(false)
   const [compradorAEliminar, setCompradorAEliminar] =
@@ -160,18 +181,20 @@ export default function BackofficePage() {
     try {
       setLoading(true)
 
-      const [sorteoActivo, sorteos, transferencias, configTransf] =
+      const [sorteoActivo, sorteos, transferencias, configTransf, premios] =
         await Promise.all([
           obtenerSorteoActivo(),
           obtenerTodosSorteos(),
           obtenerTransferenciasPendientes(),
           obtenerConfiguracionTransferencia(),
+          obtenerPremiosSecundarios(),
         ])
 
       setSorteoActual(sorteoActivo)
       setTodosSorteos(sorteos)
       setTransferenciasPendientes(transferencias)
       setConfigTransferencia(configTransf)
+      setPremiosSecundarios(premios)
 
       if (sorteoActivo) {
         console.log("🎯 Sorteo Activo:", {
@@ -999,53 +1022,73 @@ export default function BackofficePage() {
                 Gestiona tus sorteos y compradores
               </p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 flex-wrap justify-end">
               <Button
                 onClick={() => setNuevoSorteoModalAbierto(true)}
                 className="bg-gray-900 hover:bg-gray-800"
+                size="sm"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Nuevo Sorteo
               </Button>
               {sorteoActual && sorteoActual.estado === "activo" && (
-                <>
-                  <Button
-                    onClick={() => setEditarTituloModalAbierto(true)}
-                    variant="outline"
-                    className="border-orange-200 text-orange-700 hover:bg-orange-50"
-                  >
-                    <Type className="w-4 h-4 mr-2" />
-                    Editar Título
-                  </Button>
-                  <Button
-                    onClick={() => setEditarFechaModalAbierto(true)}
-                    variant="outline"
-                    className="border-green-200 text-green-700 hover:bg-green-50"
-                  >
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Editar Fecha
-                  </Button>
-                  {/* <Button
-                    onClick={() => setEditarPreciosModalAbierto(true)}
-                    variant="outline"
-                    className="border-blue-200 text-blue-700 hover:bg-blue-50"
-                  >
-                    <DollarSign className="w-4 h-4 mr-2" />
-                    Editar Precios
-                  </Button> */}
-                  <Button
-                    onClick={() => setEditarPacksModalAbierto(true)}
-                    variant="outline"
-                    className="border-purple-200 text-purple-700 hover:bg-purple-50"
-                  >
-                    <Edit className="w-4 h-4 mr-2" />
-                    Editar Packs
-                  </Button>
-                </>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-gray-300"
+                    >
+                      <Settings className="w-4 h-4 mr-2" />
+                      Configurar
+                      <ChevronDown className="w-3 h-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-52">
+                    <DropdownMenuItem
+                      onClick={() => setEditarTituloModalAbierto(true)}
+                    >
+                      <Type className="w-4 h-4 mr-2 text-orange-600" />
+                      Editar Título
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setEditarFechaModalAbierto(true)}
+                    >
+                      <Calendar className="w-4 h-4 mr-2 text-green-600" />
+                      Editar Fecha
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setEditarPacksModalAbierto(true)}
+                    >
+                      <Edit className="w-4 h-4 mr-2 text-purple-600" />
+                      Editar Packs
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() =>
+                        setEditarCuentaTransferenciaModalAbierto(true)
+                      }
+                    >
+                      <Banknote className="w-4 h-4 mr-2 text-green-600" />
+                      Cuenta Transferencia
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+              {!sorteoActual && (
+                <Button
+                  onClick={() => setEditarCuentaTransferenciaModalAbierto(true)}
+                  variant="outline"
+                  size="sm"
+                  className="border-green-200 text-green-700 hover:bg-green-50"
+                >
+                  <Banknote className="w-4 h-4 mr-2" />
+                  Cuenta Transferencia
+                </Button>
               )}
               {puedeRealizarSorteo && (
                 <Button
                   onClick={() => setRealizarSorteoModalAbierto(true)}
+                  size="sm"
                   className="bg-green-600 hover:bg-green-700"
                 >
                   <Play className="w-4 h-4 mr-2" />
@@ -1055,6 +1098,7 @@ export default function BackofficePage() {
               {sorteoActual?.estado === "activo" && (
                 <Button
                   onClick={() => setFinalizarSorteoModalAbierto(true)}
+                  size="sm"
                   className="bg-orange-600 hover:bg-orange-700"
                 >
                   <Flag className="w-4 h-4 mr-2" />
@@ -1062,16 +1106,9 @@ export default function BackofficePage() {
                 </Button>
               )}
               <Button
-                onClick={() => setEditarCuentaTransferenciaModalAbierto(true)}
-                variant="outline"
-                className="border-green-200 text-green-700 hover:bg-green-50"
-              >
-                <Banknote className="w-4 h-4 mr-2" />
-                Cuenta Transferencia
-              </Button>
-              <Button
                 onClick={handleLogout}
                 variant="outline"
+                size="sm"
                 className="text-gray-600 hover:text-gray-900 bg-transparent"
               >
                 <LogOut className="w-4 h-4 mr-2" />
@@ -1083,7 +1120,11 @@ export default function BackofficePage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <Tabs defaultValue="informacion" className="space-y-6">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="space-y-6"
+        >
           <TabsList className="bg-white border border-gray-200">
             <TabsTrigger
               value="informacion"
@@ -1113,13 +1154,13 @@ export default function BackofficePage() {
               <History className="w-4 h-4 mr-2" />
               Histórico
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               value="test"
               className="data-[state=active]:bg-gray-100"
             >
               <Target className="w-4 h-4 mr-2" />
               Test
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger
               value="carousel"
               className="data-[state=active]:bg-gray-100"
@@ -1140,6 +1181,13 @@ export default function BackofficePage() {
             >
               <Crown className="w-4 h-4 mr-2" />
               Premios Express
+            </TabsTrigger>
+            <TabsTrigger
+              value="premios-sec"
+              className="data-[state=active]:bg-gray-100"
+            >
+              <Star className="w-4 h-4 mr-2" />
+              Premios Sec.
             </TabsTrigger>
           </TabsList>
 
@@ -1333,30 +1381,37 @@ export default function BackofficePage() {
 
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-lg">
-                        Imagen del Sorteo
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <ImageIcon className="w-5 h-5 text-gray-500" />
+                        Imágenes del Sorteo
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="flex justify-center">
-                          <TShirtMockup
-                            imageUrl={
-                              sorteoActual.imagen_url ||
-                              "/placeholder.svg?height=300&width=300&text=Sin+imagen"
-                            }
-                            alt="Imagen del sorteo"
-                            className="max-w-xs"
-                          />
-                        </div>
-
-                        {sorteoActual.estado === "activo" && (
-                          <ImageUpload
-                            currentImage={sorteoActual.imagen_url}
-                            onImageChange={handleImagenCambiada}
-                            disabled={false}
-                          />
+                        {sorteoActual.carousel_image_1 ? (
+                          <div className="flex justify-center">
+                            <img
+                              src={sorteoActual.carousel_image_1}
+                              alt="Imagen principal del sorteo"
+                              className="max-h-48 rounded-lg object-contain border border-gray-200"
+                            />
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center h-40 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                            <ImageIcon className="w-10 h-10 text-gray-300 mb-2" />
+                            <p className="text-sm text-gray-400">
+                              Sin imágenes cargadas
+                            </p>
+                          </div>
                         )}
+                        <Button
+                          onClick={() => setActiveTab("carousel")}
+                          variant="outline"
+                          className="w-full"
+                        >
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Gestionar imágenes en Carrusel
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -1925,6 +1980,13 @@ export default function BackofficePage() {
 
           <TabsContent value="ganadores" className="space-y-6">
             <GestionGanadores />
+          </TabsContent>
+
+          <TabsContent value="premios-sec" className="space-y-6">
+            <PremiosSecundariosManager
+              premios={premiosSecundarios}
+              onActualizado={setPremiosSecundarios}
+            />
           </TabsContent>
 
           <TabsContent value="express" className="space-y-6">

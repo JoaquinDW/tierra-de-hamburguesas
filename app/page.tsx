@@ -19,8 +19,10 @@ import {
   obtenerSorteoActivo,
   obtenerEstadisticasSorteo,
   generarNumerosUnicos,
+  obtenerPremiosSecundarios,
 } from "@/lib/database"
 import type { Sorteo } from "@/lib/supabase"
+import type { PremiosSecundarios } from "@/lib/database"
 import { AnimatedProgress } from "@/components/animated-progress"
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
@@ -49,6 +51,7 @@ export default function LandingPage() {
     created_at: string
   }> | null>(null)
   const [consultaError, setConsultaError] = useState<string | null>(null)
+  const [premiosSecundarios, setPremiosSecundarios] = useState<PremiosSecundarios | null>(null)
   const { toast } = useToast()
 
   const getPacks = () => {
@@ -109,7 +112,11 @@ export default function LandingPage() {
 
   const cargarDatos = async () => {
     try {
-      const sorteoActivo = await obtenerSorteoActivo()
+      const [sorteoActivo, premios] = await Promise.all([
+        obtenerSorteoActivo(),
+        obtenerPremiosSecundarios(),
+      ])
+      setPremiosSecundarios(premios)
       if (sorteoActivo) {
         setSorteo(sorteoActivo)
         const estadisticas = await obtenerEstadisticasSorteo(sorteoActivo.id)
@@ -321,9 +328,9 @@ export default function LandingPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-red-700 border-t-transparent rounded-full animate-spin mx-auto mb-4 neon-glow"></div>
-          <p className="text-lg text-gray-300">Cargando...</p>
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 border-4 border-[#ff0040] border-t-transparent rounded-full animate-spin mx-auto neon-glow"></div>
+          <p className="text-gray-400 font-medium">Cargando...</p>
         </div>
       </div>
     )
@@ -331,12 +338,32 @@ export default function LandingPage() {
 
   if (!sorteo) {
     return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-lg text-gray-300">
-            No hay chances activas en este momento.
-          </p>
+      <div className="min-h-screen bg-dark-gradient flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center px-4">
+          <div className="text-center space-y-6 max-w-md">
+            <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-[#ff0040]/40 mx-auto">
+              <img src="/sosamotos.jpeg" alt="Sosa Motos" className="w-full h-full object-cover" />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-black text-white uppercase tracking-wide">Próximamente</h2>
+              <p className="text-gray-400">Estamos preparando el próximo sorteo. ¡Volvé pronto!</p>
+            </div>
+            <Link
+              href="https://wa.me/5493795152063"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block btn-neon px-6 py-3 rounded-xl font-bold text-sm"
+            >
+              Avisame cuando arranque
+            </Link>
+          </div>
         </div>
+        <footer className="bg-black/50 backdrop-blur-sm border-t border-gray-800 py-6">
+          <div className="container mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 Sosa Motos. Todos los derechos reservados.</p>
+          </div>
+        </footer>
       </div>
     )
   }
@@ -376,8 +403,7 @@ export default function LandingPage() {
                 {/* Texto principal */}
                 <div className="text-center mt-8 space-y-4">
                   <h2 className="text-xl sm:text-2xl lg:text-3xl uppercase font-black text-[#ff0040]">
-                    {/* COMPRANDO MI REMERA DIGITAL */}
-                    ¡PARTICIPA POR UNA HONDA WAVE 2026 0KM!
+                    ¡PARTICIPA POR {sorteo.titulo_remera || "Remera Exclusiva"}!
                   </h2>
                   {/* <h3 className="text-xl lg:text-2xl font-bold text-red-500 glow-red">
                     PARTICIPAS GRATIS DEL IPHONE 14 pro Max NUEVO EN CAJA
@@ -641,38 +667,39 @@ export default function LandingPage() {
                 1er Premio
               </h3>
               <p className="text-2xl lg:text-3xl font-bold uppercase text-white">
-                {/* HONDA XR 150 2024! */}
-                HONDA WAVE 2026 0KM!
+                {sorteo.titulo_remera || "Remera Exclusiva"}
               </p>
             </div>
 
-            {/* 2do Premio */}
-            <div className="bg-gray-900/50 rounded-2xl p-6 md:p-8 border border-gray-700 hover:border-gray-600 transition-all duration-300">
-              <h3 className="text-2xl font-bold text-gray-300 mb-4 flex items-center justify-center gap-2">
-                <Trophy className="w-6 h-6 text-yellow-400" />
-                PREMIOS SECUNDARIOS
-              </h3>
+            {/* 2do Premio — Premios Secundarios (dinámico) */}
+            {premiosSecundarios?.visible && premiosSecundarios.numeros.length > 0 && (
+              <div className="bg-gray-900/50 rounded-2xl p-6 md:p-8 border border-gray-700 hover:border-gray-600 transition-all duration-300">
+                <h3 className="text-2xl font-bold text-gray-300 mb-4 flex items-center justify-center gap-2">
+                  <Trophy className="w-6 h-6 text-yellow-400" />
+                  PREMIOS SECUNDARIOS
+                </h3>
 
-              <div className="flex flex-col items-center gap-4">
-                <p className="text-lg font-bold text-yellow-300 tracking-widest text-center">
-                  NÚMEROS BENDECIDOS 🙏🏻✨
-                </p>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {["8899", "6868", "828", "168", "33"].map((num) => (
-                    <span
-                      key={num}
-                      className="bg-yellow-400/10 border border-yellow-400/40 text-yellow-300 font-extrabold text-2xl rounded-xl px-5 py-2"
-                    >
-                      {num}
-                    </span>
-                  ))}
+                <div className="flex flex-col items-center gap-4">
+                  <p className="text-lg font-bold text-yellow-300 tracking-widest text-center">
+                    {premiosSecundarios.titulo} 🙏🏻✨
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {premiosSecundarios.numeros.map((num) => (
+                      <span
+                        key={num}
+                        className="bg-yellow-400/10 border border-yellow-400/40 text-yellow-300 font-extrabold text-2xl rounded-xl px-5 py-2"
+                      >
+                        {num}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-300 text-center mt-1">
+                    Si te toca alguno de estos números ganás{" "}
+                    <span className="font-bold text-white">{premiosSecundarios.monto}</span> 🎁✅
+                  </p>
                 </div>
-                <p className="text-sm text-gray-300 text-center mt-1">
-                  Si te toca alguno de estos números ganás{" "}
-                  <span className="font-bold text-white">$50 mil</span> 🎁✅
-                </p>
               </div>
-            </div>
+            )}
 
             {/* 3er Premio */}
             {/* <div className="bg-gray-900/50 rounded-2xl p-8 border border-gray-700 hover:border-gray-600 transition-all duration-300 text-center">

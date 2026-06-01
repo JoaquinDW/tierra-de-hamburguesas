@@ -94,12 +94,9 @@ Tipo: **Pagos** (payment)
 3. En **Environment Variables** cargar todas las variables de `.env.local`
 4. El dominio inicial será algo como `sosa-motos.vercel.app`
 
-### 4.2 Vercel Blob (imágenes)
+### 4.2 Imágenes — Supabase Storage
 
-1. En el dashboard de Vercel → **Storage** → **Create Database** → **Blob**
-2. Conectar al proyecto
-3. El token `BLOB_READ_WRITE_TOKEN` se agrega automáticamente a las env vars del proyecto
-4. También agregarlo en `.env.local` para desarrollo local
+Las imágenes del sorteo se guardan en Supabase Storage (bucket `sorteo-images`). El script `08-setup-supabase-storage.sql` lo crea automáticamente al correr las migraciones. No se necesita ningún servicio externo ni variable de entorno adicional para las imágenes.
 
 ### 4.3 Cron job (sorteo automático)
 
@@ -145,7 +142,6 @@ Los datos de la cuenta de transferencia que cargues en el backoffice son lo que 
 | `MERCADOPAGO_ACCESS_TOKEN` | MercadoPago Developers |
 | `NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY` | MercadoPago Developers |
 | `RESEND_API_KEY` | resend.com → API Keys |
-| `BLOB_READ_WRITE_TOKEN` | Vercel → Storage → Blob |
 | `CRON_SECRET` | Inventar un string aleatorio |
 
 ---

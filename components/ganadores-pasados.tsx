@@ -215,7 +215,7 @@ export function GanadoresPasados() {
       <div className="py-12 bg-black text-center">
         <p className="text-white text-lg font-semibold mb-4">Consultas👇🏻</p>
         <a
-          href="https://wa.me/5491139554443"
+          href="https://wa.me/5493795152063"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3 rounded-full text-lg transition-colors"

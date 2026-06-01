@@ -50,7 +50,7 @@ export function EditarTituloModal({ isOpen, onClose, sorteo, onTituloActualizado
       if (success) {
         toast({
           title: "Título actualizado",
-          description: "El título de la remera se actualizó correctamente",
+          description: "El título del premio se actualizó correctamente",
         })
         onTituloActualizado()
         onClose()
@@ -73,22 +73,22 @@ export function EditarTituloModal({ isOpen, onClose, sorteo, onTituloActualizado
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px] bg-card-dark border-gray-700">
         <DialogHeader>
-          <DialogTitle className="text-white">Editar Título de Remera</DialogTitle>
+          <DialogTitle className="text-white">Editar Título del Premio</DialogTitle>
           <DialogDescription className="text-gray-400">
-            Cambia el título que aparece debajo de la imagen de la remera
+            Cambia el nombre del premio principal. Aparece en el hero de la página, en la sección de premios y debajo de la imagen de la remera.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="titulo" className="text-white">
-              Título de la Remera
+              Título del Premio Principal
             </Label>
             <Input
               id="titulo"
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
-              placeholder="Ej: Remera iPhone 14 Pro Max"
+              placeholder="Ej: HONDA WAVE 2026 0KM"
               className="bg-gray-800 border-gray-600 text-white"
               maxLength={100}
             />

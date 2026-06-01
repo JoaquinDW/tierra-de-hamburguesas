@@ -1861,3 +1861,71 @@ export async function actualizarConfiguracionTransferencia(alias: string, titula
     return false
   }
 }
+
+// Premios secundarios (números bendecidos)
+export interface PremiosSecundarios {
+  numeros: string[]
+  monto: string
+  titulo: string
+  visible: boolean
+}
+
+const PREMIOS_SECUNDARIOS_DEFAULTS: PremiosSecundarios = {
+  numeros: ["8899", "6868", "828", "168", "33"],
+  monto: "$50 mil",
+  titulo: "NÚMEROS BENDECIDOS",
+  visible: true,
+}
+
+export async function obtenerPremiosSecundarios(): Promise<PremiosSecundarios> {
+  try {
+    const { data } = await supabase
+      .from("configuracion")
+      .select("clave, valor")
+      .in("clave", [
+        "premios_secundarios_numeros",
+        "premios_secundarios_monto",
+        "premios_secundarios_titulo",
+        "premios_secundarios_visible",
+      ])
+
+    const map = Object.fromEntries(
+      data?.map((r: { clave: string; valor: string }) => [r.clave, r.valor]) ?? [],
+    )
+
+    return {
+      numeros: map["premios_secundarios_numeros"]
+        ? JSON.parse(map["premios_secundarios_numeros"])
+        : PREMIOS_SECUNDARIOS_DEFAULTS.numeros,
+      monto: map["premios_secundarios_monto"] ?? PREMIOS_SECUNDARIOS_DEFAULTS.monto,
+      titulo: map["premios_secundarios_titulo"] ?? PREMIOS_SECUNDARIOS_DEFAULTS.titulo,
+      visible: map["premios_secundarios_visible"] !== undefined
+        ? map["premios_secundarios_visible"] === "true"
+        : PREMIOS_SECUNDARIOS_DEFAULTS.visible,
+    }
+  } catch (error) {
+    console.error("Error obteniendo premios secundarios:", error)
+    return PREMIOS_SECUNDARIOS_DEFAULTS
+  }
+}
+
+export async function actualizarPremiosSecundarios(premios: PremiosSecundarios): Promise<boolean> {
+  try {
+    const now = new Date().toISOString()
+    const { error } = await supabase.from("configuracion").upsert([
+      { clave: "premios_secundarios_numeros", valor: JSON.stringify(premios.numeros), updated_at: now },
+      { clave: "premios_secundarios_monto", valor: premios.monto, updated_at: now },
+      { clave: "premios_secundarios_titulo", valor: premios.titulo, updated_at: now },
+      { clave: "premios_secundarios_visible", valor: String(premios.visible), updated_at: now },
+    ])
+
+    if (error) {
+      console.error("Error actualizando premios secundarios:", error)
+      return false
+    }
+    return true
+  } catch (error) {
+    console.error("Error actualizando premios secundarios:", error)
+    return false
+  }
+}
