@@ -4,12 +4,17 @@ import { useState, useEffect } from "react"
 import { obtenerGanadoresExpress } from "@/lib/database"
 import type { GanadorExpress } from "@/lib/supabase"
 import { Trophy } from "lucide-react"
+import { CONTENIDO_DEFAULTS, type ContenidoSitio } from "@/lib/contenido"
 
 interface GanadoresExpressProps {
   sorteoId?: string
+  contenido?: ContenidoSitio
 }
 
-export function GanadoresExpress({ sorteoId }: GanadoresExpressProps) {
+export function GanadoresExpress({
+  sorteoId,
+  contenido = CONTENIDO_DEFAULTS,
+}: GanadoresExpressProps) {
   const [ganadores, setGanadores] = useState<GanadorExpress[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -37,11 +42,11 @@ export function GanadoresExpress({ sorteoId }: GanadoresExpressProps) {
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-            Premios instantáneos
+            {contenido.express_kicker}
           </p>
           <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white flex items-center justify-center gap-3">
             <Trophy className="w-7 h-7 text-yellow-500" />
-            Ganadores Express
+            {contenido.express_titulo}
           </h2>
         </div>
 

@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { GanadorPasado } from "@/lib/supabase"
 import { obtenerGanadoresPasados } from "@/lib/database"
+import { CONTENIDO_DEFAULTS, type ContenidoSitio } from "@/lib/contenido"
 
 interface GanadorCardProps {
   ganador: GanadorPasado
@@ -149,7 +150,11 @@ function GanadorCard({ ganador, imagenes, formatearFecha }: GanadorCardProps) {
   )
 }
 
-export function GanadoresPasados() {
+export function GanadoresPasados({
+  contenido = CONTENIDO_DEFAULTS,
+}: {
+  contenido?: ContenidoSitio
+}) {
   const [ganadores, setGanadores] = useState<GanadorPasado[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -187,7 +192,7 @@ export function GanadoresPasados() {
               <Trophy className="h-6 w-6 text-yellow-500/60" />
             </div>
             <h2 className="text-4xl font-display tracking-wider text-white mb-4">
-              Ganadores Anteriores
+              {contenido.pasados_titulo}
             </h2>
             <p className="text-gray-600 text-sm">Cargando...</p>
           </div>
@@ -204,14 +209,14 @@ export function GanadoresPasados() {
     <>
       {/* CTA de contacto */}
       <div className="py-10 border-t border-gray-900 text-center bg-black">
-        <p className="text-gray-500 text-sm mb-4 tracking-wide">¿Tenés consultas?</p>
+        <p className="text-gray-500 text-sm mb-4 tracking-wide">{contenido.pasados_cta_texto}</p>
         <a
-          href="https://wa.me/5493795152063"
+          href={contenido.whatsapp_url}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg text-sm tracking-wide transition-colors duration-200"
         >
-          WhatsApp
+          {contenido.pasados_cta_boton}
         </a>
       </div>
 
@@ -222,16 +227,16 @@ export function GanadoresPasados() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-              Historial
+              {contenido.pasados_kicker}
             </p>
             <div className="inline-flex items-center justify-center w-14 h-14 bg-yellow-500/8 rounded-full mb-4 border border-yellow-500/15">
               <Trophy className="h-6 w-6 text-yellow-500/60" />
             </div>
             <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-3">
-              Ganadores Anteriores
+              {contenido.pasados_titulo}
             </h2>
             <p className="text-gray-600 text-sm max-w-md mx-auto">
-              Conocé a las personas que ya ganaron con nosotros
+              {contenido.pasados_descripcion}
             </p>
           </div>
 

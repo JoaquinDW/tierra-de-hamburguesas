@@ -9,6 +9,7 @@ import { CompraModalNuevo } from "@/components/compra-modal-nuevo"
 import { Header } from "@/components/header"
 import { GanadoresPasados } from "@/components/ganadores-pasados"
 import { GanadoresExpress } from "@/components/ganadores-express"
+import { RedesSociales } from "@/components/redes-sociales"
 import dynamic from "next/dynamic"
 
 const IphoneCarousel = dynamic(() => import("@/components/iphone-carousel"), {
@@ -22,6 +23,12 @@ import {
 } from "@/lib/database"
 import type { Sorteo } from "@/lib/supabase"
 import type { PremiosSecundarios } from "@/lib/database"
+import {
+  obtenerContenido,
+  conPlaceholders,
+  CONTENIDO_DEFAULTS,
+  type ContenidoSitio,
+} from "@/lib/contenido"
 import { AnimatedProgress } from "@/components/animated-progress"
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
@@ -51,6 +58,7 @@ export default function LandingPage() {
   }> | null>(null)
   const [consultaError, setConsultaError] = useState<string | null>(null)
   const [premiosSecundarios, setPremiosSecundarios] = useState<PremiosSecundarios | null>(null)
+  const [contenido, setContenido] = useState<ContenidoSitio>(CONTENIDO_DEFAULTS)
   const { toast } = useToast()
 
   const getPacks = () => {
@@ -110,11 +118,13 @@ export default function LandingPage() {
 
   const cargarDatos = async () => {
     try {
-      const [sorteoActivo, premios] = await Promise.all([
+      const [sorteoActivo, premios, contenidoSitio] = await Promise.all([
         obtenerSorteoActivo(),
         obtenerPremiosSecundarios(),
+        obtenerContenido(),
       ])
       setPremiosSecundarios(premios)
+      setContenido(contenidoSitio)
       if (sorteoActivo) {
         setSorteo(sorteoActivo)
         const estadisticas = await obtenerEstadisticasSorteo(sorteoActivo.id)
@@ -315,29 +325,30 @@ export default function LandingPage() {
   if (!sorteo) {
     return (
       <div className="min-h-screen bg-dark-gradient flex flex-col">
-        <Header />
+        <Header marca={contenido.marca} />
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="text-center space-y-6 max-w-md">
             <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-gray-700 mx-auto">
-              <img src="/sosamotos.jpeg" alt="Sosa Motos" className="w-full h-full object-cover" />
+              <img src="/sosamotos.jpeg" alt={contenido.marca} className="w-full h-full object-cover" />
             </div>
             <div className="space-y-2">
-              <h2 className="text-3xl font-display tracking-wider text-white uppercase">Próximamente</h2>
-              <p className="text-gray-500 text-sm">Estamos preparando el próximo sorteo. ¡Volvé pronto!</p>
+              <h2 className="text-3xl font-display tracking-wider text-white uppercase">{contenido.proximamente_titulo}</h2>
+              <p className="text-gray-500 text-sm">{contenido.proximamente_descripcion}</p>
             </div>
             <Link
-              href="https://wa.me/5493795152063"
+              href={contenido.whatsapp_url}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block btn-neon px-6 py-3 rounded-lg font-semibold text-sm tracking-wide"
             >
-              Avisame cuando arranque
+              {contenido.proximamente_boton}
             </Link>
           </div>
         </div>
+        <RedesSociales contenido={contenido} />
         <footer className="bg-black border-t border-gray-900 py-6">
           <div className="container mx-auto px-4 text-center text-gray-600 text-xs tracking-wide">
-            <p>&copy; 2025 Sosa Motos. Todos los derechos reservados.</p>
+            <p>{contenido.footer_copyright}</p>
           </div>
         </footer>
       </div>
@@ -346,7 +357,7 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-dark-gradient">
-      <Header />
+      <Header marca={contenido.marca} />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden min-h-screen flex items-center">
@@ -372,14 +383,16 @@ export default function LandingPage() {
                 {/* Floating badge */}
                 <div className="absolute -top-4 inset-x-0 mx-auto w-fit lg:inset-x-auto lg:right-16 lg:mx-0 xl:-right-2 bg-[#ff0040] text-white px-4 py-1.5 rounded-full font-semibold text-xs tracking-widest uppercase z-30 flex items-center gap-1.5">
                   <Trophy className="w-3 h-3" />
-                  Premio Exclusivo
+                  {contenido.hero_badge}
                 </div>
               </div>
 
               {/* Título bajo el carousel */}
               <div className="text-center mt-8">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display tracking-widest text-[#ff0040] uppercase">
-                  ¡Participá por {sorteo.titulo_remera || "Remera Exclusiva"}!
+                  {conPlaceholders(contenido.hero_titulo, {
+                    premio: sorteo.titulo_remera || "Remera Exclusiva",
+                  })}
                 </h2>
               </div>
             </div>
@@ -394,7 +407,7 @@ export default function LandingPage() {
             >
               {sorteo?.estado !== "sorteado" && (
                 <p className="text-2xl lg:text-3xl text-gray-300 font-light leading-snug">
-                  Compra que se van volando!
+                  {contenido.hero_subtitulo}
                 </p>
               )}
 
@@ -409,7 +422,7 @@ export default function LandingPage() {
                 <div className="space-y-4 bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-gray-400 uppercase tracking-widest">
-                      Chances vendidas
+                      {contenido.hero_chances_label}
                     </span>
                   </div>
                   <AnimatedProgress value={porcentajeVendido} className="h-3" />
@@ -417,7 +430,7 @@ export default function LandingPage() {
                     <span className="text-3xl font-display tracking-wide text-[#ff0040]">
                       {porcentajeVendido.toFixed(1)}%
                     </span>
-                    <span className="text-sm text-gray-500">completado</span>
+                    <span className="text-sm text-gray-500">{contenido.hero_completado_label}</span>
                   </div>
                 </div>
               )}
@@ -429,12 +442,10 @@ export default function LandingPage() {
                     <div className="bg-yellow-950/30 border border-yellow-800/40 text-yellow-300 px-5 py-4 rounded-xl">
                       <h3 className="text-base font-semibold mb-1 flex items-center gap-2">
                         <Clock className="w-4 h-4" />
-                        ¡Todas las prendas vendidas!
+                        {contenido.hero_completo_titulo}
                       </h3>
                       <p className="text-sm text-yellow-300/70">
-                        El sorteo se realizará mañana a las{" "}
-                        <strong>14:00 hs</strong> según el primer número de la{" "}
-                        <strong>Quiniela de Buenos Aires</strong>
+                        {contenido.hero_completo_descripcion}
                       </p>
                       {sorteo.fecha_sorteo_realizado && (
                         <p className="text-xs opacity-60 mt-1">
@@ -449,7 +460,7 @@ export default function LandingPage() {
                     <div className="bg-green-950/30 border border-green-800/40 text-green-300 px-5 py-4 rounded-xl">
                       <h3 className="text-base font-semibold mb-2 flex items-center gap-2">
                         <Trophy className="w-4 h-4" />
-                        Resultados
+                        {contenido.hero_sorteado_titulo}
                       </h3>
                       {sorteo.numero_ganador && (
                         <div className="space-y-1.5">
@@ -481,9 +492,9 @@ export default function LandingPage() {
                     (sorteo?.estado && !sorteo.estado.match(/completo|sorteado/))) && (
                     <div className="bg-[#ff0040]/10 border border-[#ff0040]/20 text-white px-5 py-4 rounded-xl">
                       <h3 className="text-base font-semibold mb-1">
-                        ¡Gracias por participar!
+                        {contenido.hero_cerrado_titulo}
                       </h3>
-                      <p className="text-sm text-gray-400">Mucha suerte a todos y siempre con fe!</p>
+                      <p className="text-sm text-gray-400">{contenido.hero_cerrado_descripcion}</p>
                     </div>
                   )}
                 </div>
@@ -505,7 +516,7 @@ export default function LandingPage() {
                       {pack.popular && (
                         <div className="mb-1.5">
                           <span className="text-[10px] font-semibold uppercase tracking-widest text-[#ff0040] pl-1">
-                            Más popular
+                            {contenido.packs_popular_label}
                           </span>
                         </div>
                       )}
@@ -541,7 +552,7 @@ export default function LandingPage() {
                               className="btn-neon mt-2 px-5 py-1.5 text-xs rounded-lg h-auto"
                             >
                               <ShoppingCart className="w-3 h-3 mr-1.5" />
-                              Comprar
+                              {contenido.packs_comprar_boton}
                             </Button>
                           </div>
                         </div>
@@ -553,7 +564,7 @@ export default function LandingPage() {
 
               {!sorteoCompleto && PACKS.length > 1 && (
                 <p className="text-xs text-gray-600 text-center tracking-wide">
-                  Mientras más chances comprás, más posibilidades de ganar.
+                  {contenido.packs_nota}
                 </p>
               )}
             </div>
@@ -566,10 +577,10 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-              Lo que podés ganar
+              {contenido.premios_kicker}
             </p>
             <h2 className="text-5xl lg:text-7xl font-display tracking-wider text-white">
-              Premios
+              {contenido.premios_titulo}
             </h2>
           </div>
 
@@ -577,7 +588,7 @@ export default function LandingPage() {
             {/* 1er Premio */}
             <div className="bg-[#111] border border-gray-800 rounded-xl p-8 text-center hover:border-gray-700 transition-colors duration-200">
               <p className="text-xs font-semibold uppercase tracking-widest text-yellow-500/70 mb-3">
-                1er Premio
+                {contenido.premios_primer_label}
               </p>
               <p className="text-2xl lg:text-3xl font-display tracking-wide uppercase text-white">
                 {sorteo.titulo_remera || "Remera Exclusiva"}
@@ -590,7 +601,7 @@ export default function LandingPage() {
                 <div className="flex items-center gap-2 mb-4">
                   <Trophy className="w-4 h-4 text-yellow-500/70" />
                   <p className="text-xs font-semibold uppercase tracking-widest text-yellow-500/70">
-                    Premios Secundarios
+                    {contenido.premios_sec_label}
                   </p>
                 </div>
 
@@ -609,8 +620,14 @@ export default function LandingPage() {
                   ))}
                 </div>
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  Si te toca alguno de estos números ganás{" "}
-                  <span className="font-semibold text-gray-300">{premiosSecundarios.monto}</span>
+                  {contenido.premios_sec_descripcion.split("{monto}").map((parte, i, partes) => (
+                    <span key={i}>
+                      {parte}
+                      {i < partes.length - 1 && (
+                        <span className="font-semibold text-gray-300">{premiosSecundarios.monto}</span>
+                      )}
+                    </span>
+                  ))}
                 </p>
               </div>
             )}
@@ -622,13 +639,13 @@ export default function LandingPage() {
       <section className="py-16 border-t border-gray-900">
         <div className="container mx-auto px-4 max-w-xl">
           <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-10">
-            Preguntas frecuentes
+            {contenido.faq_titulo}
           </h2>
 
           <div className="space-y-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
-                ¿Cuándo se realiza el evento?
+                {contenido.faq_pregunta_fecha}
               </p>
               <div className="border-l-2 border-[#ff0040]/40 pl-4">
                 <span className="text-white text-lg font-medium">
@@ -645,16 +662,16 @@ export default function LandingPage() {
 
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
-                ¿En dónde vemos el ganador?
+                {contenido.faq_pregunta_ganador}
               </p>
               <Link
-                href="https://www.loteriasmundiales.com.ar/Quinielas/buenos-aires"
+                href={contenido.faq_link_quiniela}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <div className="border-l-2 border-[#ff0040]/40 pl-4 hover:border-[#ff0040] transition-colors duration-200">
                   <span className="text-[#ff0040] text-base font-medium">
-                    Quiniela de Buenos Aires — La Previa · 10:15 hs
+                    {contenido.faq_respuesta_ganador}
                   </span>
                 </div>
               </Link>
@@ -668,13 +685,13 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 max-w-xl">
           <div className="mb-8">
             <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-              Participantes
+              {contenido.consulta_kicker}
             </p>
             <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-2">
-              ¿Ya participaste?
+              {contenido.consulta_titulo}
             </h2>
             <p className="text-gray-500 text-sm">
-              Ingresá el email con el que compraste para ver tus números asignados.
+              {contenido.consulta_descripcion}
             </p>
           </div>
 
@@ -686,7 +703,7 @@ export default function LandingPage() {
               type="email"
               value={consultaEmail}
               onChange={(e) => setConsultaEmail(e.target.value)}
-              placeholder="tucorreo@email.com"
+              placeholder={contenido.consulta_placeholder}
               disabled={consultaLoading}
               className="flex-1 bg-[#111] border border-gray-800 text-white placeholder:text-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#ff0040]/60 focus:ring-1 focus:ring-[#ff0040]/30 transition-colors disabled:opacity-50"
             />
@@ -695,7 +712,7 @@ export default function LandingPage() {
               disabled={consultaLoading || !consultaEmail.trim()}
               className="btn-neon px-7 py-3 rounded-lg text-sm font-semibold tracking-wide disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none whitespace-nowrap"
             >
-              {consultaLoading ? "Buscando..." : "Consultar"}
+              {consultaLoading ? "Buscando..." : contenido.consulta_boton}
             </button>
           </form>
 
@@ -708,10 +725,10 @@ export default function LandingPage() {
           {consultaResultados !== null && consultaResultados.length === 0 && (
             <div className="bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
               <p className="text-gray-500 text-sm">
-                No encontramos participaciones confirmadas para ese email.
+                {contenido.consulta_vacio}
               </p>
               <p className="text-gray-600 text-xs mt-2">
-                Si pagaste por transferencia, tu pago puede estar pendiente de aprobación.
+                {contenido.consulta_vacio_nota}
               </p>
             </div>
           )}
@@ -756,21 +773,24 @@ export default function LandingPage() {
       </section>
 
       {/* Ganadores Express */}
-      {sorteo && <GanadoresExpress sorteoId={sorteo.id} />}
+      {sorteo && <GanadoresExpress sorteoId={sorteo.id} contenido={contenido} />}
 
       {/* Ganadores Pasados */}
-      <GanadoresPasados />
+      <GanadoresPasados contenido={contenido} />
+
+      {/* Links de interés / Redes sociales */}
+      <RedesSociales contenido={contenido} />
 
       {/* Footer */}
       <footer className="bg-black border-t border-gray-900 py-10">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <span className="text-base font-semibold text-white tracking-wide">
-              Sosa Motos
+              {contenido.marca}
             </span>
             <div className="flex space-x-6">
               <Link
-                href="https://wa.me/5493795152063"
+                href={contenido.whatsapp_url}
                 className="text-gray-600 hover:text-gray-300 transition-colors text-sm"
               >
                 Contacto
@@ -784,7 +804,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-900 mt-6 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <p className="text-gray-700 text-xs">&copy; 2025 Sosa Motos. Todos los derechos reservados.</p>
+            <p className="text-gray-700 text-xs">{contenido.footer_copyright}</p>
             <Link
               href="https://linktr.ee/deweertstudio"
               target="_blank"

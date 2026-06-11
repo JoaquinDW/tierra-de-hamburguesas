@@ -73,6 +73,7 @@ import { GanadoresExpressModal } from "@/components/ganadores-express-modal"
 import { ConfirmarEliminarModal } from "@/components/confirmar-eliminar-modal"
 import { FinalizarSorteoModal } from "@/components/finalizar-sorteo-modal"
 import { PremiosSecundariosManager } from "@/components/premios-secundarios-manager"
+import { ContenidoManager } from "@/components/contenido-manager"
 import {
   obtenerSorteoActivo,
   obtenerTodosSorteos,
@@ -1189,6 +1190,13 @@ export default function BackofficePage() {
               <Star className="w-4 h-4 mr-2" />
               Premios Sec.
             </TabsTrigger>
+            <TabsTrigger
+              value="contenido"
+              className="data-[state=active]:bg-gray-100"
+            >
+              <Type className="w-4 h-4 mr-2" />
+              Contenido
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="informacion" className="space-y-6">
@@ -2021,6 +2029,10 @@ export default function BackofficePage() {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="contenido" className="space-y-6">
+            <ContenidoManager />
           </TabsContent>
         </Tabs>
       </div>
