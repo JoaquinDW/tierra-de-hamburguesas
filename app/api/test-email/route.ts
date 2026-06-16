@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     if (!sorteo) {
       return NextResponse.json(
         { error: "No se encontró un sorteo activo" },
-        { status: 404 }
+        { status: 404 },
       )
     }
 
@@ -25,8 +25,8 @@ export async function POST(request: Request) {
 
     // Datos de prueba
     const datosConfirmacion = {
-      nombre: "Gonza",
-      email: "Gonzalomasdeu@hotmail.com",
+      nombre: "Agustin SOSA",
+      email: "info@agustinsosa.com",
       cantidadChances: 3,
       numerosAsignados: [7613, 7614, 7615],
       precioPagado: 15000,
@@ -35,8 +35,8 @@ export async function POST(request: Request) {
     }
 
     const datosTransferenciaAprobada = {
-      nombre: "Gonza",
-      email: "Gonzalomasdeu@hotmail.com",
+      nombre: "Agustin SOSA",
+      email: "info@agustinsosa.com",
       cantidadChances: 3,
       numerosAsignados: [7613, 7614, 7615],
       precioPagado: 15000,
@@ -50,32 +50,32 @@ export async function POST(request: Request) {
       resultado = await enviarEmailConfirmacion(datosConfirmacion)
     } else if (tipo === "aprobada") {
       resultado = await enviarEmailTransferenciaAprobada(
-        datosTransferenciaAprobada
+        datosTransferenciaAprobada,
       )
     } else {
       return NextResponse.json(
         { error: "Tipo de email no válido. Use 'confirmacion' o 'aprobada'" },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
     if (resultado.success) {
       return NextResponse.json({
         success: true,
-        message: `Email de ${tipo} enviado exitosamente a Gonzalomasdeu@hotmail.com`,
+        message: `Email de ${tipo} enviado exitosamente a info@agustinsosa.com`,
         data: resultado.data,
       })
     } else {
       return NextResponse.json(
         { success: false, error: resultado.error },
-        { status: 500 }
+        { status: 500 },
       )
     }
   } catch (error) {
     console.error("Error en endpoint de prueba:", error)
     return NextResponse.json(
       { success: false, error: "Error enviando email de prueba" },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

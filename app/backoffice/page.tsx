@@ -401,45 +401,64 @@ export default function BackofficePage() {
     canvas.width = 800
     canvas.height = Math.max(950, estimatedHeight)
 
-    // Fondo
-    ctx.fillStyle = "#ffffff"
+    // Fondo oscuro (acorde a la landing)
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height)
+    bgGradient.addColorStop(0, "#0a0a0a")
+    bgGradient.addColorStop(0.5, "#1a1a1a")
+    bgGradient.addColorStop(1, "#0f0f0f")
+    ctx.fillStyle = bgGradient
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    // Borde
-    ctx.strokeStyle = "#000000"
-    ctx.lineWidth = 4
-    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20)
+    // Borde rojo
+    ctx.strokeStyle = "#ff0040"
+    ctx.lineWidth = 3
+    ctx.strokeRect(14, 14, canvas.width - 28, canvas.height - 28)
+
+    // Marca (SOSA en blanco, MOTOS en rojo)
+    ctx.textAlign = "center"
+    ctx.font = "bold 30px Arial"
+    const marcaY = 70
+    const sosaW = ctx.measureText("SOSA ").width
+    const motosW = ctx.measureText("MOTOS 🏍️").width
+    const marcaStartX = canvas.width / 2 - (sosaW + motosW) / 2
+    ctx.textAlign = "left"
+    ctx.fillStyle = "#ffffff"
+    ctx.fillText("SOSA ", marcaStartX, marcaY)
+    ctx.fillStyle = "#ff0040"
+    ctx.fillText("MOTOS 🏍️", marcaStartX + sosaW, marcaY)
 
     // Título
-    ctx.fillStyle = "#000000"
-    ctx.font = "bold 40px Arial"
     ctx.textAlign = "center"
-    ctx.fillText("COMPROBANTE DE COMPRA", canvas.width / 2, 80)
+    ctx.fillStyle = "#ffffff"
+    ctx.font = "bold 38px Arial"
+    ctx.fillText("COMPROBANTE DE COMPRA", canvas.width / 2, 118)
 
-    // Línea decorativa
-    ctx.strokeStyle = "#fbbf24"
-    ctx.lineWidth = 3
+    // Línea decorativa roja
+    ctx.strokeStyle = "#ff0040"
+    ctx.lineWidth = 4
     ctx.beginPath()
-    ctx.moveTo(150, 110)
-    ctx.lineTo(650, 110)
+    ctx.moveTo(280, 140)
+    ctx.lineTo(520, 140)
     ctx.stroke()
 
     // Mensaje de participación
-    ctx.fillStyle = "#000000"
-    ctx.font = "24px Arial"
+    ctx.fillStyle = "#ff0040"
+    ctx.font = "bold 23px Arial"
     ctx.textAlign = "left"
-    ctx.fillText("¡Estás participando por una HONDA WAVE 2026 0KM!", 50, 160)
+    ctx.fillText("¡Estás participando por una HONDA WAVE 2026 0KM!", 50, 190)
 
     // Información del comprador
-    ctx.font = "bold 28px Arial"
-    ctx.fillText("Comprador:", 50, 215)
-    ctx.font = "24px Arial"
-    ctx.fillText(comprador.nombre, 50, 250)
+    ctx.fillStyle = "#9ca3af"
+    ctx.font = "18px Arial"
+    ctx.fillText("COMPRADOR", 50, 240)
+    ctx.fillStyle = "#ffffff"
+    ctx.font = "bold 26px Arial"
+    ctx.fillText(comprador.nombre, 50, 272)
 
     // Contacto
-    let yPos = 285
-    ctx.font = "20px Arial"
-    ctx.fillStyle = "#555555"
+    let yPos = 308
+    ctx.font = "19px Arial"
+    ctx.fillStyle = "#9ca3af"
 
     if (comprador.email) {
       ctx.fillText(`Email: ${comprador.email}`, 50, yPos)
@@ -455,14 +474,14 @@ export default function BackofficePage() {
     }
 
     // Cantidad de chances
-    yPos += 15
-    ctx.fillStyle = "#000000"
-    ctx.font = "bold 28px Arial"
+    yPos += 18
+    ctx.fillStyle = "#e5e5e5"
+    ctx.font = "bold 26px Arial"
     ctx.fillText(`Total de Chances: ${comprador.cantidad_chances}`, 50, yPos)
 
     // Precio pagado
     yPos += 45
-    ctx.fillStyle = "#16a34a"
+    ctx.fillStyle = "#ff0040"
     ctx.font = "bold 32px Arial"
     ctx.fillText(
       `Total Pagado: $${comprador.precio_pagado.toLocaleString()}`,
@@ -472,7 +491,7 @@ export default function BackofficePage() {
 
     // Números asignados
     yPos += 55
-    ctx.fillStyle = "#000000"
+    ctx.fillStyle = "#ff0040"
     ctx.font = "bold 28px Arial"
     ctx.fillText("Tus Números:", 50, yPos)
 
@@ -508,19 +527,19 @@ export default function BackofficePage() {
         "M30 13.75c0.414-0 0.75-0.336 0.75-0.75v0-5c-0-0.414-0.336-0.75-0.75-0.75h-28c-0.414 0-0.75 0.336-0.75 0.75v0 5c0 0.414 0.336 0.75 0.75 0.75v0c1.243 0 2.25 1.007 2.25 2.25s-1.007 2.25-2.25 2.25v0c-0.414 0-0.75 0.336-0.75 0.75v0 5c0 0.414 0.336 0.75 0.75 0.75h28c0.414-0 0.75-0.336 0.75-0.75v0-5c-0-0.414-0.336-0.75-0.75-0.75v0c-1.243 0-2.25-1.007-2.25-2.25s1.007-2.25 2.25-2.25v0z",
       )
 
-      // Usar un gradiente de amarillo/dorado más atractivo
+      // Gradiente rojo de marca
       const gradient = ctx.createLinearGradient(0, 8, 0, 24)
-      gradient.addColorStop(0, "#fbbf24") // Amarillo más claro
-      gradient.addColorStop(1, "#f59e0b") // Naranja dorado
+      gradient.addColorStop(0, "#ff0040") // Rojo neón
+      gradient.addColorStop(1, "#cc0033") // Rojo más oscuro
       ctx.fillStyle = gradient
       ctx.fill(ticketPath)
 
-      ctx.strokeStyle = "#b45309" // Borde más oscuro/dorado
+      ctx.strokeStyle = "#80001f" // Borde rojo oscuro
       ctx.lineWidth = 0.6
       ctx.stroke(ticketPath)
 
       // Número en el centro del ticket (en coordenadas del SVG escalado)
-      ctx.fillStyle = "#000000"
+      ctx.fillStyle = "#ffffff"
       ctx.font = `bold ${28 / scale}px Arial` // Tamaño de fuente más grande
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
@@ -538,9 +557,18 @@ export default function BackofficePage() {
     // Actualizar yPos para el resto del contenido
     yPos = currentY + ticketHeight + 40
 
+    // Línea separadora antes del footer
+    yPos = canvas.height - 130
+    ctx.strokeStyle = "#262626"
+    ctx.lineWidth = 1
+    ctx.beginPath()
+    ctx.moveTo(50, yPos)
+    ctx.lineTo(canvas.width - 50, yPos)
+    ctx.stroke()
+
     // Fecha
-    yPos = canvas.height - 100
-    ctx.fillStyle = "#666666"
+    yPos = canvas.height - 95
+    ctx.fillStyle = "#9ca3af"
     ctx.font = "18px Arial"
     ctx.textAlign = "center"
     ctx.fillText(
@@ -552,10 +580,10 @@ export default function BackofficePage() {
     )
 
     // Nota final
-    yPos += 40
-    ctx.fillStyle = "#000000"
-    ctx.font = "20px Arial"
-    ctx.fillText("Mucha suerte y siempre con fe!", canvas.width / 2, yPos)
+    yPos += 42
+    ctx.fillStyle = "#ff0040"
+    ctx.font = "bold 21px Arial"
+    ctx.fillText("¡Mucha suerte y siempre con fe! 🙏", canvas.width / 2, yPos)
 
     // Convertir canvas a imagen y descargar
     canvas.toBlob((blob) => {
