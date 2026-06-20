@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Type, Save, RotateCcw, Plus, Trash2 } from "lucide-react"
+import { Type, Save, RotateCcw, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react"
 import {
   obtenerContenido,
   actualizarContenido,
@@ -23,6 +23,7 @@ import {
   type ClaveTextoContenido,
   type RedSocial,
   type TipoRed,
+  type SeccionTerminos,
 } from "@/lib/contenido"
 import { useToast } from "@/hooks/use-toast"
 
@@ -212,6 +213,38 @@ export function ContenidoManager() {
     )
   }
 
+  const setTerminos = (terminos: SeccionTerminos[]) => {
+    setContenido((prev) => (prev ? { ...prev, terminos } : prev))
+  }
+
+  const agregarTermino = () => {
+    if (!contenido) return
+    setTerminos([...contenido.terminos, { titulo: "", contenido: "" }])
+  }
+
+  const eliminarTermino = (index: number) => {
+    if (!contenido) return
+    setTerminos(contenido.terminos.filter((_, i) => i !== index))
+  }
+
+  const setTermino = (index: number, cambios: Partial<SeccionTerminos>) => {
+    if (!contenido) return
+    setTerminos(
+      contenido.terminos.map((seccion, i) =>
+        i === index ? { ...seccion, ...cambios } : seccion,
+      ),
+    )
+  }
+
+  const moverTermino = (index: number, direccion: -1 | 1) => {
+    if (!contenido) return
+    const destino = index + direccion
+    if (destino < 0 || destino >= contenido.terminos.length) return
+    const nuevas = [...contenido.terminos]
+    ;[nuevas[index], nuevas[destino]] = [nuevas[destino], nuevas[index]]
+    setTerminos(nuevas)
+  }
+
   const guardar = async () => {
     if (!contenido) return
     setGuardando(true)
@@ -359,6 +392,92 @@ export function ContenidoManager() {
           </CardContent>
         </Card>
       ))}
+
+      {/* Editor de Términos y Condiciones */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Términos y Condiciones</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Editá el contenido de la página de términos. Cada punto tiene un
+            título y un texto. Podés agregar, quitar y reordenar los puntos.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="terminos_titulo">Título de la página</Label>
+            <Input
+              id="terminos_titulo"
+              value={contenido.terminos_titulo}
+              onChange={(e) => setCampo("terminos_titulo", e.target.value)}
+              placeholder={CONTENIDO_DEFAULTS.terminos_titulo}
+            />
+          </div>
+
+          <div className="space-y-3 pt-2">
+            <Label>Puntos</Label>
+            {contenido.terminos.length === 0 && (
+              <p className="text-sm text-gray-400 bg-gray-50 border border-gray-200 rounded-lg p-3">
+                Sin puntos cargados. La página de términos se muestra vacía.
+              </p>
+            )}
+            {contenido.terminos.map((seccion, index) => (
+              <div
+                key={index}
+                className="space-y-2 bg-gray-50 border border-gray-200 rounded-lg p-3"
+              >
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={seccion.titulo}
+                    onChange={(e) => setTermino(index, { titulo: e.target.value })}
+                    placeholder="Título del punto"
+                    className="flex-1 bg-white font-medium"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => moverTermino(index, -1)}
+                    disabled={index === 0}
+                    className="text-gray-400 hover:text-gray-700 flex-shrink-0"
+                    title="Subir"
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => moverTermino(index, 1)}
+                    disabled={index === contenido.terminos.length - 1}
+                    className="text-gray-400 hover:text-gray-700 flex-shrink-0"
+                    title="Bajar"
+                  >
+                    <ArrowDown className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => eliminarTermino(index)}
+                    className="text-gray-400 hover:text-red-600 flex-shrink-0"
+                    title="Eliminar punto"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+                <Textarea
+                  value={seccion.contenido}
+                  onChange={(e) => setTermino(index, { contenido: e.target.value })}
+                  placeholder="Texto del punto"
+                  rows={3}
+                  className="bg-white"
+                />
+              </div>
+            ))}
+            <Button variant="outline" size="sm" onClick={agregarTermino}>
+              <Plus className="w-4 h-4 mr-1" />
+              Agregar punto
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Barra de acciones fija al pie */}
       <div className="sticky bottom-4 z-10">

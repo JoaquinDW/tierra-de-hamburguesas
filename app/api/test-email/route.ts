@@ -2,8 +2,11 @@ import { NextResponse } from "next/server"
 import {
   enviarEmailConfirmacion,
   enviarEmailTransferenciaAprobada,
+  enviarEmailTransferenciaRechazada,
 } from "@/lib/email"
 import { obtenerSorteoActivo } from "@/lib/database"
+
+const TEST_EMAIL = "balthasardeweert@gmail.com"
 
 export async function POST(request: Request) {
   try {
@@ -26,7 +29,7 @@ export async function POST(request: Request) {
     // Datos de prueba
     const datosConfirmacion = {
       nombre: "Agustin SOSA",
-      email: "info@agustinsosa.com",
+      email: TEST_EMAIL,
       cantidadChances: 3,
       numerosAsignados: [7613, 7614, 7615],
       precioPagado: 15000,
@@ -36,12 +39,21 @@ export async function POST(request: Request) {
 
     const datosTransferenciaAprobada = {
       nombre: "Agustin SOSA",
-      email: "info@agustinsosa.com",
+      email: TEST_EMAIL,
       cantidadChances: 3,
       numerosAsignados: [7613, 7614, 7615],
       precioPagado: 15000,
       nombreSorteo: sorteo.nombre,
       sorteoImagenUrl: imagenSorteo,
+    }
+
+    const datosTransferenciaRechazada = {
+      nombre: "Agustin SOSA",
+      email: TEST_EMAIL,
+      cantidadChances: 3,
+      precioPagado: 15000,
+      nombreSorteo: sorteo.nombre,
+      motivo: "El comprobante adjunto no es legible. Por favor reenvialo.",
     }
 
     let resultado
@@ -52,9 +64,16 @@ export async function POST(request: Request) {
       resultado = await enviarEmailTransferenciaAprobada(
         datosTransferenciaAprobada,
       )
+    } else if (tipo === "rechazada") {
+      resultado = await enviarEmailTransferenciaRechazada(
+        datosTransferenciaRechazada,
+      )
     } else {
       return NextResponse.json(
-        { error: "Tipo de email no válido. Use 'confirmacion' o 'aprobada'" },
+        {
+          error:
+            "Tipo de email no válido. Use 'confirmacion', 'aprobada' o 'rechazada'",
+        },
         { status: 400 },
       )
     }
@@ -62,7 +81,7 @@ export async function POST(request: Request) {
     if (resultado.success) {
       return NextResponse.json({
         success: true,
-        message: `Email de ${tipo} enviado exitosamente a info@agustinsosa.com`,
+        message: `Email de ${tipo} enviado exitosamente a ${TEST_EMAIL}`,
         data: resultado.data,
       })
     } else {

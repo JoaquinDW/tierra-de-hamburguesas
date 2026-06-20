@@ -53,8 +53,8 @@ function infoBox(
         <td style="padding:12px 0;${
           i < rows.length - 1 ? `border-bottom:1px solid ${C.border};` : ""
         }color:${r.color || C.white};font-size:15px;font-weight:700;text-align:right;">${
-        r.value
-      }</td>
+          r.value
+        }</td>
       </tr>`,
     )
     .join("")
@@ -145,7 +145,7 @@ function imagenSorteo(url?: string): string {
     </div>`
 }
 
-const cierreSuerte = `<p style="text-align:center;font-size:17px;font-weight:600;color:${C.red};margin:26px 0 4px;">¡Mucha suerte y siempre con fe! 🙏🏻✨</p>`
+const cierreSuerte = `<p style="text-align:center;font-size:17px;font-weight:600;color:${C.red};margin:26px 0 4px;">¡Mucha suerte a todos!</p>`
 
 /* ------------------------------------------------------------------ */
 /*  Email: Confirmación de compra (MercadoPago)                         */
@@ -360,7 +360,8 @@ function generarHTMLTransferenciaRechazada(
   `
 
   return baseEmail({
-    preheader: "No pudimos verificar tu transferencia. Te contamos los pasos a seguir.",
+    preheader:
+      "No pudimos verificar tu transferencia. Te contamos los pasos a seguir.",
     badge: "Acción requerida",
     badgeColor: C.red,
     title: "Transferencia No Aprobada",

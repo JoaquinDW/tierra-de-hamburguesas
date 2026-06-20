@@ -17,6 +17,12 @@ export interface RedSocial {
   url: string
 }
 
+// Una sección de los Términos y Condiciones (título + cuerpo)
+export interface SeccionTerminos {
+  titulo: string
+  contenido: string
+}
+
 export const TIPOS_RED: { valor: TipoRed; etiqueta: string }[] = [
   { valor: "instagram", etiqueta: "Instagram" },
   { valor: "facebook", etiqueta: "Facebook" },
@@ -100,6 +106,10 @@ export interface ContenidoSitio {
 
   // Footer
   footer_copyright: string
+
+  // Términos y Condiciones (página /terminos)
+  terminos_titulo: string
+  terminos: SeccionTerminos[]
 }
 
 // Claves de ContenidoSitio cuyo valor es un texto simple (excluye `redes`)
@@ -121,7 +131,7 @@ export const CONTENIDO_DEFAULTS: ContenidoSitio = {
     "El sorteo se realizará mañana a las 14:00 hs según el primer número de la Quiniela de Buenos Aires",
   hero_sorteado_titulo: "Resultados",
   hero_cerrado_titulo: "¡Gracias por participar!",
-  hero_cerrado_descripcion: "Mucha suerte a todos y siempre con fe!",
+  hero_cerrado_descripcion: "Mucha suerte a todos!",
 
   packs_popular_label: "Más popular",
   packs_comprar_boton: "Comprar",
@@ -177,6 +187,50 @@ export const CONTENIDO_DEFAULTS: ContenidoSitio = {
   proximamente_boton: "Avisame cuando arranque",
 
   footer_copyright: "© 2025 Sosa Motos. Todos los derechos reservados.",
+
+  terminos_titulo: "Términos y Condiciones de Uso",
+  terminos: [
+    {
+      titulo: "1. Objeto del Sitio",
+      contenido:
+        "El presente sitio web tiene por finalidad la comercialización de productos digitales consistentes en diseños exclusivos de remeras en formato descargable.",
+    },
+    {
+      titulo: "2. Productos Digitales",
+      contenido:
+        "Cada compra corresponde al acceso a un archivo digital, sin entrega física. El comprador recibe una licencia de uso personal y no transferible del diseño adquirido.",
+    },
+    {
+      titulo: "3. Propiedad Intelectual",
+      contenido:
+        "Todos los diseños ofrecidos en este sitio son propiedad de Sosa Motos y están protegidos por las leyes de propiedad intelectual.",
+    },
+    {
+      titulo: "4. Medios de Pago",
+      contenido:
+        "El pago de los productos digitales se realizará mediante las plataformas habilitadas en el sitio web.",
+    },
+    {
+      titulo: "5. Modificaciones",
+      contenido:
+        "Sosa Motos se reserva el derecho de modificar los presentes términos y condiciones en cualquier momento.",
+    },
+    {
+      titulo: "6. Ley de Lealtad Comercial",
+      contenido:
+        "Sujeto sin obligación de compra ley de lealtad comercial 22802 república argentina.",
+    },
+    {
+      titulo: "7. Premio Gratuito",
+      contenido:
+        "El premio gratis por la compra de la remera digital se realiza por lotería de Buenos Aires cuando se venden todas las remeras digitales disponibles, y se anunciará por la página quién recibe el regalo 🎁🤩",
+    },
+    {
+      titulo: "8. Requisitos para Ganar",
+      contenido:
+        "Todos los ganadores, sin excepción, deben grabar un video claro y conciso que los identifique como ganadores del sorteo.",
+    },
+  ],
 }
 
 const CLAVE_CONTENIDO = "contenido_sitio"

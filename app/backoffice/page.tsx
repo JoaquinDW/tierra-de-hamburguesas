@@ -580,10 +580,10 @@ export default function BackofficePage() {
     )
 
     // Nota final
-    yPos += 42
-    ctx.fillStyle = "#ff0040"
-    ctx.font = "bold 21px Arial"
-    ctx.fillText("¡Mucha suerte y siempre con fe! 🙏", canvas.width / 2, yPos)
+    // yPos += 42
+    // ctx.fillStyle = "#ff0040"
+    // ctx.font = "bold 21px Arial"
+    // ctx.fillText("¡Mucha suerte y siempre con fe! 🙏", canvas.width / 2, yPos)
 
     // Convertir canvas a imagen y descargar
     canvas.toBlob((blob) => {
