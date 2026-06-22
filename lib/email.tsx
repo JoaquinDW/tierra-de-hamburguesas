@@ -4,7 +4,10 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Remitente de marca (configurable vía env). Dominio: agustinsosa.com
 const EMAIL_FROM =
-  process.env.EMAIL_FROM || "Sosa Motos <noreply@agustinsosa.com>"
+  process.env.EMAIL_FROM || "Sosa Motos <hola@agustinsosa.com>"
+
+// Dirección a la que el usuario puede responder (mejora la confianza/deliverability).
+const EMAIL_REPLY_TO = process.env.EMAIL_REPLY_TO || "hola@agustinsosa.com"
 
 /* ------------------------------------------------------------------ */
 /*  Paleta de marca (acorde a la landing: rojo + negro + blanco)       */
@@ -124,7 +127,7 @@ function baseEmail(opts: {
             <tr>
               <td style="padding:24px 30px;border-top:1px solid ${C.border};text-align:center;">
                 <p style="margin:0 0 4px;color:${C.white};font-size:13px;font-weight:700;letter-spacing:.5px;">SOSA <span style="color:${C.red};">MOTOS</span> 🏍️</p>
-                <p style="margin:0;color:${C.textDim};font-size:12px;">Este es un email automático, por favor no respondas a este mensaje.</p>
+                <p style="margin:0;color:${C.textDim};font-size:12px;">¿Tenés alguna duda? Respondé a este email y te ayudamos.</p>
                 <p style="margin:6px 0 0;color:#5f5f5f;font-size:12px;">© ${new Date().getFullYear()} Sosa Motos. Todos los derechos reservados.</p>
               </td>
             </tr>
@@ -165,6 +168,7 @@ export async function enviarEmailConfirmacion(data: EmailData) {
   try {
     const { data: emailResult, error } = await resend.emails.send({
       from: EMAIL_FROM,
+      replyTo: EMAIL_REPLY_TO,
       to: [data.email],
       subject: `🎉 ¡Compra confirmada${
         data.sorteoNombre ? ` - ${data.sorteoNombre}` : ""
@@ -245,6 +249,7 @@ export async function enviarEmailTransferenciaAprobada(
   try {
     const { data: emailResult, error } = await resend.emails.send({
       from: EMAIL_FROM,
+      replyTo: EMAIL_REPLY_TO,
       to: [data.email],
       subject: `✅ ¡Transferencia aprobada! - ${data.nombreSorteo}`,
       html: generarHTMLTransferenciaAprobada(data),
@@ -268,6 +273,7 @@ export async function enviarEmailTransferenciaRechazada(
   try {
     const { data: emailResult, error } = await resend.emails.send({
       from: EMAIL_FROM,
+      replyTo: EMAIL_REPLY_TO,
       to: [data.email],
       subject: "❌ Transferencia no aprobada",
       html: generarHTMLTransferenciaRechazada(data),
