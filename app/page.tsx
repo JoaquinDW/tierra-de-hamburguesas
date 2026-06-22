@@ -399,27 +399,27 @@ export default function LandingPage() {
 
             {/* Contenido a la derecha */}
             <div
-              className={`space-y-6 transition-all duration-700 delay-200 ${
+              className={`flex flex-col gap-6 transition-all duration-700 delay-200 ${
                 animacionVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-6"
               }`}
             >
               {sorteo?.estado !== "sorteado" && (
-                <p className="text-2xl lg:text-3xl text-gray-300 font-light leading-snug">
+                <p className="order-1 lg:order-1 text-2xl lg:text-3xl text-gray-300 font-light leading-snug">
                   {contenido.hero_subtitulo}
                 </p>
               )}
 
               {/* Progress Bar / Evento finalizado */}
               {sorteo?.estado === "sorteado" ? (
-                <div className="bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
+                <div className="order-3 lg:order-2 bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
                   <p className="text-lg font-semibold text-gray-300">
                     Evento finalizado
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4 bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6">
+                <div className="order-3 lg:order-2 space-y-4 bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-gray-400 uppercase tracking-widest">
                       {contenido.hero_chances_label}
@@ -437,7 +437,7 @@ export default function LandingPage() {
 
               {/* Estados: completo / sorteado / cerrado */}
               {sorteoCompleto && (
-                <div className="space-y-4">
+                <div className="order-4 lg:order-3 space-y-4">
                   {sorteo?.estado === "completo" && (
                     <div className="bg-yellow-950/30 border border-yellow-800/40 text-yellow-300 px-5 py-4 rounded-xl">
                       <h3 className="text-base font-semibold mb-1 flex items-center gap-2">
@@ -502,7 +502,7 @@ export default function LandingPage() {
 
               {/* Pack cards */}
               {!sorteoCompleto && (
-                <div className="space-y-3">
+                <div className="order-2 lg:order-4 space-y-3">
                   {PACKS.map((pack, index) => (
                     <div
                       key={pack.chances}
@@ -563,7 +563,7 @@ export default function LandingPage() {
               )}
 
               {!sorteoCompleto && PACKS.length > 1 && (
-                <p className="text-xs text-gray-600 text-center tracking-wide">
+                <p className="order-5 lg:order-5 text-xs text-gray-600 text-center tracking-wide">
                   {contenido.packs_nota}
                 </p>
               )}
@@ -572,8 +572,9 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="flex flex-col">
       {/* Sección de Premios */}
-      <section className="py-16 border-t border-gray-900">
+      <section className="order-2 lg:order-1 py-16 border-t border-gray-900">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
@@ -636,7 +637,7 @@ export default function LandingPage() {
       </section>
 
       {/* Sección FAQ */}
-      <section className="py-16 border-t border-gray-900">
+      <section className="order-3 lg:order-2 py-16 border-t border-gray-900">
         <div className="container mx-auto px-4 max-w-xl">
           <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-10">
             {contenido.faq_titulo}
@@ -681,7 +682,7 @@ export default function LandingPage() {
       </section>
 
       {/* Sección Consultá tus números */}
-      <section className="py-16 border-t border-gray-900">
+      <section className="order-1 lg:order-3 py-16 border-t border-gray-900">
         <div className="container mx-auto px-4 max-w-xl">
           <div className="mb-8">
             <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
@@ -771,6 +772,8 @@ export default function LandingPage() {
           )}
         </div>
       </section>
+
+      </div>
 
       {/* Ganadores Express */}
       {sorteo && <GanadoresExpress sorteoId={sorteo.id} contenido={contenido} />}
