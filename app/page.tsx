@@ -784,6 +784,18 @@ export default function LandingPage() {
       {/* Links de interés / Redes sociales */}
       <RedesSociales contenido={contenido} />
 
+      {/* QR */}
+      <div className="bg-black flex flex-col items-center gap-3 py-10">
+        <img
+          src="/sosa-qr.jpeg"
+          alt="Código QR"
+          className="w-32 h-32 rounded-lg opacity-90"
+        />
+        <p className="text-gray-400 text-xs font-semibold tracking-wide uppercase">
+          Escanea y participa gratis
+        </p>
+      </div>
+
       {/* Footer */}
       <footer className="bg-black border-t border-gray-900 py-10">
         <div className="container mx-auto px-4">
