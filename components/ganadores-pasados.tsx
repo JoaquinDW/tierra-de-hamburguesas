@@ -3,9 +3,6 @@
 import { useState, useEffect } from "react"
 import {
   Trophy,
-  Calendar,
-  Hash,
-  DollarSign,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react"
@@ -19,10 +16,9 @@ import { CONTENIDO_DEFAULTS, type ContenidoSitio } from "@/lib/contenido"
 interface GanadorCardProps {
   ganador: GanadorPasado
   imagenes: string[]
-  formatearFecha: (fecha: string) => string
 }
 
-function GanadorCard({ ganador, imagenes, formatearFecha }: GanadorCardProps) {
+function GanadorCard({ ganador, imagenes }: GanadorCardProps) {
   const [imagenActual, setImagenActual] = useState(0)
 
   const siguienteImagen = () => {
@@ -110,39 +106,6 @@ function GanadorCard({ ganador, imagenes, formatearFecha }: GanadorCardProps) {
               <div className="h-0.5 w-12 bg-[#ff0040]/40 rounded-full"></div>
             </div>
 
-            <div className="space-y-3">
-              <p className="text-lg text-gray-300 font-medium leading-relaxed">
-                {ganador.premio}
-              </p>
-              <Badge
-                variant="outline"
-                className="bg-green-500/8 text-green-400/80 border-green-500/15 text-sm px-3 py-0.5"
-              >
-                <DollarSign className="h-3 w-3 mr-1" />
-                {ganador.precio_premio}
-              </Badge>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-5 border-t border-gray-800">
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs text-gray-600 uppercase tracking-wider">
-                  <Calendar className="h-3 w-3" />
-                  <span>Fecha</span>
-                </div>
-                <p className="text-white font-medium text-sm">
-                  {formatearFecha(ganador.fecha_sorteo)}
-                </p>
-              </div>
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs text-gray-600 uppercase tracking-wider">
-                  <Hash className="h-3 w-3" />
-                  <span>Número Ganador</span>
-                </div>
-                <p className="font-mono font-bold text-2xl text-yellow-500">
-                  {ganador.numero_ganador}
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </CardContent>
@@ -253,7 +216,6 @@ export function GanadoresPasados({
                   key={ganador.id}
                   ganador={ganador}
                   imagenes={imagenes}
-                  formatearFecha={formatearFecha}
                 />
               )
             })}
