@@ -530,15 +530,15 @@ export default function LandingPage() {
                       >
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex-1 min-w-0">
-                            <div className="text-lg sm:text-xl font-semibold text-white">
-                              {pack.chances} Chances
-                            </div>
                             <div
-                              className={`text-xs font-medium mt-0.5 line-clamp-2 ${
-                                pack.descripcion ? "text-yellow-400/80" : "text-gray-500"
+                              className={`text-lg sm:text-xl font-semibold line-clamp-2 ${
+                                pack.descripcion ? "text-white" : "text-gray-400"
                               }`}
                             >
                               {pack.descripcion || `${pack.chances} números asignados`}
+                            </div>
+                            <div className="text-xs font-medium mt-0.5 text-yellow-400/80">
+                              {pack.chances} Chances
                             </div>
                           </div>
 

@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from "react"
-import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
 import { obtenerSorteoActivo } from "@/lib/database"
 import type { Sorteo } from "@/lib/supabase"
@@ -72,27 +71,16 @@ export default function IphoneCarousel() {
       <div className="overflow-hidden rounded-xl" ref={emblaRef as any}>
         <div className="flex">
           {finalSlides.map((src, idx) => (
-            <div key={idx} className="min-w-full flex-shrink-0">
-              <div className="relative rounded-xl overflow-hidden shadow-2xl h-[500px] sm:h-[600px] md:h-[700px]">
-                {/* Imagen de fondo difuminada para llenar los espacios */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={src}
-                    alt=""
-                    fill
-                    className="object-cover blur-2xl scale-110 opacity-50"
-                  />
-                </div>
-                {/* Imagen principal */}
-                <div className="relative w-full h-full">
-                  <Image
-                    src={src}
-                    alt={`Slide ${idx + 1}`}
-                    fill
-                    className="object-contain"
-                    priority={idx === 0}
-                  />
-                </div>
+            <div key={idx} className="flex-[0_0_100%] min-w-0">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                {/* Imagen principal — usa la relación de aspecto natural, sin márgenes */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={`Slide ${idx + 1}`}
+                  className="block w-full h-auto"
+                  loading={idx === 0 ? "eager" : "lazy"}
+                />
               </div>
             </div>
           ))}
