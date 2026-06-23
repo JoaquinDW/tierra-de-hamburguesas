@@ -639,7 +639,7 @@ export default function LandingPage() {
       )}
 
       {/* Sección FAQ */}
-      <section className="order-3 lg:order-2 py-16 border-t border-gray-900">
+      <section className="order-3 lg:order-2 py-10 border-t border-gray-900">
         <div className="container mx-auto px-4 max-w-xl">
           <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-10">
             {contenido.faq_titulo}
@@ -684,7 +684,7 @@ export default function LandingPage() {
       </section>
 
       {/* Sección Consultá tus números */}
-      <section className="order-1 lg:order-3 py-16 border-t border-gray-900">
+      <section className="order-1 lg:order-3 py-10 border-t border-gray-900">
         <div className="container mx-auto px-4 max-w-xl">
           <div className="mb-8">
             <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
