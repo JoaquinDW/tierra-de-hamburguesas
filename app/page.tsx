@@ -57,7 +57,8 @@ export default function LandingPage() {
     created_at: string
   }> | null>(null)
   const [consultaError, setConsultaError] = useState<string | null>(null)
-  const [premiosSecundarios, setPremiosSecundarios] = useState<PremiosSecundarios | null>(null)
+  const [premiosSecundarios, setPremiosSecundarios] =
+    useState<PremiosSecundarios | null>(null)
   const [contenido, setContenido] = useState<ContenidoSitio>(CONTENIDO_DEFAULTS)
   const { toast } = useToast()
 
@@ -316,7 +317,9 @@ export default function LandingPage() {
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 border-2 border-[#ff0040] border-t-transparent rounded-full animate-spin mx-auto opacity-80"></div>
-          <p className="text-gray-500 text-sm tracking-widest uppercase">Cargando</p>
+          <p className="text-gray-500 text-sm tracking-widest uppercase">
+            Cargando
+          </p>
         </div>
       </div>
     )
@@ -329,11 +332,19 @@ export default function LandingPage() {
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="text-center space-y-6 max-w-md">
             <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-gray-700 mx-auto">
-              <img src="/sosamotos.jpeg" alt={contenido.marca} className="w-full h-full object-cover" />
+              <img
+                src="/sosamotos.jpeg"
+                alt={contenido.marca}
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="space-y-2">
-              <h2 className="text-3xl font-display tracking-wider text-white uppercase">{contenido.proximamente_titulo}</h2>
-              <p className="text-gray-500 text-sm">{contenido.proximamente_descripcion}</p>
+              <h2 className="text-3xl font-display tracking-wider text-white uppercase">
+                {contenido.proximamente_titulo}
+              </h2>
+              <p className="text-gray-500 text-sm">
+                {contenido.proximamente_descripcion}
+              </p>
             </div>
             <Link
               href={contenido.whatsapp_url}
@@ -395,6 +406,27 @@ export default function LandingPage() {
                   })}
                 </h2>
               </div>
+
+              {/* Progress Bar — mobile only (appears right below the photo) */}
+              {sorteo?.estado !== "sorteado" && (
+                <div className="lg:hidden mt-4 bg-[#111] border border-gray-800 rounded-xl p-5 space-y-5">
+                  <span className="block text-sm font-medium text-gray-400 uppercase tracking-widest">
+                    {contenido.hero_chances_label}
+                  </span>
+                  <AnimatedProgress
+                    value={porcentajeVendido}
+                    logoSrc="/sosamotos.jpeg"
+                  />
+                  <div className="flex items-baseline justify-center gap-2 pt-1">
+                    <span className="text-3xl font-display tracking-wide text-[#ff0040]">
+                      {porcentajeVendido.toFixed(1)}%
+                    </span>
+                    <span className="text-sm text-gray-500 uppercase tracking-widest">
+                      {contenido.hero_completado_label}
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Contenido a la derecha */}
@@ -411,7 +443,7 @@ export default function LandingPage() {
                 </p>
               )}
 
-              {/* Progress Bar / Evento finalizado */}
+              {/* Progress Bar / Evento finalizado — desktop only (mobile version is in left column) */}
               {sorteo?.estado === "sorteado" ? (
                 <div className="order-3 lg:order-2 bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
                   <p className="text-lg font-semibold text-gray-300">
@@ -419,18 +451,23 @@ export default function LandingPage() {
                   </p>
                 </div>
               ) : (
-                <div className="order-3 lg:order-2 space-y-4 bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6">
+                <div className="hidden lg:block order-3 lg:order-2 space-y-5 bg-[#111] border border-gray-800 rounded-xl p-5 sm:p-6">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-gray-400 uppercase tracking-widest">
                       {contenido.hero_chances_label}
                     </span>
                   </div>
-                  <AnimatedProgress value={porcentajeVendido} className="h-3" />
-                  <div className="flex items-baseline gap-2">
+                  <AnimatedProgress
+                    value={porcentajeVendido}
+                    logoSrc="/sosamotos.jpeg"
+                  />
+                  <div className="flex items-baseline gap-2 pt-1">
                     <span className="text-3xl font-display tracking-wide text-[#ff0040]">
                       {porcentajeVendido.toFixed(1)}%
                     </span>
-                    <span className="text-sm text-gray-500">{contenido.hero_completado_label}</span>
+                    <span className="text-sm text-gray-500">
+                      {contenido.hero_completado_label}
+                    </span>
                   </div>
                 </div>
               )}
@@ -450,7 +487,9 @@ export default function LandingPage() {
                       {sorteo.fecha_sorteo_realizado && (
                         <p className="text-xs opacity-60 mt-1">
                           Prendas completadas el{" "}
-                          {new Date(sorteo.fecha_sorteo_realizado).toLocaleDateString("es-AR")}
+                          {new Date(
+                            sorteo.fecha_sorteo_realizado,
+                          ).toLocaleDateString("es-AR")}
                         </p>
                       )}
                     </div>
@@ -481,7 +520,9 @@ export default function LandingPage() {
                           <p className="text-xs text-green-300/60">
                             Según la Quiniela de Buenos Aires del{" "}
                             {sorteo.updated_at &&
-                              new Date(sorteo.updated_at).toLocaleDateString("es-AR")}
+                              new Date(sorteo.updated_at).toLocaleDateString(
+                                "es-AR",
+                              )}
                           </p>
                         </div>
                       )}
@@ -489,12 +530,15 @@ export default function LandingPage() {
                   )}
 
                   {(sorteo?.estado === "cerrado" ||
-                    (sorteo?.estado && !sorteo.estado.match(/completo|sorteado/))) && (
+                    (sorteo?.estado &&
+                      !sorteo.estado.match(/completo|sorteado/))) && (
                     <div className="bg-[#ff0040]/10 border border-[#ff0040]/20 text-white px-5 py-4 rounded-xl">
                       <h3 className="text-base font-semibold mb-1">
                         {contenido.hero_cerrado_titulo}
                       </h3>
-                      <p className="text-sm text-gray-400">{contenido.hero_cerrado_descripcion}</p>
+                      <p className="text-sm text-gray-400">
+                        {contenido.hero_cerrado_descripcion}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -503,62 +547,104 @@ export default function LandingPage() {
               {/* Pack cards */}
               {!sorteoCompleto && (
                 <div className="order-2 lg:order-4 space-y-3">
-                  {PACKS.map((pack, index) => (
-                    <div
-                      key={pack.chances}
-                      className={`transition-all duration-500 ${
-                        animacionVisible
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-6"
-                      }`}
-                      style={{ transitionDelay: `${(index + 3) * 150}ms` }}
-                    >
-                      {pack.popular && (
-                        <div className="mb-1.5">
-                          <span className="text-[10px] font-semibold uppercase tracking-widest text-[#ff0040] pl-1">
-                            {contenido.packs_popular_label}
-                          </span>
-                        </div>
-                      )}
+                  {PACKS.map((pack, index) => {
+                    const tiers = [
+                      {
+                        topBar: "from-sky-400 to-blue-500",
+                        border: "border-sky-700/40",
+                        hover: "hover:border-sky-500/60",
+                        bg: "bg-sky-950/10",
+                        chancesColor: "text-sky-400",
+                      },
+                      {
+                        topBar: "from-[#ff0040] to-rose-500",
+                        border: "border-[#ff0040]/35",
+                        hover: "hover:border-[#ff0040]/60",
+                        bg: "bg-[#ff0040]/6",
+                        chancesColor: "text-[#ff0040]/80",
+                      },
+                      {
+                        topBar: "from-amber-400 to-yellow-500",
+                        border: "border-amber-600/40",
+                        hover: "hover:border-amber-400/60",
+                        bg: "bg-amber-950/10",
+                        chancesColor: "text-amber-400",
+                      },
+                      {
+                        topBar: "from-purple-500 to-violet-500",
+                        border: "border-purple-700/40",
+                        hover: "hover:border-purple-500/60",
+                        bg: "bg-purple-950/10",
+                        chancesColor: "text-purple-400",
+                      },
+                      {
+                        topBar: "from-cyan-400 to-teal-500",
+                        border: "border-cyan-700/40",
+                        hover: "hover:border-cyan-500/60",
+                        bg: "bg-cyan-950/10",
+                        chancesColor: "text-cyan-400",
+                      },
+                    ]
+                    const tier = tiers[index % tiers.length]
 
+                    return (
                       <div
-                        className={`rounded-xl p-4 sm:p-5 transition-all duration-200 ${
-                          pack.popular
-                            ? "bg-[#ff0040]/8 border border-[#ff0040]/35 hover:border-[#ff0040]/60"
-                            : "bg-[#111] border border-gray-800 hover:border-gray-600"
+                        key={pack.chances}
+                        className={`transition-all duration-500 ${
+                          animacionVisible
+                            ? "opacity-100 translate-y-0"
+                            : "opacity-0 translate-y-6"
                         }`}
+                        style={{ transitionDelay: `${(index + 3) * 150}ms` }}
                       >
-                        <div className="flex items-center justify-between gap-4">
-                          <div className="flex-1 min-w-0">
-                            <div
-                              className={`text-lg sm:text-xl font-semibold line-clamp-2 ${
-                                pack.descripcion ? "text-white" : "text-gray-400"
-                              }`}
-                            >
-                              {pack.descripcion || `${pack.chances} números asignados`}
-                            </div>
-                            <div className="text-xs font-medium mt-0.5 text-yellow-400/80">
-                              {pack.chances} Chances
-                            </div>
-                          </div>
+                        <div
+                          className={`rounded-xl overflow-hidden transition-all duration-200 border ${tier.border} ${tier.hover} ${tier.bg}`}
+                        >
+                          <div className={`h-1 bg-gradient-to-r ${tier.topBar}`} />
+                          <div className="p-4 sm:p-5">
+                            {pack.popular && (
+                              <div className="mb-2">
+                                <span className="text-[10px] font-semibold uppercase tracking-widest text-[#ff0040]">
+                                  {contenido.packs_popular_label}
+                                </span>
+                              </div>
+                            )}
+                            <div className="flex items-center justify-between gap-4">
+                              <div className="flex-1 min-w-0">
+                                <div
+                                  className={`text-lg sm:text-xl font-semibold line-clamp-2 ${
+                                    pack.descripcion
+                                      ? "text-white"
+                                      : "text-gray-400"
+                                  }`}
+                                >
+                                  {pack.descripcion ||
+                                    `${pack.chances} números asignados`}
+                                </div>
+                                <div className={`text-xs font-medium mt-0.5 ${tier.chancesColor}`}>
+                                  {pack.chances} Chances
+                                </div>
+                              </div>
 
-                          <div className="text-right flex-shrink-0">
-                            <div className="text-xl sm:text-2xl font-semibold text-[#ff0040]">
-                              ${pack.precio.toLocaleString()}
+                              <div className="text-right flex-shrink-0">
+                                <div className="text-xl sm:text-2xl font-semibold text-[#ff0040]">
+                                  ${pack.precio.toLocaleString()}
+                                </div>
+                                <Button
+                                  onClick={() => handleCompra(pack)}
+                                  size="sm"
+                                  className="btn-neon mt-2 px-5 py-1.5 text-xs rounded-lg h-auto"
+                                >
+                                  <ShoppingCart className="w-3 h-3 mr-1.5" />
+                                  {contenido.packs_comprar_boton}
+                                </Button>
+                              </div>
                             </div>
-                            <Button
-                              onClick={() => handleCompra(pack)}
-                              size="sm"
-                              className="btn-neon mt-2 px-5 py-1.5 text-xs rounded-lg h-auto"
-                            >
-                              <ShoppingCart className="w-3 h-3 mr-1.5" />
-                              {contenido.packs_comprar_boton}
-                            </Button>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
 
@@ -572,213 +658,107 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="flex flex-col">
-      {/* Sección de Premios — temporalmente oculta */}
-      {false && (
-      <section className="order-2 lg:order-1 py-16 border-t border-gray-900">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-              {contenido.premios_kicker}
-            </p>
-            <h2 className="text-5xl lg:text-7xl font-display tracking-wider text-white">
-              {contenido.premios_titulo}
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {/* 1er Premio */}
-            <div className="bg-[#111] border border-gray-800 rounded-xl p-8 text-center hover:border-gray-700 transition-colors duration-200">
-              <p className="text-xs font-semibold uppercase tracking-widest text-yellow-500/70 mb-3">
-                {contenido.premios_primer_label}
+      {/* Sección Consultá tus números */}
+      <section className="py-10 border-t border-gray-900">
+          <div className="container mx-auto px-4 max-w-xl">
+            <div className="mb-8">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
+                {contenido.consulta_kicker}
               </p>
-              <p className="text-2xl lg:text-3xl font-display tracking-wide uppercase text-white">
-                {sorteo.titulo_remera || "Remera Exclusiva"}
+              <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-2">
+                {contenido.consulta_titulo}
+              </h2>
+              <p className="text-gray-500 text-sm">
+                {contenido.consulta_descripcion}
               </p>
             </div>
 
-            {/* Premios Secundarios */}
-            {premiosSecundarios?.visible && premiosSecundarios.numeros.length > 0 && (
-              <div className="bg-[#111] border border-yellow-500/20 rounded-xl p-6 md:p-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <Trophy className="w-4 h-4 text-yellow-500/70" />
-                  <p className="text-xs font-semibold uppercase tracking-widest text-yellow-500/70">
-                    {contenido.premios_sec_label}
-                  </p>
-                </div>
+            <form
+              onSubmit={consultarMisNumeros}
+              className="flex flex-col sm:flex-row gap-2 mb-6"
+            >
+              <input
+                type="email"
+                value={consultaEmail}
+                onChange={(e) => setConsultaEmail(e.target.value)}
+                placeholder={contenido.consulta_placeholder}
+                disabled={consultaLoading}
+                className="flex-1 bg-[#111] border border-gray-800 text-white placeholder:text-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#ff0040]/60 focus:ring-1 focus:ring-[#ff0040]/30 transition-colors disabled:opacity-50"
+              />
+              <button
+                type="submit"
+                disabled={consultaLoading || !consultaEmail.trim()}
+                className="btn-neon px-7 py-3 rounded-lg text-sm font-semibold tracking-wide disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none whitespace-nowrap"
+              >
+                {consultaLoading ? "Buscando..." : contenido.consulta_boton}
+              </button>
+            </form>
 
-                <p className="text-base font-semibold text-yellow-300 mb-4">
-                  {premiosSecundarios.titulo}
+            {consultaError && (
+              <div className="bg-red-950/30 border border-red-900/40 rounded-lg p-4 text-center text-red-400 text-sm mb-4">
+                {consultaError}
+              </div>
+            )}
+
+            {consultaResultados !== null && consultaResultados.length === 0 && (
+              <div className="bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
+                <p className="text-gray-500 text-sm">
+                  {contenido.consulta_vacio}
                 </p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {premiosSecundarios.numeros.map((num) => (
-                    <span
-                      key={num}
-                      className="bg-yellow-400/8 border border-yellow-400/25 text-yellow-300 font-mono font-bold text-xl rounded-lg px-4 py-1.5"
-                    >
-                      {num}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-500 leading-relaxed">
-                  {contenido.premios_sec_descripcion.split("{monto}").map((parte, i, partes) => (
-                    <span key={i}>
-                      {parte}
-                      {i < partes.length - 1 && (
-                        <span className="font-semibold text-gray-300">{premiosSecundarios.monto}</span>
-                      )}
-                    </span>
-                  ))}
+                <p className="text-gray-600 text-xs mt-2">
+                  {contenido.consulta_vacio_nota}
                 </p>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-      )}
 
-      {/* Sección FAQ */}
-      <section className="order-3 lg:order-2 py-10 border-t border-gray-900">
-        <div className="container mx-auto px-4 max-w-xl">
-          <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-10">
-            {contenido.faq_titulo}
-          </h2>
-
-          <div className="space-y-8">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
-                {contenido.faq_pregunta_fecha}
-              </p>
-              <div className="border-l-2 border-[#ff0040]/40 pl-4">
-                <span className="text-white text-lg font-medium">
-                  {sorteo?.fecha_sorteo
-                    ? new Date(sorteo.fecha_sorteo + "T12:00:00").toLocaleDateString("es-AR", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })
-                    : "Próximamente"}
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
-                {contenido.faq_pregunta_ganador}
-              </p>
-              <Link
-                href={contenido.faq_link_quiniela}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="border-l-2 border-[#ff0040]/40 pl-4 hover:border-[#ff0040] transition-colors duration-200">
-                  <span className="text-[#ff0040] text-base font-medium">
-                    {contenido.faq_respuesta_ganador}
-                  </span>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sección Consultá tus números */}
-      <section className="order-1 lg:order-3 py-10 border-t border-gray-900">
-        <div className="container mx-auto px-4 max-w-xl">
-          <div className="mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-              {contenido.consulta_kicker}
-            </p>
-            <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-2">
-              {contenido.consulta_titulo}
-            </h2>
-            <p className="text-gray-500 text-sm">
-              {contenido.consulta_descripcion}
-            </p>
-          </div>
-
-          <form
-            onSubmit={consultarMisNumeros}
-            className="flex flex-col sm:flex-row gap-2 mb-6"
-          >
-            <input
-              type="email"
-              value={consultaEmail}
-              onChange={(e) => setConsultaEmail(e.target.value)}
-              placeholder={contenido.consulta_placeholder}
-              disabled={consultaLoading}
-              className="flex-1 bg-[#111] border border-gray-800 text-white placeholder:text-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#ff0040]/60 focus:ring-1 focus:ring-[#ff0040]/30 transition-colors disabled:opacity-50"
-            />
-            <button
-              type="submit"
-              disabled={consultaLoading || !consultaEmail.trim()}
-              className="btn-neon px-7 py-3 rounded-lg text-sm font-semibold tracking-wide disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none whitespace-nowrap"
-            >
-              {consultaLoading ? "Buscando..." : contenido.consulta_boton}
-            </button>
-          </form>
-
-          {consultaError && (
-            <div className="bg-red-950/30 border border-red-900/40 rounded-lg p-4 text-center text-red-400 text-sm mb-4">
-              {consultaError}
-            </div>
-          )}
-
-          {consultaResultados !== null && consultaResultados.length === 0 && (
-            <div className="bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
-              <p className="text-gray-500 text-sm">
-                {contenido.consulta_vacio}
-              </p>
-              <p className="text-gray-600 text-xs mt-2">
-                {contenido.consulta_vacio_nota}
-              </p>
-            </div>
-          )}
-
-          {consultaResultados !== null && consultaResultados.length > 0 && (
-            <div className="space-y-4">
-              {consultaResultados.map((p) => (
-                <div key={p.id} className="bg-[#111] border border-gray-800 rounded-xl p-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                    <div>
-                      <p className="text-white font-semibold">{p.nombre}</p>
-                      <p className="text-gray-500 text-xs mt-0.5">{p.sorteo_nombre}</p>
+            {consultaResultados !== null && consultaResultados.length > 0 && (
+              <div className="space-y-4">
+                {consultaResultados.map((p) => (
+                  <div
+                    key={p.id}
+                    className="bg-[#111] border border-gray-800 rounded-xl p-5"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                      <div>
+                        <p className="text-white font-semibold">{p.nombre}</p>
+                        <p className="text-gray-500 text-xs mt-0.5">
+                          {p.sorteo_nombre}
+                        </p>
+                      </div>
+                      <span className="text-xs text-gray-600">
+                        {new Date(p.created_at).toLocaleDateString("es-AR", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </span>
                     </div>
-                    <span className="text-xs text-gray-600">
-                      {new Date(p.created_at).toLocaleDateString("es-AR", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </span>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
+                      Tus {p.cantidad_chances} números asignados
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {[...p.numeros_asignados]
+                        .sort((a, b) => a - b)
+                        .map((numero) => (
+                          <span
+                            key={numero}
+                            className="bg-[#ff0040]/10 text-[#ff0040] font-mono font-semibold px-3 py-1 rounded text-sm border border-[#ff0040]/15"
+                          >
+                            {numero}
+                          </span>
+                        ))}
+                    </div>
                   </div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
-                    Tus {p.cantidad_chances} números asignados
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {[...p.numeros_asignados]
-                      .sort((a, b) => a - b)
-                      .map((numero) => (
-                        <span
-                          key={numero}
-                          className="bg-[#ff0040]/10 text-[#ff0040] font-mono font-semibold px-3 py-1 rounded text-sm border border-[#ff0040]/15"
-                        >
-                          {numero}
-                        </span>
-                      ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
 
       {/* Ganadores Express */}
-      {sorteo && <GanadoresExpress sorteoId={sorteo.id} contenido={contenido} />}
+      {sorteo && (
+        <GanadoresExpress sorteoId={sorteo.id} contenido={contenido} />
+      )}
 
       {/* Ganadores Pasados */}
       <GanadoresPasados contenido={contenido} />
@@ -797,6 +777,53 @@ export default function LandingPage() {
           Escanea y participa gratis
         </p>
       </div>
+
+      {/* Sección FAQ */}
+      <section className="py-10 border-t border-gray-900">
+        <div className="container mx-auto px-4 max-w-xl text-center">
+          <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-10">
+            {contenido.faq_titulo}
+          </h2>
+
+          <div className="space-y-8">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
+                {contenido.faq_pregunta_fecha}
+              </p>
+              <div className="border-l-2 border-r-2 border-[#ff0040]/40 px-4">
+                <span className="text-white text-lg font-medium">
+                  {sorteo?.fecha_sorteo
+                    ? new Date(
+                        sorteo.fecha_sorteo + "T12:00:00",
+                      ).toLocaleDateString("es-AR", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })
+                    : "Próximamente"}
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
+                {contenido.faq_pregunta_ganador}
+              </p>
+              <Link
+                href={contenido.faq_link_quiniela}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="border-l-2 border-r-2 border-[#ff0040]/40 px-4 hover:border-[#ff0040] transition-colors duration-200">
+                  <span className="text-[#ff0040] text-base font-medium">
+                    {contenido.faq_respuesta_ganador}
+                  </span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-black border-t border-gray-900 py-10">
@@ -821,7 +848,9 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-900 mt-6 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
-            <p className="text-gray-700 text-xs">{contenido.footer_copyright}</p>
+            <p className="text-gray-700 text-xs">
+              {contenido.footer_copyright}
+            </p>
             <Link
               href="https://linktr.ee/deweertstudio"
               target="_blank"
