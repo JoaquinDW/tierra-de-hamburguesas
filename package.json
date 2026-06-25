@@ -11,6 +11,7 @@
     "scrapper": "tsx lib/sorteoScrapper.ts",
     "start": "next start",
     "test-sorteos": "tsx scripts/test-sorteos.ts",
+    "upload-contenido": "tsx scripts/upload-contenido-packs.ts",
     "verificar-sorteos": "tsx scripts/cron-sorteos.ts"
   },
   "dependencies": {

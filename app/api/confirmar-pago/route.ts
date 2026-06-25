@@ -106,6 +106,7 @@ export async function POST(request: NextRequest) {
             precioPagado: precio,
             sorteoNombre: sorteo?.nombre,
             sorteoImagenUrl: sorteo?.carousel_image_1 || sorteo?.imagen_url,
+            compradorId: nuevoComprador.id,
           }),
         })
       } catch (emailError) {

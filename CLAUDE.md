@@ -27,6 +27,8 @@ Required in `.env.local`:
 - `MERCADOPAGO_ACCESS_TOKEN` — for MercadoPago payment integration
 - `RESEND_API_KEY` — for transactional emails via Resend
 - `BLOB_READ_WRITE_TOKEN` — for Vercel Blob image storage
+- `SUPABASE_SERVICE_ROLE_KEY` — server-only key. Used by `lib/supabase-admin.ts` to mint signed URLs for the private `contenido-packs` bucket (gated per-pack downloads in `/api/descargar/[id]`) and by `scripts/upload-contenido-packs.ts`. Must also be set in Vercel for downloads to work in production.
+- `NEXT_PUBLIC_APP_URL` — base URL used to build the download link inside confirmation emails.
 
 ## Architecture
 

@@ -20,6 +20,7 @@ function PagoExitoContent() {
   )
   const [datosCompra, setDatosCompra] = useState<any>(null)
   const [numerosAsignados, setNumerosAsignados] = useState<number[]>([])
+  const [compradorId, setCompradorId] = useState<string | null>(null)
   const searchParams = useSearchParams()
   const { toast } = useToast()
 
@@ -91,6 +92,7 @@ function PagoExitoContent() {
 
       if (result.success) {
         setNumerosAsignados(result.numerosAsignados)
+        setCompradorId(result.compradorId ?? null)
         setEstado("success")
 
         // Limpiar localStorage
@@ -226,6 +228,15 @@ function PagoExitoContent() {
               </div>
             </div>
           </div>
+
+          {compradorId && (
+            <a
+              href={`/api/descargar/${compradorId}`}
+              className="block w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-center py-3 px-4 rounded-lg shadow-lg transition-colors"
+            >
+              📥 Descargar mi contenido
+            </a>
+          )}
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 ">
             <p className="text-blue-800 text-sm">

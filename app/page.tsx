@@ -409,7 +409,7 @@ export default function LandingPage() {
 
               {/* Progress Bar — mobile only (appears right below the photo) */}
               {sorteo?.estado !== "sorteado" && (
-                <div className="lg:hidden mt-4 bg-[#111] border border-gray-800 rounded-xl p-5 space-y-5">
+                <div className="lg:hidden mt-4 lg:bg-[#111] lg:border border-gray-800 rounded-xl p-5 space-y-5">
                   <span className="block text-sm font-medium text-gray-400 uppercase tracking-widest">
                     {contenido.hero_chances_label}
                   </span>
@@ -548,45 +548,6 @@ export default function LandingPage() {
               {!sorteoCompleto && (
                 <div className="order-2 lg:order-4 space-y-3">
                   {PACKS.map((pack, index) => {
-                    const tiers = [
-                      {
-                        topBar: "from-sky-400 to-blue-500",
-                        border: "border-sky-700/40",
-                        hover: "hover:border-sky-500/60",
-                        bg: "bg-sky-950/10",
-                        chancesColor: "text-sky-400",
-                      },
-                      {
-                        topBar: "from-[#ff0040] to-rose-500",
-                        border: "border-[#ff0040]/35",
-                        hover: "hover:border-[#ff0040]/60",
-                        bg: "bg-[#ff0040]/6",
-                        chancesColor: "text-[#ff0040]/80",
-                      },
-                      {
-                        topBar: "from-amber-400 to-yellow-500",
-                        border: "border-amber-600/40",
-                        hover: "hover:border-amber-400/60",
-                        bg: "bg-amber-950/10",
-                        chancesColor: "text-amber-400",
-                      },
-                      {
-                        topBar: "from-purple-500 to-violet-500",
-                        border: "border-purple-700/40",
-                        hover: "hover:border-purple-500/60",
-                        bg: "bg-purple-950/10",
-                        chancesColor: "text-purple-400",
-                      },
-                      {
-                        topBar: "from-cyan-400 to-teal-500",
-                        border: "border-cyan-700/40",
-                        hover: "hover:border-cyan-500/60",
-                        bg: "bg-cyan-950/10",
-                        chancesColor: "text-cyan-400",
-                      },
-                    ]
-                    const tier = tiers[index % tiers.length]
-
                     return (
                       <div
                         key={pack.chances}
@@ -597,10 +558,8 @@ export default function LandingPage() {
                         }`}
                         style={{ transitionDelay: `${(index + 3) * 150}ms` }}
                       >
-                        <div
-                          className={`rounded-xl overflow-hidden transition-all duration-200 border ${tier.border} ${tier.hover} ${tier.bg}`}
-                        >
-                          <div className={`h-1 bg-gradient-to-r ${tier.topBar}`} />
+                        <div className="rounded-xl overflow-hidden border border-[#ff0040]/30 bg-[#111] hover:border-[#ff0040]/60 hover:bg-[#ff0040]/5 transition-all duration-200">
+                          <div className="h-1 bg-gradient-to-r from-[#ff0040] to-rose-500" />
                           <div className="p-4 sm:p-5">
                             {pack.popular && (
                               <div className="mb-2">
@@ -611,21 +570,15 @@ export default function LandingPage() {
                             )}
                             <div className="flex items-center justify-between gap-4">
                               <div className="flex-1 min-w-0">
-                                <div
-                                  className={`text-lg sm:text-xl font-semibold line-clamp-2 ${
-                                    pack.descripcion
-                                      ? "text-white"
-                                      : "text-gray-400"
-                                  }`}
-                                >
+                                <div className="text-white font-bold text-base sm:text-lg uppercase line-clamp-2 leading-tight">
                                   {pack.descripcion ||
-                                    `${pack.chances} números asignados`}
+                                    `Pack ${pack.chances} chances`}
                                 </div>
-                                <div className={`text-xs font-medium mt-0.5 ${tier.chancesColor}`}>
-                                  {pack.chances} Chances
+                                <div className="text-[#ff0040]/70 text-xs font-medium mt-0.5">
+                                  {pack.chances}{" "}
+                                  {pack.chances === 1 ? "Chance" : "Chances"}
                                 </div>
                               </div>
-
                               <div className="text-right flex-shrink-0">
                                 <div className="text-xl sm:text-2xl font-semibold text-[#ff0040]">
                                   ${pack.precio.toLocaleString()}
@@ -660,100 +613,106 @@ export default function LandingPage() {
 
       {/* Sección Consultá tus números */}
       <section className="py-10 border-t border-gray-900">
-          <div className="container mx-auto px-4 max-w-xl">
-            <div className="mb-8">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-                {contenido.consulta_kicker}
-              </p>
-              <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-2">
-                {contenido.consulta_titulo}
-              </h2>
+        <div className="container mx-auto px-4 max-w-xl">
+          <div className="mb-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
+              {contenido.consulta_kicker}
+            </p>
+            <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-2">
+              {contenido.consulta_titulo}
+            </h2>
+            <p className="text-gray-500 text-sm">
+              {contenido.consulta_descripcion}
+            </p>
+          </div>
+
+          <form
+            onSubmit={consultarMisNumeros}
+            className="flex flex-col sm:flex-row gap-2 mb-6"
+          >
+            <input
+              type="email"
+              value={consultaEmail}
+              onChange={(e) => setConsultaEmail(e.target.value)}
+              placeholder={contenido.consulta_placeholder}
+              disabled={consultaLoading}
+              className="flex-1 bg-[#111] border border-gray-800 text-white placeholder:text-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#ff0040]/60 focus:ring-1 focus:ring-[#ff0040]/30 transition-colors disabled:opacity-50"
+            />
+            <button
+              type="submit"
+              disabled={consultaLoading || !consultaEmail.trim()}
+              className="btn-neon px-7 py-3 rounded-lg text-sm font-semibold tracking-wide disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none whitespace-nowrap"
+            >
+              {consultaLoading ? "Buscando..." : contenido.consulta_boton}
+            </button>
+          </form>
+
+          {consultaError && (
+            <div className="bg-red-950/30 border border-red-900/40 rounded-lg p-4 text-center text-red-400 text-sm mb-4">
+              {consultaError}
+            </div>
+          )}
+
+          {consultaResultados !== null && consultaResultados.length === 0 && (
+            <div className="bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
               <p className="text-gray-500 text-sm">
-                {contenido.consulta_descripcion}
+                {contenido.consulta_vacio}
+              </p>
+              <p className="text-gray-600 text-xs mt-2">
+                {contenido.consulta_vacio_nota}
               </p>
             </div>
+          )}
 
-            <form
-              onSubmit={consultarMisNumeros}
-              className="flex flex-col sm:flex-row gap-2 mb-6"
-            >
-              <input
-                type="email"
-                value={consultaEmail}
-                onChange={(e) => setConsultaEmail(e.target.value)}
-                placeholder={contenido.consulta_placeholder}
-                disabled={consultaLoading}
-                className="flex-1 bg-[#111] border border-gray-800 text-white placeholder:text-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#ff0040]/60 focus:ring-1 focus:ring-[#ff0040]/30 transition-colors disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={consultaLoading || !consultaEmail.trim()}
-                className="btn-neon px-7 py-3 rounded-lg text-sm font-semibold tracking-wide disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none whitespace-nowrap"
-              >
-                {consultaLoading ? "Buscando..." : contenido.consulta_boton}
-              </button>
-            </form>
-
-            {consultaError && (
-              <div className="bg-red-950/30 border border-red-900/40 rounded-lg p-4 text-center text-red-400 text-sm mb-4">
-                {consultaError}
-              </div>
-            )}
-
-            {consultaResultados !== null && consultaResultados.length === 0 && (
-              <div className="bg-[#111] border border-gray-800 rounded-xl p-6 text-center">
-                <p className="text-gray-500 text-sm">
-                  {contenido.consulta_vacio}
-                </p>
-                <p className="text-gray-600 text-xs mt-2">
-                  {contenido.consulta_vacio_nota}
-                </p>
-              </div>
-            )}
-
-            {consultaResultados !== null && consultaResultados.length > 0 && (
-              <div className="space-y-4">
-                {consultaResultados.map((p) => (
-                  <div
-                    key={p.id}
-                    className="bg-[#111] border border-gray-800 rounded-xl p-5"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                      <div>
-                        <p className="text-white font-semibold">{p.nombre}</p>
-                        <p className="text-gray-500 text-xs mt-0.5">
-                          {p.sorteo_nombre}
-                        </p>
-                      </div>
-                      <span className="text-xs text-gray-600">
-                        {new Date(p.created_at).toLocaleDateString("es-AR", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </span>
+          {consultaResultados !== null && consultaResultados.length > 0 && (
+            <div className="space-y-4">
+              {consultaResultados.map((p) => (
+                <div
+                  key={p.id}
+                  className="bg-[#111] border border-gray-800 rounded-xl p-5"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <div>
+                      <p className="text-white font-semibold">{p.nombre}</p>
+                      <p className="text-gray-500 text-xs mt-0.5">
+                        {p.sorteo_nombre}
+                      </p>
                     </div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
-                      Tus {p.cantidad_chances} números asignados
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {[...p.numeros_asignados]
-                        .sort((a, b) => a - b)
-                        .map((numero) => (
-                          <span
-                            key={numero}
-                            className="bg-[#ff0040]/10 text-[#ff0040] font-mono font-semibold px-3 py-1 rounded text-sm border border-[#ff0040]/15"
-                          >
-                            {numero}
-                          </span>
-                        ))}
-                    </div>
+                    <span className="text-xs text-gray-600">
+                      {new Date(p.created_at).toLocaleDateString("es-AR", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </span>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-600 mb-3">
+                    Tus {p.cantidad_chances} números asignados
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {[...p.numeros_asignados]
+                      .sort((a, b) => a - b)
+                      .map((numero) => (
+                        <span
+                          key={numero}
+                          className="bg-[#ff0040]/10 text-[#ff0040] font-mono font-semibold px-3 py-1 rounded text-sm border border-[#ff0040]/15"
+                        >
+                          {numero}
+                        </span>
+                      ))}
+                  </div>
+                  <a
+                    href={`/api/descargar/${p.id}`}
+                    className="mt-4 inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-gradient-to-r from-[#ff0040] to-[#cc0033] hover:opacity-90 text-white font-bold text-sm py-2.5 px-5 rounded-lg transition-opacity"
+                  >
+                    📥 Descargar contenido
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Ganadores Express */}
       {sorteo && (

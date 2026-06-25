@@ -148,6 +148,24 @@ function imagenSorteo(url?: string): string {
     </div>`
 }
 
+/**
+ * Botón "Descargar tu contenido": apunta a la ruta gateada /api/descargar/[id].
+ * Solo se renderiza si hay compradorId y una URL base configurada.
+ */
+function botonDescarga(compradorId?: string): string {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL
+  if (!compradorId || !baseUrl) return ""
+
+  const url = `${baseUrl.replace(/\/$/, "")}/api/descargar/${compradorId}`
+
+  return `
+    <div style="background:rgba(255,0,64,0.06);border:1px solid rgba(255,0,64,0.30);border-radius:14px;padding:20px;margin:24px 0;text-align:center;">
+      <p style="margin:0 0 14px;color:${C.white};font-size:15px;font-weight:700;">📥 ¡Tu contenido digital está listo!</p>
+      <p style="margin:0 0 16px;color:${C.textDim};font-size:13px;">Descargá el material que viene con tu compra.</p>
+      <a href="${url}" style="display:inline-block;background:linear-gradient(135deg,${C.red},${C.redDark});color:#ffffff;font-weight:800;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:10px;box-shadow:0 4px 14px rgba(255,0,64,0.35);">Descargar tu contenido</a>
+    </div>`
+}
+
 const cierreSuerte = `<p style="text-align:center;font-size:17px;font-weight:600;color:${C.red};margin:26px 0 4px;">¡Mucha suerte a todos!</p>`
 
 /* ------------------------------------------------------------------ */
@@ -162,6 +180,7 @@ export interface EmailData {
   precioPagado: number
   sorteoNombre?: string
   sorteoImagenUrl?: string
+  compradorId?: string
 }
 
 export async function enviarEmailConfirmacion(data: EmailData) {
@@ -206,6 +225,7 @@ function generarHTMLEmail(data: EmailData): string {
       { label: "Email", value: data.email, color: C.text },
     ])}
 
+    ${botonDescarga(data.compradorId)}
     ${imagenSorteo(data.sorteoImagenUrl)}
     ${cierreSuerte}
   `
@@ -232,6 +252,7 @@ export interface TransferenciaAprobadaData {
   precioPagado: number
   nombreSorteo: string
   sorteoImagenUrl?: string
+  compradorId?: string
 }
 
 export interface TransferenciaRechazadaData {
@@ -311,6 +332,7 @@ function generarHTMLTransferenciaAprobada(
       { label: "Email", value: data.email, color: C.text },
     ])}
 
+    ${botonDescarga(data.compradorId)}
     ${imagenSorteo(data.sorteoImagenUrl)}
     ${cierreSuerte}
   `

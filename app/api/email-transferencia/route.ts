@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
         precioPagado: data.precioPagado,
         nombreSorteo: data.nombreSorteo || "T-SHIRT SORTEO EXCLUSIVO",
         sorteoImagenUrl: data.sorteoImagenUrl,
+        compradorId: data.compradorId,
       }
       console.log("📧 Final email data being sent:", JSON.stringify(transferenciaData, null, 2))
       resultado = await enviarEmailTransferenciaAprobada(transferenciaData)

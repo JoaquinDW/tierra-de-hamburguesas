@@ -773,6 +773,7 @@ export default function BackofficePage() {
                 nombreSorteo:
                   sorteoActual?.nombre || "T-SHIRT SORTEO EXCLUSIVO",
                 sorteoImagenUrl: sorteoActual?.carousel_image_1,
+                compradorId: comprador.id,
               },
             }
 
