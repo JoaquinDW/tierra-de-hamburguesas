@@ -24,6 +24,7 @@ import {
 import {
   Users,
   DollarSign,
+  Pencil,
   Trophy,
   Plus,
   Play,
@@ -62,6 +63,7 @@ import { RealizarSorteoModal } from "@/components/realizar-sorteo-modal"
 import { TransferenciasPendientes } from "@/components/transferencias-pendientes"
 import { TShirtMockup } from "@/components/tshirt-mockup"
 import { EditarPreciosModal } from "@/components/editar-precios-modal"
+import { EditarDetallesModal } from "@/components/editar-detalles-modal"
 import { EditarPacksModal } from "@/components/editar-packs-modal"
 import { EditarTituloModal } from "@/components/editar-titulo-modal"
 import { EditarCuentaTransferenciaModal } from "@/components/editar-cuenta-transferencia-modal"
@@ -87,6 +89,7 @@ import {
   realizarSorteo,
   finalizarSorteoManual,
   actualizarPreciosSorteo,
+  actualizarDetallesSorteo,
   eliminarComprador,
   obtenerConfiguracionTransferencia,
   obtenerPremiosSecundarios,
@@ -134,6 +137,8 @@ export default function BackofficePage() {
   const [finalizarSorteoModalAbierto, setFinalizarSorteoModalAbierto] =
     useState(false)
   const [editarPreciosModalAbierto, setEditarPreciosModalAbierto] =
+    useState(false)
+  const [editarDetallesModalAbierto, setEditarDetallesModalAbierto] =
     useState(false)
   const [editarPacksModalAbierto, setEditarPacksModalAbierto] = useState(false)
   const [editarTituloModalAbierto, setEditarTituloModalAbierto] =
@@ -996,6 +1001,37 @@ export default function BackofficePage() {
     }
   }
 
+  const handleDetallesActualizados = async (
+    nombre: string,
+    descripcion: string,
+  ) => {
+    if (!sorteoActual) return
+
+    const exitoso = await actualizarDetallesSorteo(
+      sorteoActual.id,
+      nombre,
+      descripcion,
+    )
+    if (exitoso) {
+      setSorteoActual({
+        ...sorteoActual,
+        nombre,
+        descripcion,
+      })
+      toast({
+        title: "Detalles actualizados",
+        description: "El nombre y la descripción se actualizaron correctamente",
+      })
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "No se pudieron actualizar los detalles del sorteo",
+      })
+      throw new Error("No se pudieron actualizar los detalles")
+    }
+  }
+
   const handlePacksActualizados = async () => {
     // Reload sorteo data to get updated values
     await cargarDatos()
@@ -1321,9 +1357,22 @@ export default function BackofficePage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-lg">
-                        Detalles del Sorteo
-                      </CardTitle>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">
+                          Detalles del Sorteo
+                        </CardTitle>
+                        {sorteoActual.estado === "activo" && (
+                          <Button
+                            onClick={() => setEditarDetallesModalAbierto(true)}
+                            variant="ghost"
+                            size="sm"
+                            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                          >
+                            <Pencil className="w-4 h-4 mr-1" />
+                            Editar
+                          </Button>
+                        )}
+                      </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
@@ -2117,6 +2166,19 @@ export default function BackofficePage() {
             precio24: sorteoActual.precio_24_chances,
           }}
           onPreciosActualizados={handlePreciosActualizados}
+        />
+      )}
+
+      {sorteoActual && (
+        <EditarDetallesModal
+          key={`${sorteoActual.id}-${sorteoActual.nombre}-${sorteoActual.descripcion}`}
+          open={editarDetallesModalAbierto}
+          onOpenChange={setEditarDetallesModalAbierto}
+          detallesActuales={{
+            nombre: sorteoActual.nombre,
+            descripcion: sorteoActual.descripcion || "",
+          }}
+          onDetallesActualizados={handleDetallesActualizados}
         />
       )}
 

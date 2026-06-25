@@ -587,6 +587,45 @@ export async function actualizarPreciosSorteo(
   }
 }
 
+// Actualizar nombre y descripción de un sorteo
+export async function actualizarDetallesSorteo(
+  sorteoId: string,
+  nombre: string,
+  descripcion: string
+): Promise<boolean> {
+  try {
+    // Si es el sorteo por defecto, no podemos actualizar en Supabase
+    if (sorteoId === "default") {
+      console.log("No se puede actualizar detalles del sorteo por defecto")
+      return false
+    }
+
+    const tablasExisten = await verificarTablas()
+    if (!tablasExisten) {
+      return false
+    }
+
+    const { error } = await supabase
+      .from("sorteos")
+      .update({
+        nombre,
+        descripcion,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", sorteoId)
+
+    if (error) {
+      console.error("Error actualizando detalles:", error)
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.error("Error actualizando detalles:", error)
+    return false
+  }
+}
+
 // Obtener compradores de un sorteo específico
 export async function obtenerCompradores(
   sorteoId: string
