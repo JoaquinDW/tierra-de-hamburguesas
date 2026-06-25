@@ -558,12 +558,12 @@ export default function LandingPage() {
                         }`}
                         style={{ transitionDelay: `${(index + 3) * 150}ms` }}
                       >
-                        <div className="rounded-xl overflow-hidden border border-[#ff0040]/30 bg-[#111] hover:border-[#ff0040]/60 hover:bg-[#ff0040]/5 transition-all duration-200">
-                          <div className="h-1 bg-gradient-to-r from-[#ff0040] to-rose-500" />
+                        <div className="rounded-xl overflow-hidden border-2 border-white/75 bg-[#111] hover:border-white/40 hover:bg-white/5 transition-all duration-200">
+                          <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                           <div className="p-4 sm:p-5">
                             {pack.popular && (
                               <div className="mb-2">
-                                <span className="text-[10px] font-semibold uppercase tracking-widest text-[#ff0040]">
+                                <span className="text-[10px] font-semibold uppercase tracking-widest text-white/50">
                                   {contenido.packs_popular_label}
                                 </span>
                               </div>
@@ -574,13 +574,13 @@ export default function LandingPage() {
                                   {pack.descripcion ||
                                     `Pack ${pack.chances} chances`}
                                 </div>
-                                <div className="text-[#ff0040]/70 text-xs font-medium mt-0.5">
+                                <div className="text-white/40 text-xs font-medium mt-0.5">
                                   {pack.chances}{" "}
                                   {pack.chances === 1 ? "Chance" : "Chances"}
                                 </div>
                               </div>
                               <div className="text-right flex-shrink-0">
-                                <div className="text-xl sm:text-2xl font-semibold text-[#ff0040]">
+                                <div className="text-xl sm:text-2xl font-semibold text-white">
                                   ${pack.precio.toLocaleString()}
                                 </div>
                                 <Button
@@ -733,7 +733,7 @@ export default function LandingPage() {
           className="w-32 h-32 rounded-lg opacity-90"
         />
         <p className="text-gray-400 text-xs font-semibold tracking-wide uppercase">
-          Escanea y participa gratis
+          Escanea y partici pa gratis
         </p>
       </div>
 

@@ -193,6 +193,9 @@ export async function enviarEmailConfirmacion(data: EmailData) {
         data.sorteoNombre ? ` - ${data.sorteoNombre}` : ""
       }!`,
       html: generarHTMLEmail(data),
+      headers: {
+        "List-Unsubscribe": "<mailto:hola@agustinsosa.com>",
+      },
     })
 
     if (error) {
@@ -274,6 +277,9 @@ export async function enviarEmailTransferenciaAprobada(
       to: [data.email],
       subject: `✅ ¡Transferencia aprobada! - ${data.nombreSorteo}`,
       html: generarHTMLTransferenciaAprobada(data),
+      headers: {
+        "List-Unsubscribe": "<mailto:hola@agustinsosa.com>",
+      },
     })
 
     if (error) {
@@ -298,6 +304,9 @@ export async function enviarEmailTransferenciaRechazada(
       to: [data.email],
       subject: "❌ Transferencia no aprobada",
       html: generarHTMLTransferenciaRechazada(data),
+      headers: {
+        "List-Unsubscribe": "<mailto:hola@agustinsosa.com>",
+      },
     })
 
     if (error) {
