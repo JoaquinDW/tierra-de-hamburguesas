@@ -252,8 +252,8 @@ export default function LandingPage() {
       toast({
         title: "¡Transferencia registrada!",
         description:
-          "Tu pago está pendiente de confirmación. Te notificaremos por email cuando sea aprobado.",
-        duration: 5000,
+          "Tu pago está pendiente de confirmación. Te notificaremos por email cuando sea aprobado. Revisá tu carpeta de spam por si el email no llega.",
+        duration: 8000,
       })
 
       await cargarDatos()
