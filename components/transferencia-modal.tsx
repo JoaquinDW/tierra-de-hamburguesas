@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
-import { Upload, FileImage, X, Copy, Check } from "lucide-react"
+import { Upload, FileImage, X, Copy, Check, AlertTriangle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 interface TransferenciaModalProps {
@@ -42,7 +42,13 @@ export function TransferenciaModal({
   const [dragOver, setDragOver] = useState(false)
   const [loading, setLoading] = useState(false)
   const [aliasCopiado, setAliasCopiado] = useState(false)
+  const [avisoAceptado, setAvisoAceptado] = useState(false)
   const { toast } = useToast()
+
+  // Mostrar siempre el aviso al abrir el modal
+  useEffect(() => {
+    if (isOpen) setAvisoAceptado(false)
+  }, [isOpen])
 
   const copiarAlias = async () => {
     try {
@@ -135,6 +141,7 @@ export function TransferenciaModal({
   const resetForm = () => {
     setFormData({ nombre: "", email: "", contacto: "" })
     setComprobanteFile(null)
+    setAvisoAceptado(false)
   }
 
   const handleClose = () => {
@@ -147,6 +154,35 @@ export function TransferenciaModal({
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md bg-[#111] text-white border-0 px-1 py-10 lg:py-2 overflow-hidden max-h-[95vh] overflow-y-auto rounded-2xl">
+        {!avisoAceptado ? (
+          /* Aviso importante antes de transferir */
+          <div className="px-6 py-8">
+            <div className="rounded-2xl border border-yellow-600/60 bg-[#161616] p-6 shadow-[0_0_30px_rgba(202,138,4,0.15)]">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-600/40 flex-shrink-0">
+                  <AlertTriangle className="w-6 h-6 text-yellow-400" />
+                </div>
+                <h2 className="text-lg font-extrabold uppercase tracking-wide text-yellow-400 leading-tight">
+                  Importante — Transferencias
+                </h2>
+              </div>
+              <p className="text-gray-200 text-[15px] leading-relaxed mb-6">
+                Las transferencias deben estar emitidas a nombre de la misma
+                persona que completa este formulario (nombre y apellido). Si el
+                titular de la transferencia no coincide, la compra se anula
+                directamente sin excepción.
+              </p>
+              <Button
+                type="button"
+                onClick={() => setAvisoAceptado(true)}
+                className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-extrabold uppercase tracking-wide text-base h-12"
+              >
+                Entiendo
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <>
         {/* Header */}
         <div className="bg-[#111] pt-8 pb-4 px-6 text-center">
           <h2 className="text-2xl font-extrabold uppercase tracking-wide text-white">
@@ -345,6 +381,8 @@ export function TransferenciaModal({
             </Button>
           </div>
         </form>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   )
