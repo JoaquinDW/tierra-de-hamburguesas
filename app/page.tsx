@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, Clock, Trophy } from "lucide-react"
 import Link from "next/link"
 import { CompraModalNuevo } from "@/components/compra-modal-nuevo"
+import { TransferenciaExitoModal } from "@/components/transferencia-exito-modal"
 import { Header } from "@/components/header"
 import { GanadoresPasados } from "@/components/ganadores-pasados"
 import { GanadoresExpress } from "@/components/ganadores-express"
@@ -39,6 +40,8 @@ export default function LandingPage() {
   const [totalCompradores, setTotalCompradores] = useState(0)
   const [totalRecaudado, setTotalRecaudado] = useState(0)
   const [modalAbierto, setModalAbierto] = useState(false)
+  const [transferenciaExitoAbierta, setTransferenciaExitoAbierta] =
+    useState(false)
   const [packSeleccionado, setPackSeleccionado] = useState<{
     chances: number
     precio: number
@@ -249,12 +252,7 @@ export default function LandingPage() {
 
       if (!response.ok) throw new Error("Error procesando transferencia")
 
-      toast({
-        title: "¡Transferencia registrada!",
-        description:
-          "Tu pago está pendiente de confirmación. Te notificaremos por email cuando sea aprobado. Revisá tu carpeta de spam por si el email no llega.",
-        duration: 8000,
-      })
+      setTransferenciaExitoAbierta(true)
 
       await cargarDatos()
     } catch (error) {
@@ -828,6 +826,11 @@ export default function LandingPage() {
         pack={packSeleccionado}
         onCompraMercadoPago={procesarCompra}
         onCompraTransferencia={procesarTransferencia}
+      />
+
+      <TransferenciaExitoModal
+        isOpen={transferenciaExitoAbierta}
+        onClose={() => setTransferenciaExitoAbierta(false)}
       />
 
       <Toaster />
