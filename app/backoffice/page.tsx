@@ -151,6 +151,9 @@ export default function BackofficePage() {
   const [configTransferencia, setConfigTransferencia] = useState({
     alias: "sosamotos",
     titular: "Agustín Sosa",
+    avisoTitulo: "IMPORTANTE — TRANSFERENCIAS",
+    avisoTexto:
+      "Las transferencias deben estar emitidas a nombre de la misma persona que completa este formulario (nombre y apellido). Si el titular de la transferencia no coincide, la compra se anula directamente sin excepción.",
   })
   const [premiosSecundarios, setPremiosSecundarios] =
     useState<PremiosSecundarios>({
@@ -2138,9 +2141,9 @@ export default function BackofficePage() {
         onClose={() => setEditarCuentaTransferenciaModalAbierto(false)}
         alias={configTransferencia.alias}
         titular={configTransferencia.titular}
-        onGuardado={(alias, titular) =>
-          setConfigTransferencia({ alias, titular })
-        }
+        avisoTitulo={configTransferencia.avisoTitulo}
+        avisoTexto={configTransferencia.avisoTexto}
+        onGuardado={(config) => setConfigTransferencia(config)}
       />
 
       <NuevoSorteoModal

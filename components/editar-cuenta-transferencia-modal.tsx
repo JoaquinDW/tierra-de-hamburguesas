@@ -2,9 +2,10 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import {
   Dialog,
@@ -21,7 +22,14 @@ interface EditarCuentaTransferenciaModalProps {
   onClose: () => void
   alias: string
   titular: string
-  onGuardado: (alias: string, titular: string) => void
+  avisoTitulo: string
+  avisoTexto: string
+  onGuardado: (config: {
+    alias: string
+    titular: string
+    avisoTitulo: string
+    avisoTexto: string
+  }) => void
 }
 
 export function EditarCuentaTransferenciaModal({
@@ -29,12 +37,26 @@ export function EditarCuentaTransferenciaModal({
   onClose,
   alias,
   titular,
+  avisoTitulo,
+  avisoTexto,
   onGuardado,
 }: EditarCuentaTransferenciaModalProps) {
   const [aliasValue, setAliasValue] = useState(alias)
   const [titularValue, setTitularValue] = useState(titular)
+  const [avisoTituloValue, setAvisoTituloValue] = useState(avisoTitulo)
+  const [avisoTextoValue, setAvisoTextoValue] = useState(avisoTexto)
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
+
+  // Sincronizar con los valores actuales cada vez que se abre el modal
+  useEffect(() => {
+    if (isOpen) {
+      setAliasValue(alias)
+      setTitularValue(titular)
+      setAvisoTituloValue(avisoTitulo)
+      setAvisoTextoValue(avisoTexto)
+    }
+  }, [isOpen, alias, titular, avisoTitulo, avisoTexto])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,13 +70,29 @@ export function EditarCuentaTransferenciaModal({
       return
     }
 
+    if (!avisoTituloValue.trim() || !avisoTextoValue.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "El título y el texto del aviso no pueden estar vacíos",
+      })
+      return
+    }
+
     setLoading(true)
 
     try {
+      const nuevaConfig = {
+        alias: aliasValue.trim(),
+        titular: titularValue.trim(),
+        avisoTitulo: avisoTituloValue.trim(),
+        avisoTexto: avisoTextoValue.trim(),
+      }
+
       const res = await fetch("/api/configuracion-transferencia", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ alias: aliasValue.trim(), titular: titularValue.trim() }),
+        body: JSON.stringify(nuevaConfig),
       })
 
       if (!res.ok) throw new Error("Error al guardar")
@@ -63,7 +101,7 @@ export function EditarCuentaTransferenciaModal({
         title: "Cuenta actualizada",
         description: "Los datos de la cuenta de transferencia se actualizaron correctamente",
       })
-      onGuardado(aliasValue.trim(), titularValue.trim())
+      onGuardado(nuevaConfig)
       onClose()
     } catch (error) {
       console.error("Error actualizando cuenta de transferencia:", error)
@@ -116,6 +154,37 @@ export function EditarCuentaTransferenciaModal({
             />
           </div>
 
+          <div className="border-t border-gray-700 pt-4 space-y-2">
+            <p className="text-xs text-gray-400">
+              Aviso que ve el cliente antes de transferir
+            </p>
+            <Label htmlFor="avisoTitulo" className="text-white">
+              Título del aviso
+            </Label>
+            <Input
+              id="avisoTitulo"
+              value={avisoTituloValue}
+              onChange={(e) => setAvisoTituloValue(e.target.value)}
+              placeholder="Ej: IMPORTANTE — TRANSFERENCIAS"
+              className="bg-gray-800 border-gray-600 text-white"
+              maxLength={80}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="avisoTexto" className="text-white">
+              Texto del aviso
+            </Label>
+            <Textarea
+              id="avisoTexto"
+              value={avisoTextoValue}
+              onChange={(e) => setAvisoTextoValue(e.target.value)}
+              placeholder="Mensaje que verá el cliente antes de hacer la transferencia"
+              className="bg-gray-800 border-gray-600 text-white min-h-[120px]"
+              maxLength={600}
+            />
+          </div>
+
           <DialogFooter>
             <Button
               type="button"
@@ -127,7 +196,13 @@ export function EditarCuentaTransferenciaModal({
             </Button>
             <Button
               type="submit"
-              disabled={loading || !aliasValue.trim() || !titularValue.trim()}
+              disabled={
+                loading ||
+                !aliasValue.trim() ||
+                !titularValue.trim() ||
+                !avisoTituloValue.trim() ||
+                !avisoTextoValue.trim()
+              }
               className="btn-neon"
             >
               {loading ? "Guardando..." : "Guardar"}

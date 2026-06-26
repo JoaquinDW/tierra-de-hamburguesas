@@ -45,13 +45,17 @@ export function CompraModalNuevo({
   const [configTransferencia, setConfigTransferencia] = useState({
     alias: "sosamotos",
     titular: "Agustín Sosa",
+    avisoTitulo: "IMPORTANTE — TRANSFERENCIAS",
+    avisoTexto:
+      "Las transferencias deben estar emitidas a nombre de la misma persona que completa este formulario (nombre y apellido). Si el titular de la transferencia no coincide, la compra se anula directamente sin excepción.",
   })
 
   useEffect(() => {
     fetch("/api/configuracion-transferencia")
       .then((r) => r.json())
       .then((data) => {
-        if (data.alias && data.titular) setConfigTransferencia(data)
+        if (data.alias && data.titular)
+          setConfigTransferencia((prev) => ({ ...prev, ...data }))
       })
       .catch(() => {})
   }, [])
@@ -316,6 +320,8 @@ export function CompraModalNuevo({
         onSubmit={handleSubmitTransferencia}
         alias={configTransferencia.alias}
         titular={configTransferencia.titular}
+        avisoTitulo={configTransferencia.avisoTitulo}
+        avisoTexto={configTransferencia.avisoTexto}
       />
     </>
   )

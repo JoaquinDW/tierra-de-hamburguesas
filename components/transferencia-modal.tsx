@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { Upload, FileImage, X, Copy, Check, AlertTriangle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
@@ -23,6 +23,8 @@ interface TransferenciaModalProps {
   }) => void
   alias?: string
   titular?: string
+  avisoTitulo?: string
+  avisoTexto?: string
 }
 
 export function TransferenciaModal({
@@ -32,6 +34,8 @@ export function TransferenciaModal({
   onSubmit,
   alias = "sosamotos",
   titular = "Agustín Sosa",
+  avisoTitulo = "IMPORTANTE — TRANSFERENCIAS",
+  avisoTexto = "Las transferencias deben estar emitidas a nombre de la misma persona que completa este formulario (nombre y apellido). Si el titular de la transferencia no coincide, la compra se anula directamente sin excepción.",
 }: TransferenciaModalProps) {
   const [formData, setFormData] = useState({
     nombre: "",
@@ -154,28 +158,36 @@ export function TransferenciaModal({
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md bg-[#111] text-white border-0 px-1 py-10 lg:py-2 overflow-hidden max-h-[95vh] overflow-y-auto rounded-2xl">
+        <DialogTitle className="sr-only">
+          {avisoAceptado ? "Completá tu compra" : avisoTitulo}
+        </DialogTitle>
         {!avisoAceptado ? (
           /* Aviso importante antes de transferir */
           <div className="px-6 py-8">
-            <div className="rounded-2xl border border-yellow-600/60 bg-[#161616] p-6 shadow-[0_0_30px_rgba(202,138,4,0.15)]">
+            <div className="rounded-2xl border border-red-600/60 bg-[#161616] p-6 shadow-[0_0_30px_rgba(220,38,38,0.18)]">
+              {/* Logo */}
+              <div className="flex justify-center mb-5">
+                <img
+                  src="/sosamotos.jpeg"
+                  alt="Logo"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-red-600/60"
+                />
+              </div>
               <div className="flex items-center gap-3 mb-5">
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-600/40 flex-shrink-0">
-                  <AlertTriangle className="w-6 h-6 text-yellow-400" />
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-red-600/10 border border-red-600/40 flex-shrink-0">
+                  <AlertTriangle className="w-6 h-6 text-red-500" />
                 </div>
-                <h2 className="text-lg font-extrabold uppercase tracking-wide text-yellow-400 leading-tight">
-                  Importante — Transferencias
+                <h2 className="text-lg font-extrabold uppercase tracking-wide text-red-500 leading-tight">
+                  {avisoTitulo}
                 </h2>
               </div>
-              <p className="text-gray-200 text-[15px] leading-relaxed mb-6">
-                Las transferencias deben estar emitidas a nombre de la misma
-                persona que completa este formulario (nombre y apellido). Si el
-                titular de la transferencia no coincide, la compra se anula
-                directamente sin excepción.
+              <p className="text-gray-200 text-[15px] leading-relaxed mb-6 whitespace-pre-line">
+                {avisoTexto}
               </p>
               <Button
                 type="button"
                 onClick={() => setAvisoAceptado(true)}
-                className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-extrabold uppercase tracking-wide text-base h-12"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-extrabold uppercase tracking-wide text-base h-12"
               >
                 Entiendo
               </Button>

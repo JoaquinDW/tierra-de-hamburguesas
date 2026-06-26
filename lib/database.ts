@@ -1862,32 +1862,53 @@ export async function eliminarGanadorExpress(id: string): Promise<boolean> {
   }
 }
 
+// Valores por defecto del aviso de transferencia
+const AVISO_TRANSFERENCIA_TITULO_DEFAULT = "IMPORTANTE — TRANSFERENCIAS"
+const AVISO_TRANSFERENCIA_TEXTO_DEFAULT =
+  "Las transferencias deben estar emitidas a nombre de la misma persona que completa este formulario (nombre y apellido). Si el titular de la transferencia no coincide, la compra se anula directamente sin excepción."
+
 // Obtener configuración de cuenta de transferencia
 export async function obtenerConfiguracionTransferencia(): Promise<ConfiguracionTransferencia> {
   try {
     const { data } = await supabase
       .from("configuracion")
       .select("clave, valor")
-      .in("clave", ["alias_transferencia", "titular_transferencia"])
+      .in("clave", [
+        "alias_transferencia",
+        "titular_transferencia",
+        "aviso_transferencia_titulo",
+        "aviso_transferencia_texto",
+      ])
 
     const map = Object.fromEntries(data?.map((r: { clave: string; valor: string }) => [r.clave, r.valor]) ?? [])
     return {
       alias: map["alias_transferencia"] ?? "sosamotos",
       titular: map["titular_transferencia"] ?? "Agustín Sosa",
+      avisoTitulo: map["aviso_transferencia_titulo"] ?? AVISO_TRANSFERENCIA_TITULO_DEFAULT,
+      avisoTexto: map["aviso_transferencia_texto"] ?? AVISO_TRANSFERENCIA_TEXTO_DEFAULT,
     }
   } catch (error) {
     console.error("Error obteniendo configuración de transferencia:", error)
-    return { alias: "sosamotos", titular: "Agustín Sosa" }
+    return {
+      alias: "sosamotos",
+      titular: "Agustín Sosa",
+      avisoTitulo: AVISO_TRANSFERENCIA_TITULO_DEFAULT,
+      avisoTexto: AVISO_TRANSFERENCIA_TEXTO_DEFAULT,
+    }
   }
 }
 
 // Actualizar configuración de cuenta de transferencia
-export async function actualizarConfiguracionTransferencia(alias: string, titular: string): Promise<boolean> {
+export async function actualizarConfiguracionTransferencia(
+  config: ConfiguracionTransferencia,
+): Promise<boolean> {
   try {
     const now = new Date().toISOString()
     const { error } = await supabase.from("configuracion").upsert([
-      { clave: "alias_transferencia", valor: alias, updated_at: now },
-      { clave: "titular_transferencia", valor: titular, updated_at: now },
+      { clave: "alias_transferencia", valor: config.alias, updated_at: now },
+      { clave: "titular_transferencia", valor: config.titular, updated_at: now },
+      { clave: "aviso_transferencia_titulo", valor: config.avisoTitulo, updated_at: now },
+      { clave: "aviso_transferencia_texto", valor: config.avisoTexto, updated_at: now },
     ])
 
     if (error) {
