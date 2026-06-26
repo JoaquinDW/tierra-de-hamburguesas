@@ -248,6 +248,44 @@ export default function BackofficePage() {
     }
   }
 
+  // Refresco liviano solo de transferencias pendientes (para el polling)
+  const refrescarTransferenciasPendientes = async () => {
+    try {
+      const transferencias = await obtenerTransferenciasPendientes()
+      setTransferenciasPendientes((prev) => {
+        const nuevas = transferencias.length - prev.length
+        if (nuevas > 0) {
+          toast({
+            title:
+              nuevas === 1
+                ? "Nueva transferencia pendiente"
+                : `${nuevas} nuevas transferencias pendientes`,
+            description: "Revisá la pestaña de Transferencias Pendientes.",
+          })
+        }
+        return transferencias
+      })
+    } catch (error) {
+      // Silencioso: si una iteración del polling falla, reintentamos en la próxima
+      console.error("Error refrescando transferencias pendientes:", error)
+    }
+  }
+
+  // Polling: refresca transferencias pendientes cada 20s mientras el backoffice
+  // esté abierto y la pestaña visible. No recarga el resto del backoffice.
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    const INTERVALO_MS = 10000
+    const intervalo = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        refrescarTransferenciasPendientes()
+      }
+    }, INTERVALO_MS)
+
+    return () => clearInterval(intervalo)
+  }, [isAuthenticated])
+
   const handleLogin = () => {
     setIsAuthenticated(true)
   }
