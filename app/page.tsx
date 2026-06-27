@@ -725,19 +725,15 @@ export default function LandingPage() {
 
       {/* QR - Participación gratuita (/free) */}
       <div className="bg-black flex flex-col items-center gap-3 py-10">
-        <Link href="/free" aria-label="Participar gratis">
-          <img
-            src="/sosa-qr-free.png"
-            alt="Código QR para participar gratis"
-            className="w-32 h-32 rounded-lg bg-white p-2 opacity-90 hover:opacity-100 transition-opacity"
-          />
-        </Link>
-        <Link
-          href="/free"
-          className="text-gray-400 hover:text-white text-xs font-semibold tracking-wide uppercase transition-colors"
-        >
+        <img
+          src="/sosa-qr-free.png"
+          alt="Código QR para participar gratis"
+          className="w-32 h-32 rounded-lg bg-white p-2 opacity-90 hover:opacity-100 transition-opacity"
+        />
+
+        <p className="text-gray-400 hover:text-white text-xs font-semibold tracking-wide uppercase transition-colors">
           Escaneá y participá gratis
-        </Link>
+        </p>
       </div>
 
       {/* Sección FAQ */}
