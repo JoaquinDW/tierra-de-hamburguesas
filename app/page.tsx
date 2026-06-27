@@ -390,9 +390,9 @@ export default function LandingPage() {
                 <IphoneCarousel />
 
                 {/* Floating badge */}
-                <div className="absolute -top-4 inset-x-0 mx-auto w-fit lg:inset-x-auto lg:right-16 lg:mx-0 xl:-right-2 bg-[#ff0040] text-white px-4 py-1.5 rounded-full font-semibold text-xs tracking-widest uppercase z-30 flex items-center gap-1.5">
-                  <Trophy className="w-3 h-3" />
-                  {contenido.hero_badge}
+                <div className="promo-badge absolute -top-4 right-2 w-fit lg:right-16 xl:-right-2 text-white px-4 py-1.5 rounded-full font-semibold text-xs tracking-widest uppercase z-30 flex items-center gap-1.5 shadow-lg">
+                  <Trophy className="promo-trophy w-3 h-3 shrink-0" />
+                  <span className="relative z-10">{contenido.hero_badge}</span>
                 </div>
               </div>
 
