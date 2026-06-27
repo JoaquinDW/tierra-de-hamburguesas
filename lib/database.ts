@@ -1113,6 +1113,91 @@ export async function crearCompradorTransferencia({
   }
 }
 
+// Verificar si un email ya participó gratis en este sorteo (límite: 1 por email por sorteo)
+export async function existeParticipacionGratuita(
+  sorteoId: string,
+  email: string
+): Promise<boolean> {
+  try {
+    const emailNormalizado = email.trim().toLowerCase()
+    if (!emailNormalizado) return false
+
+    const tablasExisten = await verificarTablas()
+    if (!tablasExisten) return false
+
+    const { data, error } = await supabase
+      .from("compradores")
+      .select("id")
+      .eq("sorteo_id", sorteoId)
+      .eq("metodo_pago", "gratuito")
+      .ilike("email", emailNormalizado)
+      .limit(1)
+
+    if (error) {
+      console.error("Error verificando participación gratuita:", error)
+      return false
+    }
+
+    return (data?.length ?? 0) > 0
+  } catch (error) {
+    console.error("Error verificando participación gratuita:", error)
+    return false
+  }
+}
+
+// Crear participante gratuito (página /free): 1 número, sin pago.
+// estado_pago = 'pagado' para entrar al pool y ser elegible; metodo_pago = 'gratuito' como marca.
+export async function crearCompradorGratuito({
+  sorteoId,
+  nombre,
+  email,
+  telefono,
+  numerosAsignados,
+  datosEncuesta,
+}: {
+  sorteoId: string
+  nombre: string
+  email?: string
+  telefono?: string
+  numerosAsignados: number[]
+  datosEncuesta?: Record<string, any>
+}): Promise<Comprador | null> {
+  try {
+    const tablasExisten = await verificarTablas()
+    if (!tablasExisten) {
+      throw new Error("Las tablas de la base de datos no existen")
+    }
+
+    const { data, error } = await supabase
+      .from("compradores")
+      .insert({
+        sorteo_id: sorteoId,
+        nombre,
+        email: email || null,
+        telefono: telefono || null,
+        cantidad_chances: 1,
+        numeros_asignados: numerosAsignados,
+        precio_pagado: 0,
+        estado_pago: "pagado",
+        metodo_pago: "gratuito",
+        datos_encuesta: datosEncuesta || null,
+        es_ganador: false,
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error("Error creando comprador gratuito:", error)
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error("Error creando comprador gratuito:", error)
+    return null
+  }
+}
+
 // Obtener transferencias pendientes de confirmación
 export async function obtenerTransferenciasPendientes(): Promise<Comprador[]> {
   try {

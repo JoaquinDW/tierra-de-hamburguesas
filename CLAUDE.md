@@ -64,11 +64,15 @@ Two payment methods co-exist:
 1. **MercadoPago** — numbers assigned immediately on payment confirmation webhook (`/api/confirmar-pago`)
 2. **Transferencia bancaria** — buyer uploads a payment proof; numbers are assigned only when admin approves via backoffice (`aprobarTransferencia` in `lib/database.ts`)
 
+A third, free entry path also exists:
+3. **Participación gratuita** (`/free` → `/api/participacion-gratuita`, `crearCompradorGratuito` in `lib/database.ts`) — a `comprador` with `cantidad_chances = 1`, `precio_pagado = 0`, `estado_pago = 'pagado'` (so it enters the pool and is eligible to win) and `metodo_pago = 'gratuito'` (the distinguishing marker, used only for stats). Survey answers + address are stored in the `datos_encuesta` JSONB column (NULL for purchases). Limited to one entry per email per sorteo via `existeParticipacionGratuita`. Because they are `estado_pago = 'pagado'`, free entries DO count toward `chancesVendidas`/completion (legal "igualdad de condiciones"). Schema in `scripts/21-add-participacion-gratuita.sql`.
+
 ### Pages and routes
 
 - `/` (`app/page.tsx`) — public landing: sorteo info, pack selection, buyer lookup by email
 - `/backoffice` (`app/backoffice/page.tsx`) — admin panel (password-protected client-side via `components/admin-login.tsx`); manages buyers, transfers, images, sorteo settings, winner selection
 - `/pago/exito|error|pendiente` — MercadoPago redirect pages
+- `/free` (`app/free/page.tsx`) — free-participation page (replaces the old Google Form QR). Replicates the marketing survey; on submit assigns exactly ONE number from the same pool and emails a confirmation. Posts to `/api/participacion-gratuita`.
 - `/terminos` — terms of service
 
 API routes live in `app/api/`. Each corresponds to a specific action (create sorteo, confirm payment, upload image, etc.).

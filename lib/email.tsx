@@ -181,6 +181,7 @@ export interface EmailData {
   sorteoNombre?: string
   sorteoImagenUrl?: string
   compradorId?: string
+  esGratuito?: boolean // Participación gratuita (/free): cambia copy y oculta "Total pagado"
 }
 
 export async function enviarEmailConfirmacion(data: EmailData) {
@@ -189,9 +190,13 @@ export async function enviarEmailConfirmacion(data: EmailData) {
       from: EMAIL_FROM,
       replyTo: EMAIL_REPLY_TO,
       to: [data.email],
-      subject: `🎉 ¡Compra confirmada${
-        data.sorteoNombre ? ` - ${data.sorteoNombre}` : ""
-      }!`,
+      subject: data.esGratuito
+        ? `🍀 ¡Participación confirmada${
+            data.sorteoNombre ? ` - ${data.sorteoNombre}` : ""
+          }!`
+        : `🎉 ¡Compra confirmada${
+            data.sorteoNombre ? ` - ${data.sorteoNombre}` : ""
+          }!`,
       html: generarHTMLEmail(data),
       headers: {
         "List-Unsubscribe": "<mailto:hola@agustinsosa.com>",
@@ -211,33 +216,54 @@ export async function enviarEmailConfirmacion(data: EmailData) {
 }
 
 function generarHTMLEmail(data: EmailData): string {
+  const esGratuito = data.esGratuito === true
+
+  const infoRows = [
+    {
+      label: esGratuito ? "Tu número" : "Chances",
+      value: esGratuito
+        ? `${data.numerosAsignados[0] ?? ""}`
+        : `${data.cantidadChances}`,
+    },
+    ...(esGratuito
+      ? []
+      : [
+          {
+            label: "Total pagado",
+            value: `$${data.precioPagado.toLocaleString("es-AR")}`,
+            color: C.red,
+          },
+        ]),
+    { label: "Email", value: data.email, color: C.text },
+  ]
+
+  const intro = esGratuito
+    ? "¡Tu participación gratuita quedó registrada y ya tenés tu número asignado! Te deseamos la mejor de las suertes."
+    : "¡Tu compra fue aprobada y tus números ya quedaron asignados! Te deseamos la mejor de las suertes."
+
   const body = `
     <p style="margin:0 0 14px;">Hola <strong style="color:${C.white};">${data.nombre}</strong>,</p>
-    <p style="margin:0 0 18px;color:${C.textDim};">¡Tu compra fue aprobada y tus números ya quedaron asignados! Te deseamos la mejor de las suertes.</p>
+    <p style="margin:0 0 18px;color:${C.textDim};">${intro}</p>
 
-    <p style="margin:24px 0 0;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:${C.red};">Tus números</p>
+    <p style="margin:24px 0 0;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:${C.red};">${
+      esGratuito ? "Tu número" : "Tus números"
+    }</p>
     ${numerosChips(data.numerosAsignados)}
 
-    ${infoBox([
-      { label: "Chances", value: `${data.cantidadChances}` },
-      {
-        label: "Total pagado",
-        value: `$${data.precioPagado.toLocaleString("es-AR")}`,
-        color: C.red,
-      },
-      { label: "Email", value: data.email, color: C.text },
-    ])}
+    ${infoBox(infoRows)}
 
-    ${botonDescarga(data.compradorId)}
+    ${esGratuito ? "" : botonDescarga(data.compradorId)}
     ${imagenSorteo(data.sorteoImagenUrl)}
     ${cierreSuerte}
   `
 
   return baseEmail({
-    preheader: "Tu compra fue confirmada y tus números ya están asignados.",
-    badge: "Compra confirmada",
+    preheader: esGratuito
+      ? "Tu participación gratuita quedó registrada y tu número ya está asignado."
+      : "Tu compra fue confirmada y tus números ya están asignados.",
+    badge: esGratuito ? "Participación confirmada" : "Compra confirmada",
     badgeColor: C.red,
-    title: "¡Compra Confirmada!",
+    title: esGratuito ? "¡Participación Confirmada!" : "¡Compra Confirmada!",
     subtitle: "Tu participación quedó registrada exitosamente",
     bodyHtml: body,
   })

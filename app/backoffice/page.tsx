@@ -1318,6 +1318,17 @@ export default function BackofficePage() {
                           <p className="text-2xl font-bold text-gray-900">
                             {estadisticas.totalCompradores}
                           </p>
+                          {(() => {
+                            const gratuitos = compradoresActuales.filter(
+                              (c) => c.metodo_pago === "gratuito",
+                            ).length
+                            return gratuitos > 0 ? (
+                              <p className="text-xs text-emerald-600 mt-1">
+                                🍀 {gratuitos} gratuito{gratuitos === 1 ? "" : "s"}{" "}
+                                · {estadisticas.totalCompradores - gratuitos} de pago
+                              </p>
+                            ) : null
+                          })()}
                         </div>
                         <Users className="w-8 h-8 text-gray-400" />
                       </div>
@@ -1617,11 +1628,16 @@ export default function BackofficePage() {
                         {compradoresActualesFiltrados.map((comprador) => (
                           <TableRow key={comprador.id}>
                             <TableCell className="font-medium">
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 flex-wrap">
                                 {comprador.es_ganador && (
                                   <Crown className="w-4 h-4 text-yellow-500" />
                                 )}
                                 {comprador.nombre}
+                                {comprador.metodo_pago === "gratuito" && (
+                                  <Badge className="bg-emerald-100 text-emerald-800">
+                                    🍀 Gratuito
+                                  </Badge>
+                                )}
                               </div>
                             </TableCell>
                             <TableCell>

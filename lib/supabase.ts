@@ -72,7 +72,8 @@ export interface Comprador {
   precio_pagado: number
   estado_pago: string // 'pendiente', 'pagado', 'cancelado', 'expirado'
   mercadopago_id?: string | null // Para pagos de MercadoPago o URL de comprobante temporal
-  metodo_pago?: string // 'mercadopago', 'transferencia'
+  metodo_pago?: string // 'mercadopago', 'transferencia', 'gratuito'
+  datos_encuesta?: Record<string, any> // Solo participaciones gratuitas (/free): dirección + respuestas de la encuesta
   comprobante_url?: string
   estado_transferencia?: string // 'pendiente', 'aprobado', 'rechazado'
   fecha_transferencia?: string
