@@ -45,6 +45,7 @@ export function CompraModalNuevo({
   const [configTransferencia, setConfigTransferencia] = useState({
     alias: "sosamotos",
     titular: "Agustín Sosa",
+    avisoActivo: false,
     avisoTitulo: "IMPORTANTE — TRANSFERENCIAS",
     avisoTexto:
       "Las transferencias deben estar emitidas a nombre de la misma persona que completa este formulario (nombre y apellido). Si el titular de la transferencia no coincide, la compra se anula directamente sin excepción.",
@@ -320,6 +321,7 @@ export function CompraModalNuevo({
         onSubmit={handleSubmitTransferencia}
         alias={configTransferencia.alias}
         titular={configTransferencia.titular}
+        avisoActivo={configTransferencia.avisoActivo}
         avisoTitulo={configTransferencia.avisoTitulo}
         avisoTexto={configTransferencia.avisoTexto}
       />

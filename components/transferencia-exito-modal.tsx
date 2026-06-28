@@ -15,36 +15,36 @@ export function TransferenciaExitoModal({
 }: TransferenciaExitoModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md bg-[#111] text-white border-0 px-1 py-10 lg:py-2 overflow-hidden max-h-[95vh] overflow-y-auto rounded-2xl">
+      <DialogContent className="sm:max-w-md bg-[#fff3df] text-[#241608] border-[3px] border-[#120c08] shadow-[8px_8px_0_#120c08] p-0 overflow-hidden max-h-[95vh] overflow-y-auto rounded-2xl [&>button]:text-[#120c08] [&>button]:opacity-80 [&>button:hover]:opacity-100">
         <DialogTitle className="sr-only">¡Transferencia registrada!</DialogTitle>
         <div className="px-6 py-8">
-          <div className="rounded-2xl border border-green-600/60 bg-[#161616] p-6 shadow-[0_0_30px_rgba(22,163,74,0.18)]">
+          <div className="poster bg-white p-6">
             {/* Logo */}
             <div className="flex justify-center mb-5">
               <img
-                src="/sosamotos.jpeg"
+                src="/tdh-logo.jpg"
                 alt="Logo"
-                className="w-16 h-16 rounded-full object-cover border-2 border-green-600/60"
+                className="w-16 h-16 rounded-xl object-cover border-[3px] border-[#120c08] shadow-[3px_3px_0_#120c08] animate-bob"
               />
             </div>
 
             <div className="flex flex-col items-center text-center mb-5">
-              <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-green-600/10 border border-green-600/40 mb-4">
-                <CheckCircle2 className="w-7 h-7 text-green-500" />
+              <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-[#6fae3f] border-[2.5px] border-[#120c08] shadow-[3px_3px_0_#120c08] mb-4">
+                <CheckCircle2 className="w-7 h-7 text-[#0e2106]" />
               </div>
-              <h2 className="text-xl font-extrabold uppercase tracking-wide text-green-500 leading-tight">
+              <h2 className="font-display text-3xl uppercase tracking-wide text-[#4d8a26] leading-[0.95]">
                 ¡Transferencia registrada!
               </h2>
             </div>
 
-            <p className="text-gray-200 text-[15px] leading-relaxed mb-5 text-center">
+            <p className="text-[#241608] text-[15px] leading-relaxed mb-5 text-center font-medium">
               Tu pago está pendiente de confirmación. Te notificaremos por email
               cuando sea aprobado.
             </p>
 
-            <div className="flex items-start gap-3 rounded-xl bg-yellow-500/10 border border-yellow-500/40 p-4 mb-6">
-              <MailWarning className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
-              <p className="text-yellow-200 text-sm leading-relaxed">
+            <div className="flex items-start gap-3 rounded-xl bg-[#f4b400]/25 border-[2.5px] border-[#120c08] p-4 mb-6">
+              <MailWarning className="w-5 h-5 text-[#9a6b00] flex-shrink-0 mt-0.5" />
+              <p className="text-[#241608] text-sm leading-relaxed">
                 Revisá tu carpeta de <strong>spam</strong> o{" "}
                 <strong>correo no deseado</strong> por si el email no llega a tu
                 bandeja principal.
@@ -54,7 +54,7 @@ export function TransferenciaExitoModal({
             <Button
               type="button"
               onClick={onClose}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-extrabold uppercase tracking-wide text-base h-12"
+              className="btn-chunky w-full text-base h-12 rounded-xl"
             >
               Entendido
             </Button>

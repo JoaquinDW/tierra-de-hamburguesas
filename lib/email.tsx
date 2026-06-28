@@ -2,23 +2,24 @@ import { Resend } from "resend"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-// Remitente de marca (configurable vía env). Dominio: agustinsosa.com
+// Remitente de marca (configurable vía env). Dominio del remitente vía env.
+// TODO: verificar un dominio propio de TDH en Resend y setear EMAIL_FROM/EMAIL_REPLY_TO.
 const EMAIL_FROM =
-  process.env.EMAIL_FROM || "Sosa Motos <hola@agustinsosa.com>"
+  process.env.EMAIL_FROM || "Tierra de Hamburguesas <hola@agustinsosa.com>"
 
 // Dirección a la que el usuario puede responder (mejora la confianza/deliverability).
 const EMAIL_REPLY_TO = process.env.EMAIL_REPLY_TO || "hola@agustinsosa.com"
 
 /* ------------------------------------------------------------------ */
-/*  Paleta de marca (acorde a la landing: rojo + negro + blanco)       */
+/*  Paleta de marca (acorde a la landing: naranja + negro + crema)     */
 /* ------------------------------------------------------------------ */
 const C = {
-  bg: "#0a0a0a",
-  card: "#141414",
-  cardSoft: "#1b1b1b",
-  border: "#262626",
-  red: "#ff0040",
-  redDark: "#cc0033",
+  bg: "#0e0b09",
+  card: "#17110c",
+  cardSoft: "#1f1710",
+  border: "#2a1f15",
+  red: "#ff6a13",
+  redDark: "#c24a00",
   text: "#e5e5e5",
   textDim: "#9ca3af",
   white: "#ffffff",
@@ -33,7 +34,7 @@ function numerosChips(numeros: number[]): string {
   const chips = ordenados
     .map(
       (n) =>
-        `<span style="display:inline-block;background:linear-gradient(135deg,${C.red},${C.redDark});color:#ffffff;font-weight:800;font-size:18px;font-family:'Courier New',monospace;padding:9px 15px;margin:5px;border-radius:9px;box-shadow:0 2px 8px rgba(255,0,64,0.30);">${n}</span>`,
+        `<span style="display:inline-block;background:linear-gradient(135deg,${C.red},${C.redDark});color:#ffffff;font-weight:800;font-size:18px;font-family:'Courier New',monospace;padding:9px 15px;margin:5px;border-radius:9px;box-shadow:0 2px 8px rgba(255,106,19,0.30);">${n}</span>`,
     )
     .join("")
 
@@ -101,9 +102,9 @@ function baseEmail(opts: {
             <tr>
               <td style="background:linear-gradient(135deg,#000000 0%,#1a1a1a 100%);padding:34px 30px 28px;text-align:center;border-bottom:2px solid ${C.red};">
                 <div style="display:inline-block;font-size:22px;font-weight:900;letter-spacing:1px;color:${C.white};">
-                  SOSA <span style="color:${C.red};">MOTOS</span> 🏍️
+                  TIERRA DE <span style="color:${C.red};">HAMBURGUESAS</span> 🍔
                 </div>
-                <div style="height:3px;width:54px;margin:14px auto 18px;background:${C.red};border-radius:3px;box-shadow:0 0 14px rgba(255,0,64,0.5);"></div>
+                <div style="height:3px;width:54px;margin:14px auto 18px;background:${C.red};border-radius:3px;box-shadow:0 0 14px rgba(255,106,19,0.5);"></div>
                 ${
                   badge
                     ? `<div style="display:inline-block;background:${
@@ -126,9 +127,9 @@ function baseEmail(opts: {
             <!-- Footer -->
             <tr>
               <td style="padding:24px 30px;border-top:1px solid ${C.border};text-align:center;">
-                <p style="margin:0 0 4px;color:${C.white};font-size:13px;font-weight:700;letter-spacing:.5px;">SOSA <span style="color:${C.red};">MOTOS</span> 🏍️</p>
+                <p style="margin:0 0 4px;color:${C.white};font-size:13px;font-weight:700;letter-spacing:.5px;">TIERRA DE <span style="color:${C.red};">HAMBURGUESAS</span> 🍔</p>
                 <p style="margin:0;color:${C.textDim};font-size:12px;">¿Tenés alguna duda? Respondé a este email y te ayudamos.</p>
-                <p style="margin:6px 0 0;color:#5f5f5f;font-size:12px;">© ${new Date().getFullYear()} Sosa Motos. Todos los derechos reservados.</p>
+                <p style="margin:6px 0 0;color:#5f5f5f;font-size:12px;">© ${new Date().getFullYear()} Tierra de Hamburguesas. Todos los derechos reservados.</p>
               </td>
             </tr>
 
@@ -159,10 +160,10 @@ function botonDescarga(compradorId?: string): string {
   const url = `${baseUrl.replace(/\/$/, "")}/api/descargar/${compradorId}`
 
   return `
-    <div style="background:rgba(255,0,64,0.06);border:1px solid rgba(255,0,64,0.30);border-radius:14px;padding:20px;margin:24px 0;text-align:center;">
+    <div style="background:rgba(255,106,19,0.06);border:1px solid rgba(255,106,19,0.30);border-radius:14px;padding:20px;margin:24px 0;text-align:center;">
       <p style="margin:0 0 14px;color:${C.white};font-size:15px;font-weight:700;">📥 ¡Tu contenido digital está listo!</p>
       <p style="margin:0 0 16px;color:${C.textDim};font-size:13px;">Descargá el material que viene con tu compra.</p>
-      <a href="${url}" style="display:inline-block;background:linear-gradient(135deg,${C.red},${C.redDark});color:#ffffff;font-weight:800;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:10px;box-shadow:0 4px 14px rgba(255,0,64,0.35);">Descargar tu contenido</a>
+      <a href="${url}" style="display:inline-block;background:linear-gradient(135deg,${C.red},${C.redDark});color:#ffffff;font-weight:800;font-size:15px;text-decoration:none;padding:14px 28px;border-radius:10px;box-shadow:0 4px 14px rgba(255,106,19,0.35);">Descargar tu contenido</a>
     </div>`
 }
 
@@ -401,7 +402,7 @@ function generarHTMLTransferenciaRechazada(
 
     ${
       data.motivo
-        ? `<div style="background:rgba(255,0,64,0.08);border:1px solid rgba(255,0,64,0.35);border-radius:12px;padding:16px 18px;margin:20px 0;">
+        ? `<div style="background:rgba(255,106,19,0.08);border:1px solid rgba(255,106,19,0.35);border-radius:12px;padding:16px 18px;margin:20px 0;">
             <p style="margin:0 0 6px;color:${C.red};font-weight:800;font-size:13px;letter-spacing:.5px;">📋 MOTIVO</p>
             <p style="margin:0;color:${C.text};">${data.motivo}</p>
           </div>`

@@ -110,7 +110,7 @@ export default function IphoneCarousel() {
                 key={idx}
                 className={`w-3 h-3 rounded-full transition-all duration-200 ${
                   idx === currentIndex
-                    ? "bg-red-500 glow-red"
+                    ? "bg-orange-500 glow-red"
                     : "bg-gray-400 hover:bg-gray-300"
                 }`}
                 onClick={() => emblaApi?.scrollTo(idx)}

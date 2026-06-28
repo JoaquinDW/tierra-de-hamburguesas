@@ -13,7 +13,7 @@ export async function GET() {
 
 export async function PUT(request: NextRequest) {
   try {
-    const { alias, titular, avisoTitulo, avisoTexto } = await request.json()
+    const { alias, titular, avisoActivo, avisoTitulo, avisoTexto } = await request.json()
 
     if (!alias || !titular) {
       return NextResponse.json({ error: "Alias y titular son requeridos" }, { status: 400 })
@@ -29,6 +29,7 @@ export async function PUT(request: NextRequest) {
     const ok = await actualizarConfiguracionTransferencia({
       alias: alias.trim(),
       titular: titular.trim(),
+      avisoActivo: Boolean(avisoActivo),
       avisoTitulo: avisoTitulo.trim(),
       avisoTexto: avisoTexto.trim(),
     })

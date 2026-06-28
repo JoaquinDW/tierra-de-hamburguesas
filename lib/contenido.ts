@@ -118,7 +118,7 @@ export type ClaveTextoContenido = {
 }[keyof ContenidoSitio]
 
 export const CONTENIDO_DEFAULTS: ContenidoSitio = {
-  marca: "Sosa Motos",
+  marca: "Tierra de Hamburguesas",
   whatsapp_url: "https://wa.me/5493795152063",
 
   hero_badge: "Premio Exclusivo",
@@ -186,7 +186,7 @@ export const CONTENIDO_DEFAULTS: ContenidoSitio = {
     "Estamos preparando el próximo sorteo. ¡Volvé pronto!",
   proximamente_boton: "Avisame cuando arranque",
 
-  footer_copyright: "© 2025 Sosa Motos. Todos los derechos reservados.",
+  footer_copyright: "© 2026 Tierra de Hamburguesas. Todos los derechos reservados.",
 
   terminos_titulo: "Términos y Condiciones de Uso",
   terminos: [
@@ -203,7 +203,7 @@ export const CONTENIDO_DEFAULTS: ContenidoSitio = {
     {
       titulo: "3. Propiedad Intelectual",
       contenido:
-        "Todos los diseños ofrecidos en este sitio son propiedad de Sosa Motos y están protegidos por las leyes de propiedad intelectual.",
+        "Todos los diseños ofrecidos en este sitio son propiedad de Tierra de Hamburguesas y están protegidos por las leyes de propiedad intelectual.",
     },
     {
       titulo: "4. Medios de Pago",
@@ -213,7 +213,7 @@ export const CONTENIDO_DEFAULTS: ContenidoSitio = {
     {
       titulo: "5. Modificaciones",
       contenido:
-        "Sosa Motos se reserva el derecho de modificar los presentes términos y condiciones en cualquier momento.",
+        "Tierra de Hamburguesas se reserva el derecho de modificar los presentes términos y condiciones en cualquier momento.",
     },
     {
       titulo: "6. Ley de Lealtad Comercial",

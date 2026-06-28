@@ -103,6 +103,7 @@ export interface GanadorPasado {
 export interface ConfiguracionTransferencia {
   alias: string
   titular: string
+  avisoActivo: boolean
   avisoTitulo: string
   avisoTexto: string
 }

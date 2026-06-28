@@ -7,7 +7,6 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { GanadorPasado } from "@/lib/supabase"
 import { obtenerGanadoresPasados } from "@/lib/database"
@@ -26,11 +25,11 @@ interface GanadorSlideProps {
 
 function GanadorSlide({ slide }: GanadorSlideProps) {
   return (
-    <Card className="bg-[#111] border-gray-800 overflow-hidden h-full">
+    <Card className="poster poster-cream overflow-hidden h-full !rounded-2xl">
       <CardContent className="p-0 h-full">
         <div className="grid md:grid-cols-2 gap-0 h-full">
           {/* Columna de imagen */}
-          <div className="relative bg-[#0d0d0d] aspect-square md:aspect-auto md:min-h-[480px]">
+          <div className="relative bg-[#1d1510] aspect-square md:aspect-auto md:min-h-[480px] border-b-[3px] md:border-b-0 md:border-r-[3px] border-[#120c08]">
             {slide.imagen ? (
               <div className="absolute inset-0 flex items-center justify-center p-2 md:p-3">
                 <img
@@ -41,28 +40,25 @@ function GanadorSlide({ slide }: GanadorSlideProps) {
               </div>
             ) : (
               <div className="h-full flex items-center justify-center p-8 min-h-[300px]">
-                <div className="w-24 h-24 rounded-full bg-yellow-500/8 flex items-center justify-center border border-yellow-500/15">
-                  <Trophy className="h-12 w-12 text-yellow-500/40" />
+                <div className="w-24 h-24 rounded-2xl bg-[#f4b400] flex items-center justify-center border-[3px] border-[#120c08] shadow-[4px_4px_0_#120c08] animate-bob">
+                  <Trophy className="h-12 w-12 text-[#120c08]" />
                 </div>
               </div>
             )}
           </div>
 
           {/* Columna de información */}
-          <div className="p-8 md:p-10 flex flex-col justify-center space-y-6">
-            <Badge
-              variant="outline"
-              className="bg-yellow-500/8 text-yellow-500/80 border-yellow-500/20 w-fit text-xs"
-            >
-              <Trophy className="h-3 w-3 mr-1" />
+          <div className="p-8 md:p-10 flex flex-col justify-center space-y-6 tdh-stripes">
+            <span className="sticker text-[10px] px-3 py-1 w-fit">
+              <Trophy className="h-3 w-3" />
               Ganador
-            </Badge>
+            </span>
 
             <div>
-              <h3 className="text-3xl md:text-4xl font-display tracking-wide text-white mb-3">
+              <h3 className="font-display text-4xl md:text-5xl tracking-wide uppercase text-[#23170c] mb-3 leading-[0.95]">
                 {slide.nombre}
               </h3>
-              <div className="h-0.5 w-12 bg-[#ff0040]/40 rounded-full"></div>
+              <div className="h-1 w-16 bg-[#c1351d] rounded-full"></div>
             </div>
           </div>
         </div>
@@ -149,16 +145,16 @@ export function GanadoresPasados({
 
   if (loading) {
     return (
-      <section className="py-20 border-t border-gray-900">
+      <section className="tdh-grill py-20 border-t-[3px] border-[#120c08]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-yellow-500/8 rounded-full mb-4 border border-yellow-500/15">
-              <Trophy className="h-6 w-6 text-yellow-500/60" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#f4b400] rounded-2xl mb-4 border-[3px] border-[#120c08] shadow-[4px_4px_0_#120c08]">
+              <Trophy className="h-7 w-7 text-[#120c08]" />
             </div>
-            <h2 className="text-4xl font-display tracking-wider text-white mb-4">
+            <h2 className="font-display text-5xl tracking-wide uppercase text-[#fff3df] mb-4">
               {contenido.pasados_titulo}
             </h2>
-            <p className="text-gray-600 text-sm">Cargando...</p>
+            <p className="text-[#fff3df]/50 text-sm">Cargando…</p>
           </div>
         </div>
       </section>
@@ -172,13 +168,15 @@ export function GanadoresPasados({
   return (
     <>
       {/* CTA de contacto */}
-      <div className="py-10 border-t border-gray-900 text-center bg-black">
-        <p className="text-gray-500 text-sm mb-4 tracking-wide">{contenido.pasados_cta_texto}</p>
+      <div className="tdh-grill py-10 border-t-[3px] border-[#120c08] text-center">
+        <p className="text-[#fff3df]/70 text-sm mb-4 font-bold uppercase tracking-wide">
+          {contenido.pasados_cta_texto}
+        </p>
         <a
           href={contenido.whatsapp_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-lg text-sm tracking-wide transition-colors duration-200"
+          className="inline-flex items-center gap-2 bg-[#6fae3f] text-[#0e2106] border-[3px] border-[#120c08] shadow-[4px_4px_0_#120c08] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_#120c08] font-extrabold uppercase tracking-wide px-8 py-3 rounded-xl text-sm transition-all duration-150"
         >
           {contenido.pasados_cta_boton}
         </a>
@@ -186,20 +184,17 @@ export function GanadoresPasados({
 
       <section
         id="ganadores"
-        className="py-16 border-t border-gray-900"
+        className="tdh-paper py-16 border-t-[3px] border-[#120c08]"
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-              {contenido.pasados_kicker}
-            </p>
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-yellow-500/8 rounded-full mb-4 border border-yellow-500/15">
-              <Trophy className="h-6 w-6 text-yellow-500/60" />
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-3">
+            <span className="sticker sticker-ketchup text-[11px] px-3 py-1 mb-4">
+              🏆 {contenido.pasados_kicker}
+            </span>
+            <h2 className="font-display text-5xl lg:text-6xl tracking-wide uppercase text-[#23170c] mb-3 mt-2">
               {contenido.pasados_titulo}
             </h2>
-            <p className="text-gray-600 text-sm max-w-md mx-auto">
+            <p className="text-[#23170c]/60 text-sm font-medium max-w-md mx-auto">
               {contenido.pasados_descripcion}
             </p>
           </div>
@@ -231,7 +226,7 @@ export function GanadoresPasados({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white rounded-full w-10 h-10 z-10"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-[#1d1510] hover:bg-[#1d1510] text-[#fff3df] border-[2.5px] border-[#120c08] shadow-[3px_3px_0_#120c08] rounded-xl w-11 h-11 z-10 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                   onClick={anteriorSlide}
                   aria-label="Ganador anterior"
                 >
@@ -240,7 +235,7 @@ export function GanadoresPasados({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white rounded-full w-10 h-10 z-10"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#1d1510] hover:bg-[#1d1510] text-[#fff3df] border-[2.5px] border-[#120c08] shadow-[3px_3px_0_#120c08] rounded-xl w-11 h-11 z-10 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                   onClick={siguienteSlide}
                   aria-label="Ganador siguiente"
                 >
@@ -253,10 +248,10 @@ export function GanadoresPasados({
                       key={index}
                       onClick={() => setSlideActual(index)}
                       aria-label={`Ir al ganador ${index + 1}`}
-                      className={`h-1.5 rounded-full transition-all ${
+                      className={`h-2 rounded-full border-2 border-[#120c08] transition-all ${
                         index === slideActual
-                          ? "bg-[#ff0040] w-6"
-                          : "bg-gray-700 hover:bg-gray-500 w-1.5"
+                          ? "bg-[#ff6a13] w-7"
+                          : "bg-[#23170c]/20 hover:bg-[#23170c]/40 w-2"
                       }`}
                     />
                   ))}

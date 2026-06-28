@@ -30,7 +30,7 @@ type Pregunta =
 const PREGUNTAS: Pregunta[] = [
   {
     id: "como_te_enteraste",
-    label: "¿Cómo te enteraste de SOSA MOTOS?",
+    label: "¿Cómo te enteraste de TIERRA DE HAMBURGUESAS?",
     tipo: "radio",
     opciones: [
       "Instagram",
@@ -43,7 +43,7 @@ const PREGUNTAS: Pregunta[] = [
   },
   {
     id: "tiempo_cliente",
-    label: "¿Cuánto tiempo llevás siendo cliente o seguidor de SOSA MOTOS?",
+    label: "¿Cuánto tiempo llevás siendo cliente o seguidor de TIERRA DE HAMBURGUESAS?",
     tipo: "radio",
     opciones: ["1 a 3 meses", "3 a 6 meses", "1 año", "Más de 1 año", "Nunca fui cliente"],
   },
@@ -55,18 +55,18 @@ const PREGUNTAS: Pregunta[] = [
   },
   {
     id: "participo_antes",
-    label: "¿Participaste alguna vez en una promoción comercial de SOSA MOTOS?",
+    label: "¿Participaste alguna vez en una promoción comercial de TIERRA DE HAMBURGUESAS?",
     tipo: "radio",
     opciones: ["Sí", "No"],
   },
   {
     id: "ultimo_visto",
-    label: "¿Qué fue lo último que viste o escuchaste sobre las promociones de SOSA MOTOS?",
+    label: "¿Qué fue lo último que viste o escuchaste sobre las promociones de TIERRA DE HAMBURGUESAS?",
     tipo: "text",
   },
   {
     id: "conoce_ganadores",
-    label: "¿Conocés a algún ganador de promociones anteriores de SOSA MOTOS?",
+    label: "¿Conocés a algún ganador de promociones anteriores de TIERRA DE HAMBURGUESAS?",
     tipo: "radio",
     opciones: ["Sí", "No"],
   },
@@ -77,7 +77,7 @@ const PREGUNTAS: Pregunta[] = [
   },
   {
     id: "interes_productos_digitales",
-    label: "¿Te parecen interesantes los productos digitales promocionales de SOSA MOTOS?",
+    label: "¿Te parecen interesantes los productos digitales promocionales de TIERRA DE HAMBURGUESAS?",
     tipo: "radio",
     opciones: ["Sí", "No", "No los conozco"],
   },
@@ -118,18 +118,18 @@ const PREGUNTAS: Pregunta[] = [
   },
   {
     id: "opinion_sosa",
-    label: "¿Cuál es tu opinión sobre SOSA MOTOS?",
+    label: "¿Cuál es tu opinión sobre TIERRA DE HAMBURGUESAS?",
     tipo: "text",
   },
   {
     id: "probabilidad_recomendar",
-    label: "¿Qué tan probable es que recomiendes SOSA MOTOS a amigos o familiares?",
+    label: "¿Qué tan probable es que recomiendes TIERRA DE HAMBURGUESAS a amigos o familiares?",
     tipo: "radio",
     opciones: ["Muy probable", "Medianamente probable", "Poco probable"],
   },
   {
     id: "que_mejorarias",
-    label: "¿Qué mejorarías de SOSA MOTOS?",
+    label: "¿Qué mejorarías de TIERRA DE HAMBURGUESAS?",
     tipo: "text",
   },
   {
@@ -286,8 +286,8 @@ export default function FreePage() {
               <Clover className="w-7 h-7 text-green-400" />
             </div>
             <p className="text-gray-400 leading-relaxed mb-3">
-              Completá y participá gratuitamente en la promoción vigente de SOSA
-              MOTOS. La participación es sin obligación de compra y en igualdad de
+              Completá y participá gratuitamente en la promoción vigente de
+              TIERRA DE HAMBURGUESAS. La participación es sin obligación de compra y en igualdad de
               condiciones. La compra de productos o servicios no aumenta tus
               posibilidades de ganar.
             </p>
@@ -362,7 +362,7 @@ export default function FreePage() {
                               checked={respuestas[p.id] === opcion}
                               onChange={() => setRespuesta(p.id, opcion)}
                               disabled={isLoading}
-                              className="accent-[#ff0040] w-4 h-4"
+                              className="accent-[#ff6a13] w-4 h-4"
                             />
                             <span>{opcion}</span>
                           </label>
@@ -408,7 +408,7 @@ export default function FreePage() {
                 checked={aceptaBases}
                 onChange={(e) => setAceptaBases(e.target.checked)}
                 disabled={isLoading}
-                className="accent-[#ff0040] w-4 h-4 mt-1"
+                className="accent-[#ff6a13] w-4 h-4 mt-1"
               />
               <span>
                 Soy mayor de 18 años y acepto las{" "}
@@ -461,7 +461,7 @@ function Field({
   return (
     <div className="space-y-2">
       <Label className="text-gray-200">
-        {label} {required && <span className="text-[#ff0040]">*</span>}
+        {label} {required && <span className="text-[#ff6a13]">*</span>}
       </Label>
       {children}
     </div>

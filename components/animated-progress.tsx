@@ -26,7 +26,7 @@ export function AnimatedProgress({
             className="h-full rounded-full transition-all duration-1000 ease-out"
             style={{
               width: `${clamped}%`,
-              background: "linear-gradient(to right, #d4af37, #06b6d4)",
+              background: "linear-gradient(to right, #c24a00, #ff6a13, #ffb347)",
             }}
           />
         </div>

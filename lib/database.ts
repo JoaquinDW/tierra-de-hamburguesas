@@ -1961,6 +1961,7 @@ export async function obtenerConfiguracionTransferencia(): Promise<Configuracion
       .in("clave", [
         "alias_transferencia",
         "titular_transferencia",
+        "aviso_transferencia_activo",
         "aviso_transferencia_titulo",
         "aviso_transferencia_texto",
       ])
@@ -1969,6 +1970,8 @@ export async function obtenerConfiguracionTransferencia(): Promise<Configuracion
     return {
       alias: map["alias_transferencia"] ?? "sosamotos",
       titular: map["titular_transferencia"] ?? "Agustín Sosa",
+      // Desactivado por defecto: el aviso solo se muestra si el admin lo activa
+      avisoActivo: map["aviso_transferencia_activo"] === "true",
       avisoTitulo: map["aviso_transferencia_titulo"] ?? AVISO_TRANSFERENCIA_TITULO_DEFAULT,
       avisoTexto: map["aviso_transferencia_texto"] ?? AVISO_TRANSFERENCIA_TEXTO_DEFAULT,
     }
@@ -1977,6 +1980,7 @@ export async function obtenerConfiguracionTransferencia(): Promise<Configuracion
     return {
       alias: "sosamotos",
       titular: "Agustín Sosa",
+      avisoActivo: false,
       avisoTitulo: AVISO_TRANSFERENCIA_TITULO_DEFAULT,
       avisoTexto: AVISO_TRANSFERENCIA_TEXTO_DEFAULT,
     }
@@ -1992,6 +1996,7 @@ export async function actualizarConfiguracionTransferencia(
     const { error } = await supabase.from("configuracion").upsert([
       { clave: "alias_transferencia", valor: config.alias, updated_at: now },
       { clave: "titular_transferencia", valor: config.titular, updated_at: now },
+      { clave: "aviso_transferencia_activo", valor: config.avisoActivo ? "true" : "false", updated_at: now },
       { clave: "aviso_transferencia_titulo", valor: config.avisoTitulo, updated_at: now },
       { clave: "aviso_transferencia_texto", valor: config.avisoTexto, updated_at: now },
     ])

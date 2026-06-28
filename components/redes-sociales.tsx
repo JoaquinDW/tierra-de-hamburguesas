@@ -30,21 +30,21 @@ export function RedesSociales({ contenido }: { contenido: ContenidoSitio }) {
   if (redes.length === 0) return null
 
   return (
-    <section className="py-16 border-t border-gray-900">
+    <section className="tdh-grill py-16 border-t-[3px] border-[#120c08]">
       <div className="container mx-auto px-4 max-w-2xl text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-          {contenido.redes_kicker}
-        </p>
-        <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white mb-3">
+        <span className="sticker sticker-orange text-[11px] px-3 py-1 mb-4">
+          📣 {contenido.redes_kicker}
+        </span>
+        <h2 className="font-display text-5xl lg:text-6xl tracking-wide uppercase text-[#fff3df] mb-3 mt-2">
           {contenido.redes_titulo}
         </h2>
         {contenido.redes_descripcion && (
-          <p className="text-gray-500 text-sm max-w-md mx-auto">
+          <p className="text-[#fff3df]/55 text-sm font-medium max-w-md mx-auto">
             {contenido.redes_descripcion}
           </p>
         )}
 
-        <div className="flex flex-wrap justify-center gap-3 mt-10">
+        <div className="flex flex-wrap justify-center gap-4 mt-10">
           {redes.map((red, index) => {
             const Icono = ICONOS[red.tipo] ?? Globe
             return (
@@ -53,9 +53,9 @@ export function RedesSociales({ contenido }: { contenido: ContenidoSitio }) {
                 href={red.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 bg-[#111] border border-gray-800 hover:border-[#ff0040]/60 text-gray-300 hover:text-white px-5 py-3 rounded-xl text-sm font-medium tracking-wide transition-colors duration-200"
+                className="poster-sm poster-cream inline-flex items-center gap-2.5 px-5 py-3 text-sm font-extrabold uppercase tracking-wide text-[#23170c] transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5"
               >
-                <Icono className="w-4 h-4 text-[#ff0040]" />
+                <Icono className="w-4 h-4 text-[#c1351d]" />
                 {red.etiqueta || red.url}
               </a>
             )

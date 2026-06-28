@@ -38,45 +38,45 @@ export function GanadoresExpress({
   }
 
   return (
-    <section className="py-12 border-t border-gray-900">
+    <section className="tdh-grill py-14 border-t-[3px] border-[#120c08]">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#ff0040] mb-3">
-            {contenido.express_kicker}
-          </p>
-          <h2 className="text-4xl lg:text-5xl font-display tracking-wider text-white flex items-center justify-center gap-3">
-            <Trophy className="w-7 h-7 text-yellow-500" />
+        <div className="text-center mb-9">
+          <span className="sticker sticker-ketchup text-[11px] px-3 py-1 mb-4">
+            ⚡ {contenido.express_kicker}
+          </span>
+          <h2 className="font-display text-5xl lg:text-6xl tracking-wide text-[#fff3df] uppercase flex items-center justify-center gap-3 mt-2">
+            <Trophy className="w-8 h-8 text-[#f4b400]" />
             {contenido.express_titulo}
           </h2>
         </div>
 
-        <div className="max-w-3xl mx-auto space-y-2">
+        <div className="max-w-3xl mx-auto space-y-3">
           {ganadores.map((ganador, index) => (
             <div
               key={ganador.id}
-              className="bg-[#111] border border-gray-800 rounded-xl px-4 py-3 md:px-6 md:py-4 flex items-center justify-between gap-3 hover:border-gray-700 transition-colors duration-200"
+              className="poster-sm poster-cream px-4 py-3 md:px-5 md:py-4 flex items-center justify-between gap-3 transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5"
               style={{ animationDelay: `${index * 80}ms` }}
             >
               {/* Número */}
-              <div className="bg-[#ff0040]/10 border border-[#ff0040]/20 rounded-lg px-3 py-2 flex-shrink-0 min-w-[60px] text-center">
-                <p className="text-[#ff0040] font-mono font-bold text-base md:text-xl">
+              <div className="bg-[#ff6a13] border-[2.5px] border-[#120c08] rounded-lg px-3 py-2 flex-shrink-0 min-w-[60px] text-center">
+                <p className="text-[#1a0e03] font-mono font-bold text-base md:text-xl">
                   {ganador.numero_ganador}
                 </p>
               </div>
 
               {/* Premio */}
               <div className="flex-1 text-center">
-                <p className="text-white font-semibold text-sm md:text-base">
+                <p className="font-display text-lg md:text-xl uppercase tracking-wide text-[#23170c]">
                   {ganador.premio_monto}
                 </p>
               </div>
 
               {/* Nombre */}
               <div className="flex items-center gap-2 flex-shrink-0 max-w-[160px]">
-                <p className="text-gray-400 text-sm font-medium truncate">
+                <p className="text-[#23170c]/70 text-sm font-bold truncate">
                   {ganador.nombre_ganador || "Anónimo"}
                 </p>
-                <Trophy className="w-4 h-4 text-yellow-500/70 flex-shrink-0" />
+                <Trophy className="w-4 h-4 text-[#f4b400] flex-shrink-0" />
               </div>
             </div>
           ))}

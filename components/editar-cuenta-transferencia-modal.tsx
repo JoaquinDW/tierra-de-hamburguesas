@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import {
   Dialog,
   DialogContent,
@@ -22,11 +23,13 @@ interface EditarCuentaTransferenciaModalProps {
   onClose: () => void
   alias: string
   titular: string
+  avisoActivo: boolean
   avisoTitulo: string
   avisoTexto: string
   onGuardado: (config: {
     alias: string
     titular: string
+    avisoActivo: boolean
     avisoTitulo: string
     avisoTexto: string
   }) => void
@@ -37,12 +40,14 @@ export function EditarCuentaTransferenciaModal({
   onClose,
   alias,
   titular,
+  avisoActivo,
   avisoTitulo,
   avisoTexto,
   onGuardado,
 }: EditarCuentaTransferenciaModalProps) {
   const [aliasValue, setAliasValue] = useState(alias)
   const [titularValue, setTitularValue] = useState(titular)
+  const [avisoActivoValue, setAvisoActivoValue] = useState(avisoActivo)
   const [avisoTituloValue, setAvisoTituloValue] = useState(avisoTitulo)
   const [avisoTextoValue, setAvisoTextoValue] = useState(avisoTexto)
   const [loading, setLoading] = useState(false)
@@ -53,10 +58,11 @@ export function EditarCuentaTransferenciaModal({
     if (isOpen) {
       setAliasValue(alias)
       setTitularValue(titular)
+      setAvisoActivoValue(avisoActivo)
       setAvisoTituloValue(avisoTitulo)
       setAvisoTextoValue(avisoTexto)
     }
-  }, [isOpen, alias, titular, avisoTitulo, avisoTexto])
+  }, [isOpen, alias, titular, avisoActivo, avisoTitulo, avisoTexto])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -85,6 +91,7 @@ export function EditarCuentaTransferenciaModal({
       const nuevaConfig = {
         alias: aliasValue.trim(),
         titular: titularValue.trim(),
+        avisoActivo: avisoActivoValue,
         avisoTitulo: avisoTituloValue.trim(),
         avisoTexto: avisoTextoValue.trim(),
       }
@@ -154,35 +161,52 @@ export function EditarCuentaTransferenciaModal({
             />
           </div>
 
-          <div className="border-t border-gray-700 pt-4 space-y-2">
-            <p className="text-xs text-gray-400">
-              Aviso que ve el cliente antes de transferir
-            </p>
-            <Label htmlFor="avisoTitulo" className="text-white">
-              Título del aviso
-            </Label>
-            <Input
-              id="avisoTitulo"
-              value={avisoTituloValue}
-              onChange={(e) => setAvisoTituloValue(e.target.value)}
-              placeholder="Ej: IMPORTANTE — TRANSFERENCIAS"
-              className="bg-gray-800 border-gray-600 text-white"
-              maxLength={80}
-            />
-          </div>
+          <div className="border-t border-gray-700 pt-4 space-y-3">
+            <div className="flex items-center justify-between gap-3 rounded-lg bg-gray-800/60 border border-gray-700 p-3">
+              <div className="space-y-0.5">
+                <Label htmlFor="avisoActivo" className="text-white">
+                  Mostrar aviso antes de comprar
+                </Label>
+                <p className="text-xs text-gray-400">
+                  Si está activo, el cliente verá este aviso antes de transferir
+                </p>
+              </div>
+              <Switch
+                id="avisoActivo"
+                checked={avisoActivoValue}
+                onCheckedChange={setAvisoActivoValue}
+              />
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="avisoTexto" className="text-white">
-              Texto del aviso
-            </Label>
-            <Textarea
-              id="avisoTexto"
-              value={avisoTextoValue}
-              onChange={(e) => setAvisoTextoValue(e.target.value)}
-              placeholder="Mensaje que verá el cliente antes de hacer la transferencia"
-              className="bg-gray-800 border-gray-600 text-white min-h-[120px]"
-              maxLength={600}
-            />
+            <div className="space-y-2">
+              <Label htmlFor="avisoTitulo" className="text-white">
+                Título del aviso
+              </Label>
+              <Input
+                id="avisoTitulo"
+                value={avisoTituloValue}
+                onChange={(e) => setAvisoTituloValue(e.target.value)}
+                placeholder="Ej: IMPORTANTE — TRANSFERENCIAS"
+                className="bg-gray-800 border-gray-600 text-white disabled:opacity-50"
+                maxLength={80}
+                disabled={!avisoActivoValue}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="avisoTexto" className="text-white">
+                Texto del aviso
+              </Label>
+              <Textarea
+                id="avisoTexto"
+                value={avisoTextoValue}
+                onChange={(e) => setAvisoTextoValue(e.target.value)}
+                placeholder="Mensaje que verá el cliente antes de hacer la transferencia"
+                className="bg-gray-800 border-gray-600 text-white min-h-[120px] disabled:opacity-50"
+                maxLength={600}
+                disabled={!avisoActivoValue}
+              />
+            </div>
           </div>
 
           <DialogFooter>

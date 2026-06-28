@@ -151,6 +151,7 @@ export default function BackofficePage() {
   const [configTransferencia, setConfigTransferencia] = useState({
     alias: "sosamotos",
     titular: "Agustín Sosa",
+    avisoActivo: false,
     avisoTitulo: "IMPORTANTE — TRANSFERENCIAS",
     avisoTexto:
       "Las transferencias deben estar emitidas a nombre de la misma persona que completa este formulario (nombre y apellido). Si el titular de la transferencia no coincide, la compra se anula directamente sin excepción.",
@@ -456,22 +457,22 @@ export default function BackofficePage() {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
     // Borde rojo
-    ctx.strokeStyle = "#ff0040"
+    ctx.strokeStyle = "#ff6a13"
     ctx.lineWidth = 3
     ctx.strokeRect(14, 14, canvas.width - 28, canvas.height - 28)
 
-    // Marca (SOSA en blanco, MOTOS en rojo)
+    // Marca (TIERRA DE en blanco, HAMBURGUESAS en naranja)
     ctx.textAlign = "center"
     ctx.font = "bold 30px Arial"
     const marcaY = 70
-    const sosaW = ctx.measureText("SOSA ").width
-    const motosW = ctx.measureText("MOTOS 🏍️").width
+    const sosaW = ctx.measureText("TIERRA DE ").width
+    const motosW = ctx.measureText("HAMBURGUESAS 🍔").width
     const marcaStartX = canvas.width / 2 - (sosaW + motosW) / 2
     ctx.textAlign = "left"
     ctx.fillStyle = "#ffffff"
-    ctx.fillText("SOSA ", marcaStartX, marcaY)
-    ctx.fillStyle = "#ff0040"
-    ctx.fillText("MOTOS 🏍️", marcaStartX + sosaW, marcaY)
+    ctx.fillText("TIERRA DE ", marcaStartX, marcaY)
+    ctx.fillStyle = "#ff6a13"
+    ctx.fillText("HAMBURGUESAS 🍔", marcaStartX + sosaW, marcaY)
 
     // Título
     ctx.textAlign = "center"
@@ -480,7 +481,7 @@ export default function BackofficePage() {
     ctx.fillText("COMPROBANTE DE COMPRA", canvas.width / 2, 118)
 
     // Línea decorativa roja
-    ctx.strokeStyle = "#ff0040"
+    ctx.strokeStyle = "#ff6a13"
     ctx.lineWidth = 4
     ctx.beginPath()
     ctx.moveTo(280, 140)
@@ -488,7 +489,7 @@ export default function BackofficePage() {
     ctx.stroke()
 
     // Mensaje de participación
-    ctx.fillStyle = "#ff0040"
+    ctx.fillStyle = "#ff6a13"
     ctx.font = "bold 23px Arial"
     ctx.textAlign = "left"
     ctx.fillText("¡Estás participando por una HONDA WAVE 2026 0KM!", 50, 190)
@@ -527,7 +528,7 @@ export default function BackofficePage() {
 
     // Precio pagado
     yPos += 45
-    ctx.fillStyle = "#ff0040"
+    ctx.fillStyle = "#ff6a13"
     ctx.font = "bold 32px Arial"
     ctx.fillText(
       `Total Pagado: $${comprador.precio_pagado.toLocaleString()}`,
@@ -537,7 +538,7 @@ export default function BackofficePage() {
 
     // Números asignados
     yPos += 55
-    ctx.fillStyle = "#ff0040"
+    ctx.fillStyle = "#ff6a13"
     ctx.font = "bold 28px Arial"
     ctx.fillText("Tus Números:", 50, yPos)
 
@@ -575,8 +576,8 @@ export default function BackofficePage() {
 
       // Gradiente rojo de marca
       const gradient = ctx.createLinearGradient(0, 8, 0, 24)
-      gradient.addColorStop(0, "#ff0040") // Rojo neón
-      gradient.addColorStop(1, "#cc0033") // Rojo más oscuro
+      gradient.addColorStop(0, "#ff6a13") // Rojo neón
+      gradient.addColorStop(1, "#c24a00") // Rojo más oscuro
       ctx.fillStyle = gradient
       ctx.fill(ticketPath)
 
@@ -627,7 +628,7 @@ export default function BackofficePage() {
 
     // Nota final
     // yPos += 42
-    // ctx.fillStyle = "#ff0040"
+    // ctx.fillStyle = "#ff6a13"
     // ctx.font = "bold 21px Arial"
     // ctx.fillText("¡Mucha suerte y siempre con fe! 🙏", canvas.width / 2, yPos)
 
@@ -1742,7 +1743,7 @@ export default function BackofficePage() {
                                     href={`https://wa.me/${
                                       comprador.telefono
                                     }?text=${encodeURIComponent(
-                                      `Hola ${comprador.nombre}! Te hablo de Sosa Motos...`,
+                                      `Hola ${comprador.nombre}! Te hablo de Tierra de Hamburguesas...`,
                                     )}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -2046,7 +2047,7 @@ export default function BackofficePage() {
                                       href={`https://wa.me/${
                                         comprador.telefono
                                       }?text=${encodeURIComponent(
-                                        `Hola ${comprador.nombre}! Te hablo de Sosa Motos...`,
+                                        `Hola ${comprador.nombre}! Te hablo de Tierra de Hamburguesas...`,
                                       )}`}
                                       target="_blank"
                                       rel="noopener noreferrer"
@@ -2195,6 +2196,7 @@ export default function BackofficePage() {
         onClose={() => setEditarCuentaTransferenciaModalAbierto(false)}
         alias={configTransferencia.alias}
         titular={configTransferencia.titular}
+        avisoActivo={configTransferencia.avisoActivo}
         avisoTitulo={configTransferencia.avisoTitulo}
         avisoTexto={configTransferencia.avisoTexto}
         onGuardado={(config) => setConfigTransferencia(config)}

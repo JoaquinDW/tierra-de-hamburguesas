@@ -122,7 +122,7 @@ function PagoExitoContent() {
         <Card className="w-full max-w-md mx-4">
           <CardContent className="pt-6">
             <div className="text-center">
-              <div className="w-12 h-12 border-4 border-red-700 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
               <h2 className="text-xl font-semibold mb-2">
                 Confirmando pago...
               </h2>
@@ -185,7 +185,7 @@ function PagoExitoContent() {
               <h2 className="text-xl font-bold neon-text animate-neon-pulse">
                 COMPRANDO MI REMERA DIGITAL
               </h2>
-              <h3 className="text-lg font-bold text-red-500 glow-red">
+              <h3 className="text-lg font-bold text-orange-500 glow-red">
                 PARTICIPAS GRATIS DEL IPHONE 14 pro Max NUEVO EN CAJA
               </h3>
               <p className="text-base font-semibold text-yellow-400 animate-pulse">
@@ -220,7 +220,7 @@ function PagoExitoContent() {
                 {numerosAsignados.map((numero) => (
                   <span
                     key={numero}
-                    className="bg-red-100 text-red-800 px-3 py-1 rounded-full font-mono font-semibold"
+                    className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-mono font-semibold"
                   >
                     #{numero}
                   </span>
@@ -232,7 +232,7 @@ function PagoExitoContent() {
           {compradorId && (
             <a
               href={`/api/descargar/${compradorId}`}
-              className="block w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-center py-3 px-4 rounded-lg shadow-lg transition-colors"
+              className="block w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold text-center py-3 px-4 rounded-lg shadow-lg transition-colors"
             >
               📥 Descargar mi contenido
             </a>
@@ -257,8 +257,8 @@ function PagoExitoContent() {
           {/* Texto aclaratorio del sorteo y mini-remera */}
           <div className="mt-6 space-y-4 text-center">
             {/* Aviso del ganador con mejor estilo */}
-            <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-lg p-4 border border-red-500/20">
-              <p className="text-red-400 text-sm font-bold glow-red">
+            <div className="bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-lg p-4 border border-orange-500/20">
+              <p className="text-orange-400 text-sm font-bold glow-red">
                 🏆 El ganador se anunciará al vender el 100% de los números
               </p>
               {/* <p className="text-yellow-400 text-xs font-semibold mt-1">
@@ -272,7 +272,7 @@ function PagoExitoContent() {
             {/* Mini remera con mejor estilo */}
             <div className="flex items-center justify-center gap-3 pt-2">
               <div className="w-14 h-14 relative animate-float">
-                <div className="absolute -inset-1 bg-gradient-to-r from-red-400/20 to-orange-400/20 rounded-full blur-sm"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-400/20 to-amber-400/20 rounded-full blur-sm"></div>
                 <img
                   src="/white-t-shirt-mockup-t-shirt-with-short-sleeves-ai-generative-free-png.webp"
                   alt="remera digital"
@@ -280,7 +280,7 @@ function PagoExitoContent() {
                 />
               </div>
               <div className="text-left">
-                <p className="text-sm text-red-400 font-bold glow-red">
+                <p className="text-sm text-orange-400 font-bold glow-red">
                   remera digital
                 </p>
                 <p className="text-xs text-gray-400">
@@ -301,7 +301,7 @@ function LoadingFallback() {
       <Card className="w-full max-w-md mx-4">
         <CardContent className="pt-6">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-red-700 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <h2 className="text-xl font-semibold mb-2">Cargando...</h2>
             <p className="text-gray-600">
               Preparando la confirmación de tu pago
