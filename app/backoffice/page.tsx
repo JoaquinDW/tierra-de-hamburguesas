@@ -492,7 +492,7 @@ export default function BackofficePage() {
     ctx.fillStyle = "#ff6a13"
     ctx.font = "bold 23px Arial"
     ctx.textAlign = "left"
-    ctx.fillText("¡Estás participando por una HONDA WAVE 2026 0KM!", 50, 190)
+    ctx.fillText(`¡Estás participando por una ${sorteoActual.titulo_remera}!`, 50, 190)
 
     // Información del comprador
     ctx.fillStyle = "#9ca3af"
