@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await supabase
     .from("compradores")
-    .select(`id, nombre, numeros_asignados, cantidad_chances, created_at, sorteos!compradores_sorteo_id_fkey(nombre, estado)`)
+    .select(`id, nombre, email, telefono, instagram_username, numeros_asignados, cantidad_chances, precio_pagado, created_at, sorteos!compradores_sorteo_id_fkey(nombre, estado, titulo_remera)`)
     .ilike("email", email)
     .eq("estado_pago", "pagado")
     .order("created_at", { ascending: false })
@@ -26,9 +26,14 @@ export async function GET(request: NextRequest) {
     .map((row: any) => ({
       id: row.id,
       nombre: row.nombre,
+      email: row.email,
+      telefono: row.telefono,
+      instagram_username: row.instagram_username,
       numeros_asignados: row.numeros_asignados || [],
       cantidad_chances: row.cantidad_chances,
+      precio_pagado: row.precio_pagado,
       sorteo_nombre: row.sorteos?.nombre ?? "Sorteo",
+      titulo_remera: row.sorteos?.titulo_remera ?? "",
       created_at: row.created_at,
     }))
 

@@ -34,6 +34,7 @@ import {
 import { AnimatedProgress } from "@/components/animated-progress"
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
+import { generarComprobante } from "@/lib/generar-comprobante"
 
 export default function LandingPage() {
   const [sorteo, setSorteo] = useState<Sorteo | null>(null)
@@ -55,9 +56,14 @@ export default function LandingPage() {
   const [consultaResultados, setConsultaResultados] = useState<Array<{
     id: string
     nombre: string
+    email?: string | null
+    telefono?: string | null
+    instagram_username?: string | null
     numeros_asignados: number[]
     cantidad_chances: number
+    precio_pagado: number
     sorteo_nombre: string
+    titulo_remera: string
     created_at: string
   }> | null>(null)
   const [consultaError, setConsultaError] = useState<string | null>(null)
@@ -722,13 +728,21 @@ export default function LandingPage() {
                         </span>
                       ))}
                   </div>
-                  <a
-                    href={`/api/descargar/${p.id}`}
+                  <button
+                    onClick={() =>
+                      generarComprobante(p, p.titulo_remera, () => {
+                        toast({
+                          title: "Comprobante generado",
+                          description:
+                            "El comprobante se descargó exitosamente",
+                        })
+                      })
+                    }
                     className="btn-chunky mt-4 inline-flex w-full sm:w-auto py-2.5 px-5 rounded-xl text-sm gap-2"
                   >
                     <Download className="w-4 h-4" />
-                    Descargar contenido
-                  </a>
+                    Descargar comprobante
+                  </button>
                 </div>
               ))}
             </div>
