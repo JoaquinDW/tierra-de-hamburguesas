@@ -11,6 +11,7 @@ import { Header } from "@/components/header"
 import { GanadoresPasados } from "@/components/ganadores-pasados"
 import { GanadoresExpress } from "@/components/ganadores-express"
 import { RedesSociales } from "@/components/redes-sociales"
+import { Reveal } from "@/components/reveal"
 import dynamic from "next/dynamic"
 
 const IphoneCarousel = dynamic(() => import("@/components/iphone-carousel"), {
@@ -314,7 +315,11 @@ export default function LandingPage() {
     return (
       <div className="min-h-screen tdh-grill flex items-center justify-center">
         <div className="text-center space-y-4">
-          <Flame className="w-12 h-12 text-[#ff6a13] mx-auto animate-bob" />
+          <span
+            className="flame-loader animate-bob mx-auto block drop-shadow-[0_0_12px_rgba(255,106,19,0.45)]"
+            role="img"
+            aria-label="Calentando la parrilla"
+          />
           <p className="text-[#fff3df]/60 text-sm font-extrabold tracking-[0.25em] uppercase">
             Calentando la parrilla…
           </p>
@@ -630,7 +635,7 @@ export default function LandingPage() {
 
       {/* Sección Consultá tus números — bloque de papel (menú) */}
       <section className="tdh-paper border-y-[3px] border-[#120c08] py-12">
-        <div className="container mx-auto px-4 max-w-xl">
+        <Reveal className="container mx-auto px-4 max-w-xl">
           <div className="mb-8">
             <span className="sticker sticker-orange text-[11px] px-3 py-1 mb-4">
               🧾 {contenido.consulta_kicker}
@@ -728,19 +733,25 @@ export default function LandingPage() {
               ))}
             </div>
           )}
-        </div>
+        </Reveal>
       </section>
 
       {/* Ganadores Express */}
       {sorteo && (
-        <GanadoresExpress sorteoId={sorteo.id} contenido={contenido} />
+        <Reveal>
+          <GanadoresExpress sorteoId={sorteo.id} contenido={contenido} />
+        </Reveal>
       )}
 
       {/* Ganadores Pasados */}
-      <GanadoresPasados contenido={contenido} />
+      <Reveal>
+        <GanadoresPasados contenido={contenido} />
+      </Reveal>
 
       {/* Links de interés / Redes sociales */}
-      <RedesSociales contenido={contenido} />
+      <Reveal>
+        <RedesSociales contenido={contenido} />
+      </Reveal>
 
       {/* QR - Participación gratuita (/free) */}
       {/* <div className="tdh-grill border-b-[3px] border-[#120c08] flex flex-col items-center gap-4 py-12">
@@ -762,12 +773,14 @@ export default function LandingPage() {
       {/* Sección FAQ — pizarra de menú */}
       <section className="tdh-grill py-14">
         <div className="container mx-auto px-4 max-w-2xl text-center">
-          <h2 className="font-display text-5xl lg:text-6xl tracking-wide text-[#fff3df] uppercase mb-10">
-            {contenido.faq_titulo}
-          </h2>
+          <Reveal>
+            <h2 className="font-display text-5xl lg:text-6xl tracking-wide text-[#fff3df] uppercase mb-10">
+              {contenido.faq_titulo}
+            </h2>
+          </Reveal>
 
           <div className="grid sm:grid-cols-2 gap-5 text-left">
-            <div className="poster poster-ink p-5">
+            <Reveal className="poster poster-ink p-5">
               <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#ff8a33] mb-3">
                 {contenido.faq_pregunta_fecha}
               </p>
@@ -782,21 +795,23 @@ export default function LandingPage() {
                     })
                   : "Próximamente"}
               </span>
-            </div>
+            </Reveal>
 
-            <Link
-              href={contenido.faq_link_quiniela}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="poster poster-orange p-5 transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5"
-            >
-              <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#1a0e03]/70 mb-3">
-                {contenido.faq_pregunta_ganador}
-              </p>
-              <span className="font-display text-2xl tracking-wide text-[#1a0e03] uppercase leading-tight">
-                {contenido.faq_respuesta_ganador}
-              </span>
-            </Link>
+            <Reveal delay={120}>
+              <Link
+                href={contenido.faq_link_quiniela}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="poster poster-orange p-5 block h-full transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5"
+              >
+                <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#1a0e03]/70 mb-3">
+                  {contenido.faq_pregunta_ganador}
+                </p>
+                <span className="font-display text-2xl tracking-wide text-[#1a0e03] uppercase leading-tight">
+                  {contenido.faq_respuesta_ganador}
+                </span>
+              </Link>
+            </Reveal>
           </div>
         </div>
       </section>
