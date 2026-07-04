@@ -4,11 +4,10 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Remitente de marca (configurable vía env). Dominio del remitente vía env.
 // TODO: verificar un dominio propio de TDH en Resend y setear EMAIL_FROM/EMAIL_REPLY_TO.
-const EMAIL_FROM =
-  process.env.EMAIL_FROM || "Tierra de Hamburguesas <hola@agustinsosa.com>"
+const EMAIL_FROM = process.env.EMAIL_FROM || "AgustinTDH <hola@agustintdh.com>"
 
 // Dirección a la que el usuario puede responder (mejora la confianza/deliverability).
-const EMAIL_REPLY_TO = process.env.EMAIL_REPLY_TO || "hola@agustinsosa.com"
+const EMAIL_REPLY_TO = process.env.EMAIL_REPLY_TO || "hola@agustintdh.com"
 
 /* ------------------------------------------------------------------ */
 /*  Paleta de marca (acorde a la landing: naranja + negro + crema)     */
