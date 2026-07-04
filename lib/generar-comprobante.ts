@@ -64,9 +64,9 @@ export function generarComprobante(
   const marcaStartX = canvas.width / 2 - (sosaW + motosW) / 2
   ctx.textAlign = "left"
   ctx.fillStyle = "#ffffff"
-  ctx.fillText("TIERRA DE ", marcaStartX, marcaY)
+  ctx.fillText("AgustinTDH", marcaStartX, marcaY)
   ctx.fillStyle = "#ff6a13"
-  ctx.fillText("HAMBURGUESAS 🍔", marcaStartX + sosaW, marcaY)
+  // ctx.fillText("HAMBURGUESAS 🍔", marcaStartX + sosaW, marcaY)
 
   // Título
   ctx.textAlign = "center"
