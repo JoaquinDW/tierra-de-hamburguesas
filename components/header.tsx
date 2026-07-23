@@ -44,7 +44,7 @@ export function Header({
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-[rgba(255,138,51,0.4)] bg-[#17110d] shadow-[0_0_20px_-4px_rgba(255,106,19,0.7)] group-hover:shadow-[0_0_26px_-2px_rgba(255,106,19,0.9)] transition-shadow duration-200">
                 <Image
-                  src="/tdh-logo.jpg"
+                  src="/tdh-logo.jpeg"
                   alt={marca}
                   fill
                   className="object-cover"

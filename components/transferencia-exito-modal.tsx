@@ -16,13 +16,15 @@ export function TransferenciaExitoModal({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md bg-[#100b08] text-[#fdf1e2] border border-[rgba(255,138,51,0.25)] shadow-[0_0_70px_-12px_rgba(255,106,19,0.55)] p-0 overflow-hidden max-h-[95vh] overflow-y-auto rounded-2xl [&>button]:text-[#fdf1e2] [&>button]:opacity-70 [&>button:hover]:opacity-100">
-        <DialogTitle className="sr-only">¡Transferencia registrada!</DialogTitle>
+        <DialogTitle className="sr-only">
+          ¡Transferencia registrada!
+        </DialogTitle>
         <div className="px-6 py-8">
           <div className="poster p-6">
             {/* Logo */}
             <div className="flex justify-center mb-5">
               <img
-                src="/tdh-logo.jpg"
+                src="/tdh-logo.jpeg"
                 alt="Logo"
                 className="w-16 h-16 rounded-xl object-cover border border-[rgba(255,138,51,0.4)] shadow-[0_0_24px_-4px_rgba(255,106,19,0.75)] animate-bob"
               />

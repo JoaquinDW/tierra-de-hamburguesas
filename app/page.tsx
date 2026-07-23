@@ -342,7 +342,7 @@ export default function LandingPage() {
           <div className="text-center space-y-6 max-w-md">
             <div className="w-24 h-24 rounded-2xl overflow-hidden border border-[rgba(255,138,51,0.4)] bg-[#17110d] shadow-[0_0_40px_-6px_rgba(255,106,19,0.7)] mx-auto animate-bob">
               <img
-                src="/tdh-logo.jpg"
+                src="/tdh-logo.jpeg"
                 alt={contenido.marca}
                 className="w-full h-full object-cover"
               />
@@ -435,7 +435,7 @@ export default function LandingPage() {
                   </span>
                   <AnimatedProgress
                     value={porcentajeVendido}
-                    logoSrc="/tdh-logo.jpg"
+                    logoSrc="/tdh-logo.jpeg"
                   />
                   <div className="flex items-baseline justify-center gap-2 pt-1">
                     <span className="font-display text-4xl tracking-wide text-[#ff8a33]">
@@ -482,7 +482,7 @@ export default function LandingPage() {
                   </span>
                   <AnimatedProgress
                     value={porcentajeVendido}
-                    logoSrc="/tdh-logo.jpg"
+                    logoSrc="/tdh-logo.jpeg"
                   />
                   <div className="flex items-baseline gap-2 pt-1">
                     <span className="font-display text-4xl tracking-wide text-[#ff8a33]">

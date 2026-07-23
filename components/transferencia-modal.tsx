@@ -170,7 +170,7 @@ export function TransferenciaModal({
               {/* Logo */}
               <div className="flex justify-center mb-5">
                 <img
-                  src="/tdh-logo.jpg"
+                  src="/tdh-logo.jpeg"
                   alt="Logo"
                   className="w-16 h-16 rounded-xl object-cover border border-[rgba(255,138,51,0.4)] shadow-[0_0_24px_-4px_rgba(255,106,19,0.75)]"
                 />

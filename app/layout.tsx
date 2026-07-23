@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   title: "Agustin Premios",
   description: "Agustin Premios",
   icons: {
-    icon: "/tdh-logo.jpg",
-    shortcut: "/tdh-logo.jpg",
-    apple: "/tdh-logo.jpg",
+    icon: "/tdh-logo.jpeg",
+    shortcut: "/tdh-logo.jpeg",
+    apple: "/tdh-logo.jpeg",
   },
   openGraph: {
     type: "website",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "Sorteos de Agustin Premios",
     images: [
       {
-        url: "/tdh-logo.jpg",
+        url: "/tdh-logo.jpeg",
         width: 1200,
         height: 630,
         alt: "Logo de Agustin Premios",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Agustin Premios",
     description: "Sorteos de Agustin Premios",
-    images: ["/tdh-logo.jpg"],
+    images: ["/tdh-logo.jpeg"],
   },
 }
 
@@ -60,7 +60,7 @@ export default function RootLayout({
       className={`${anton.variable} ${dmSans.variable} ${GeistMono.variable}`}
     >
       <head>
-        <link rel="icon" href="/tdh-logo.jpg" />
+        <link rel="icon" href="/tdh-logo.jpeg" />
       </head>
       <body className="font-sans">{children}</body>
     </html>
