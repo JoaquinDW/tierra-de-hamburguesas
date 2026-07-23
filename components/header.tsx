@@ -12,7 +12,11 @@ const PROMO_ITEMS = [
   "🍟 SIN OBLIGACIÓN DE COMPRA",
 ]
 
-export function Header({ marca = "Tierra de Hamburguesas" }: { marca?: string }) {
+export function Header({
+  marca = "Tierra de Hamburguesas",
+}: {
+  marca?: string
+}) {
   const [menuAbierto, setMenuAbierto] = useState(false)
 
   return (
@@ -39,7 +43,12 @@ export function Header({ marca = "Tierra de Hamburguesas" }: { marca?: string })
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-[rgba(255,138,51,0.4)] bg-[#17110d] shadow-[0_0_20px_-4px_rgba(255,106,19,0.7)] group-hover:shadow-[0_0_26px_-2px_rgba(255,106,19,0.9)] transition-shadow duration-200">
-                <Image src="/tdh-logo.jpg" alt={marca} fill className="object-cover" />
+                <Image
+                  src="/tdh-logo.jpg"
+                  alt={marca}
+                  fill
+                  className="object-cover"
+                />
               </div>
               <span className="font-display text-xl sm:text-2xl tracking-wider text-[#fdf1e2] uppercase leading-none drop-shadow-[0_0_18px_rgba(255,106,19,0.35)]">
                 {marca}
@@ -60,12 +69,12 @@ export function Header({ marca = "Tierra de Hamburguesas" }: { marca?: string })
               >
                 Ganadores
               </Link>
-              <Link
+              {/* <Link
                 href="/free"
                 className="btn-chunky text-xs px-4 py-2"
               >
                 Participá gratis
-              </Link>
+              </Link> */}
             </nav>
 
             {/* Mobile menu button */}
@@ -74,7 +83,11 @@ export function Header({ marca = "Tierra de Hamburguesas" }: { marca?: string })
               aria-label="Abrir menú"
               className="md:hidden text-[#fdf1e2] border border-[rgba(255,138,51,0.3)] bg-[#17110d] rounded-lg p-1.5 shadow-[0_0_16px_-6px_rgba(255,106,19,0.7)] active:scale-95 transition-all"
             >
-              {menuAbierto ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {menuAbierto ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </button>
           </div>
 
