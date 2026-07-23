@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { crearComprador, generarNumerosUnicos, obtenerSorteo } from "@/lib/database"
 import { verificarNumerosUnicos } from "@/lib/verificarNumerosUnicos"
+import { isVideoUrl } from "@/lib/media"
 
 export async function POST(request: NextRequest) {
   try {
@@ -105,7 +106,10 @@ export async function POST(request: NextRequest) {
             numerosAsignados,
             precioPagado: precio,
             sorteoNombre: sorteo?.nombre,
-            sorteoImagenUrl: sorteo?.carousel_image_1 || sorteo?.imagen_url,
+            sorteoImagenUrl:
+              (sorteo?.carousel_image_1 && !isVideoUrl(sorteo.carousel_image_1)
+                ? sorteo.carousel_image_1
+                : sorteo?.imagen_url),
             compradorId: nuevoComprador.id,
           }),
         })

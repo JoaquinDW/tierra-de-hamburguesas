@@ -340,7 +340,7 @@ export default function LandingPage() {
         <Header marca={contenido.marca} />
         <div className="flex-1 flex items-center justify-center px-4 py-16">
           <div className="text-center space-y-6 max-w-md">
-            <div className="w-24 h-24 rounded-2xl overflow-hidden border-[3px] border-[#120c08] bg-[#fff3df] shadow-[5px_5px_0_#120c08] mx-auto animate-bob">
+            <div className="w-24 h-24 rounded-2xl overflow-hidden border border-[rgba(255,138,51,0.4)] bg-[#17110d] shadow-[0_0_40px_-6px_rgba(255,106,19,0.7)] mx-auto animate-bob">
               <img
                 src="/tdh-logo.jpg"
                 alt={contenido.marca}
@@ -366,7 +366,7 @@ export default function LandingPage() {
           </div>
         </div>
         <RedesSociales contenido={contenido} />
-        <footer className="bg-[#120c08] border-t-[3px] border-[#ff6a13] py-6">
+        <footer className="bg-[#0b0806] border-t border-[rgba(255,138,51,0.2)] py-6">
           <div className="container mx-auto px-4 text-center text-[#fff3df]/40 text-xs tracking-wide">
             <p>{contenido.footer_copyright}</p>
           </div>
@@ -406,8 +406,8 @@ export default function LandingPage() {
                   : "opacity-0 translate-y-6"
               }`}
             >
-              <div className="relative poster poster-cream tdh-stripes p-3 sm:p-4">
-                <div className="overflow-hidden rounded-lg border-[3px] border-[#120c08]">
+              <div className="relative poster poster-cream p-3 sm:p-4">
+                <div className="overflow-hidden rounded-xl border border-[rgba(255,138,51,0.25)]">
                   <IphoneCarousel />
                 </div>
 
@@ -420,7 +420,7 @@ export default function LandingPage() {
 
               {/* Título bajo el carousel */}
               <div className="text-center mt-8">
-                <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl tracking-wide text-[#ff8a33] uppercase leading-[0.95] drop-shadow-[3px_3px_0_#120c08]">
+                <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl tracking-wide text-[#ff8a33] uppercase leading-[0.95] drop-shadow-[0_0_24px_rgba(255,106,19,0.45)]">
                   {conPlaceholders(contenido.hero_titulo, {
                     premio: sorteo.titulo_remera || "Remera Exclusiva",
                   })}
@@ -471,7 +471,7 @@ export default function LandingPage() {
               {/* Progress Bar / Evento finalizado — desktop only (mobile version is in left column) */}
               {sorteo?.estado === "sorteado" ? (
                 <div className="order-3 lg:order-2 poster poster-cream p-6 text-center">
-                  <p className="font-display text-2xl tracking-wide uppercase text-[#23170c]">
+                  <p className="font-display text-2xl tracking-wide uppercase text-[#ff8a33] drop-shadow-[0_0_18px_rgba(255,106,19,0.4)]">
                     Evento finalizado
                   </p>
                 </div>
@@ -499,10 +499,7 @@ export default function LandingPage() {
               {sorteoCompleto && (
                 <div className="order-4 lg:order-3 space-y-4">
                   {sorteo?.estado === "completo" && (
-                    <div
-                      className="poster p-5"
-                      style={{ background: "#f4b400", color: "#221400" }}
-                    >
+                    <div className="poster poster-orange p-5">
                       <h3 className="font-display text-2xl uppercase tracking-wide mb-1 flex items-center gap-2">
                         <Clock className="w-5 h-5" />
                         {contenido.hero_completo_titulo}
@@ -523,23 +520,23 @@ export default function LandingPage() {
 
                   {sorteo?.estado === "sorteado" && (
                     <div className="poster poster-cream p-5">
-                      <h3 className="font-display text-2xl uppercase tracking-wide mb-2 flex items-center gap-2 text-[#23170c]">
-                        <Trophy className="w-5 h-5 text-[#ff6a13]" />
+                      <h3 className="font-display text-2xl uppercase tracking-wide mb-2 flex items-center gap-2 text-[#fdf1e2]">
+                        <Trophy className="w-5 h-5 text-[#ff8a33]" />
                         {contenido.hero_sorteado_titulo}
                       </h3>
                       {sorteo.numero_ganador && (
-                        <div className="space-y-1.5 text-[#23170c]">
+                        <div className="space-y-1.5 text-[#fdf1e2]/80">
                           {sorteo.ganador_nombre && (
                             <p className="text-sm">
                               Ganador:{" "}
-                              <span className="font-bold text-[#c1351d]">
+                              <span className="font-bold text-[#ff8a33]">
                                 {sorteo.ganador_nombre}
                               </span>
                             </p>
                           )}
                           <p className="text-sm">
                             Número Ganador:{" "}
-                            <span className="font-mono font-bold text-[#c1351d] text-lg">
+                            <span className="font-mono font-bold text-[#ff8a33] text-lg">
                               {sorteo.numero_ganador}
                             </span>
                           </p>
@@ -585,32 +582,34 @@ export default function LandingPage() {
                         style={{ transitionDelay: `${(index + 3) * 150}ms` }}
                       >
                         {pack.popular && (
-                          <span className="sticker sticker-ketchup absolute -top-3 left-4 z-20 text-[10px] px-2.5 py-1">
+                          <span className="sticker sticker-orange absolute -top-3 left-1/2 -translate-x-1/2 z-20 text-[10px] px-3 py-1">
                             ⭐ {contenido.packs_popular_label}
                           </span>
                         )}
                         <div
-                          className={`poster tdh-stripes p-4 sm:p-5 transition-transform duration-200 hover:-translate-x-0.5 hover:-translate-y-0.5 ${
-                            pack.popular ? "poster-orange" : "poster-cream"
+                          className={`poster poster-cream p-4 sm:p-5 transition-all duration-200 hover:-translate-y-0.5 ${
+                            pack.popular
+                              ? "!border-[rgba(255,138,51,0.55)] shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_0_44px_-10px_rgba(255,106,19,0.7)]"
+                              : "hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_0_40px_-12px_rgba(255,106,19,0.55)]"
                           }`}
                         >
                           <div className="flex items-center gap-3">
                             {/* Combo nº */}
-                            <div className="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-lg border-[2.5px] border-[#120c08] bg-[#1d1510] text-[#ff8a33] font-display text-2xl shadow-[2px_2px_0_#120c08]">
+                            <div className="hidden sm:flex shrink-0 w-12 h-12 items-center justify-center rounded-xl border border-[rgba(255,138,51,0.3)] bg-[#0f0a07] text-[#ff8a33] font-display text-2xl shadow-[0_0_18px_-6px_rgba(255,106,19,0.8)]">
                               {index + 1}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="font-display text-lg sm:text-xl uppercase line-clamp-2 leading-[1.05] text-[#23170c]">
+                              <div className="font-display text-lg sm:text-xl uppercase line-clamp-2 leading-[1.05] text-[#fdf1e2]">
                                 {pack.descripcion ||
                                   `Combo ${pack.chances} chances`}
                               </div>
-                              <div className="text-[#23170c]/60 text-xs font-bold uppercase tracking-wide mt-1">
+                              <div className="text-[#ff8a33]/70 text-xs font-bold uppercase tracking-wide mt-1">
                                 {pack.chances}{" "}
                                 {pack.chances === 1 ? "Chance" : "Chances"}
                               </div>
                             </div>
                             <div className="text-right flex-shrink-0">
-                              <div className="font-display text-2xl sm:text-3xl text-[#c1351d] leading-none">
+                              <div className="font-display text-2xl sm:text-3xl text-[#ff8a33] leading-none drop-shadow-[0_0_16px_rgba(255,106,19,0.5)]">
                                 ${pack.precio.toLocaleString()}
                               </div>
                             </div>
@@ -639,17 +638,17 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sección Consultá tus números — bloque de papel (menú) */}
-      <section className="tdh-paper border-y-[3px] border-[#120c08] py-12">
+      {/* Sección Consultá tus números — panel oscuro */}
+      <section className="tdh-paper border-y border-[rgba(255,138,51,0.14)] py-12">
         <Reveal className="container mx-auto px-4 max-w-xl">
           <div className="mb-8">
             <span className="sticker sticker-orange text-[11px] px-3 py-1 mb-4">
               🧾 {contenido.consulta_kicker}
             </span>
-            <h2 className="font-display text-5xl lg:text-6xl tracking-wide text-[#23170c] uppercase leading-[0.9] mt-2">
+            <h2 className="font-display text-5xl lg:text-6xl tracking-wide text-[#fdf1e2] uppercase leading-[0.9] mt-2">
               {contenido.consulta_titulo}
             </h2>
-            <p className="text-[#23170c]/70 text-sm font-medium mt-2">
+            <p className="text-[#fdf1e2]/60 text-sm font-medium mt-2">
               {contenido.consulta_descripcion}
             </p>
           </div>
@@ -664,7 +663,7 @@ export default function LandingPage() {
               onChange={(e) => setConsultaEmail(e.target.value)}
               placeholder={contenido.consulta_placeholder}
               disabled={consultaLoading}
-              className="flex-1 bg-white border-[3px] border-[#120c08] text-[#23170c] placeholder:text-[#23170c]/40 rounded-xl px-4 py-3 text-sm font-medium shadow-[3px_3px_0_#120c08] focus:outline-none focus:-translate-x-px focus:-translate-y-px transition-transform disabled:opacity-50"
+              className="flex-1 bg-[#17110d] border border-[rgba(255,138,51,0.25)] text-[#fdf1e2] placeholder:text-[#fdf1e2]/35 rounded-xl px-4 py-3 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] focus:outline-none focus:border-[rgba(255,138,51,0.6)] focus:shadow-[0_0_0_3px_rgba(255,106,19,0.15)] transition-all disabled:opacity-50"
             />
             <button
               type="submit"
@@ -676,17 +675,17 @@ export default function LandingPage() {
           </form>
 
           {consultaError && (
-            <div className="poster-sm bg-[#c1351d] text-white p-4 text-center text-sm font-bold mb-4">
+            <div className="poster-sm !border-[rgba(255,80,60,0.45)] bg-[#1e0d09] text-[#ff9a7a] p-4 text-center text-sm font-bold mb-4">
               {consultaError}
             </div>
           )}
 
           {consultaResultados !== null && consultaResultados.length === 0 && (
-            <div className="poster-sm bg-white p-6 text-center">
-              <p className="text-[#23170c] text-sm font-bold">
+            <div className="poster-sm p-6 text-center">
+              <p className="text-[#fdf1e2] text-sm font-bold">
                 {contenido.consulta_vacio}
               </p>
-              <p className="text-[#23170c]/60 text-xs mt-2">
+              <p className="text-[#fdf1e2]/55 text-xs mt-2">
                 {contenido.consulta_vacio_nota}
               </p>
             </div>
@@ -695,17 +694,17 @@ export default function LandingPage() {
           {consultaResultados !== null && consultaResultados.length > 0 && (
             <div className="space-y-4">
               {consultaResultados.map((p) => (
-                <div key={p.id} className="poster bg-white p-5">
+                <div key={p.id} className="poster p-5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                     <div>
-                      <p className="font-display text-xl uppercase tracking-wide text-[#23170c]">
+                      <p className="font-display text-xl uppercase tracking-wide text-[#fdf1e2]">
                         {p.nombre}
                       </p>
-                      <p className="text-[#23170c]/50 text-xs mt-0.5">
+                      <p className="text-[#fdf1e2]/45 text-xs mt-0.5">
                         {p.sorteo_nombre}
                       </p>
                     </div>
-                    <span className="text-xs font-bold text-[#23170c]/40">
+                    <span className="text-xs font-bold text-[#fdf1e2]/35">
                       {new Date(p.created_at).toLocaleDateString("es-AR", {
                         day: "numeric",
                         month: "long",
@@ -713,7 +712,7 @@ export default function LandingPage() {
                       })}
                     </span>
                   </div>
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-[#c1351d] mb-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-[#ff8a33] mb-3">
                     Tus {p.cantidad_chances} números asignados
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -722,7 +721,7 @@ export default function LandingPage() {
                       .map((numero) => (
                         <span
                           key={numero}
-                          className="bg-[#ff6a13] text-[#1a0e03] font-mono font-bold px-3 py-1 rounded-md text-sm border-[2px] border-[#120c08]"
+                          className="bg-gradient-to-b from-[#ff8a33] to-[#ff6a13] text-[#1a0e03] font-mono font-bold px-3 py-1 rounded-md text-sm border border-[rgba(255,200,140,0.5)] shadow-[0_0_14px_-4px_rgba(255,106,19,0.7)]"
                         >
                           {numero}
                         </span>
@@ -831,7 +830,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#120c08] border-t-[3px] border-[#ff6a13] py-10 text-[#fff3df]">
+      <footer className="bg-[#0b0806] border-t border-[rgba(255,138,51,0.2)] shadow-[0_-10px_40px_-20px_rgba(255,106,19,0.5)] py-10 text-[#fdf1e2]">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <span className="font-display text-2xl tracking-wider uppercase">

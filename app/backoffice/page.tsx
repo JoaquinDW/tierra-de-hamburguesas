@@ -95,6 +95,7 @@ import {
   obtenerPremiosSecundarios,
 } from "@/lib/database"
 import type { Sorteo, Comprador } from "@/lib/supabase"
+import { isVideoUrl } from "@/lib/media"
 import type { PremiosSecundarios } from "@/lib/database"
 import { generarComprobante } from "@/lib/generar-comprobante"
 import { useToast } from "@/hooks/use-toast"
@@ -1307,11 +1308,21 @@ export default function BackofficePage() {
                       <div className="space-y-4">
                         {sorteoActual.carousel_image_1 ? (
                           <div className="flex justify-center">
-                            <img
-                              src={sorteoActual.carousel_image_1}
-                              alt="Imagen principal del sorteo"
-                              className="max-h-48 rounded-lg object-contain border border-gray-200"
-                            />
+                            {isVideoUrl(sorteoActual.carousel_image_1) ? (
+                              <video
+                                src={sorteoActual.carousel_image_1}
+                                className="max-h-48 rounded-lg object-contain border border-gray-200 bg-black"
+                                muted
+                                playsInline
+                                controls
+                              />
+                            ) : (
+                              <img
+                                src={sorteoActual.carousel_image_1}
+                                alt="Imagen principal del sorteo"
+                                className="max-h-48 rounded-lg object-contain border border-gray-200"
+                              />
+                            )}
                           </div>
                         ) : (
                           <div className="flex flex-col items-center justify-center h-40 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">

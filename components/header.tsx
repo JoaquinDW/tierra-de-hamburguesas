@@ -18,7 +18,7 @@ export function Header({ marca = "Tierra de Hamburguesas" }: { marca?: string })
   return (
     <>
       {/* Cinta de promos tipo marquesina */}
-      <div className="bg-[#c1351d] text-[#fff3df] border-b-[3px] border-[#120c08] overflow-hidden">
+      <div className="bg-[#0b0806] text-[#ff8a33] border-b border-[rgba(255,138,51,0.18)] overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee py-1.5">
           {[...PROMO_ITEMS, ...PROMO_ITEMS, ...PROMO_ITEMS, ...PROMO_ITEMS].map(
             (item, i) => (
@@ -33,15 +33,15 @@ export function Header({ marca = "Tierra de Hamburguesas" }: { marca?: string })
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 bg-[#161210]/95 backdrop-blur-md border-b-[3px] border-[#120c08]">
+      <header className="sticky top-0 z-50 bg-[#0b0806]/80 backdrop-blur-xl border-b border-[rgba(255,138,51,0.14)] shadow-[0_10px_30px_-20px_rgba(255,106,19,0.6)]">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-[68px]">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative w-10 h-10 rounded-xl overflow-hidden border-[3px] border-[#120c08] bg-[#fff3df] shadow-[3px_3px_0_#120c08] group-hover:-translate-x-px group-hover:-translate-y-px transition-transform duration-200">
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-[rgba(255,138,51,0.4)] bg-[#17110d] shadow-[0_0_20px_-4px_rgba(255,106,19,0.7)] group-hover:shadow-[0_0_26px_-2px_rgba(255,106,19,0.9)] transition-shadow duration-200">
                 <Image src="/tdh-logo.jpg" alt={marca} fill className="object-cover" />
               </div>
-              <span className="font-display text-xl sm:text-2xl tracking-wider text-[#fff3df] uppercase leading-none">
+              <span className="font-display text-xl sm:text-2xl tracking-wider text-[#fdf1e2] uppercase leading-none drop-shadow-[0_0_18px_rgba(255,106,19,0.35)]">
                 {marca}
               </span>
             </Link>
@@ -72,7 +72,7 @@ export function Header({ marca = "Tierra de Hamburguesas" }: { marca?: string })
             <button
               onClick={() => setMenuAbierto(!menuAbierto)}
               aria-label="Abrir menú"
-              className="md:hidden text-[#fff3df] border-[2.5px] border-[#120c08] bg-[#1d1510] rounded-lg p-1.5 shadow-[3px_3px_0_#120c08] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+              className="md:hidden text-[#fdf1e2] border border-[rgba(255,138,51,0.3)] bg-[#17110d] rounded-lg p-1.5 shadow-[0_0_16px_-6px_rgba(255,106,19,0.7)] active:scale-95 transition-all"
             >
               {menuAbierto ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>

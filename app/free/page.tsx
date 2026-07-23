@@ -254,7 +254,7 @@ export default function FreePage() {
 
   /* ----------------------------- Formulario ----------------------------- */
   return (
-    <div className="min-h-screen bg-dark-gradient">
+    <div className="min-h-screen bg-dark-gradient" data-darkform>
       {/* Header */}
       <header className="bg-black/50 backdrop-blur-sm border-b border-gray-800 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">

@@ -159,31 +159,31 @@ export function TransferenciaModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-[#fff3df] text-[#241608] border-[3px] border-[#120c08] shadow-[8px_8px_0_#120c08] p-0 overflow-hidden max-h-[95vh] overflow-y-auto rounded-2xl [&>button]:text-[#120c08] [&>button]:opacity-80 [&>button:hover]:opacity-100">
+      <DialogContent className="sm:max-w-md bg-[#100b08] text-[#fdf1e2] border border-[rgba(255,138,51,0.25)] shadow-[0_0_70px_-12px_rgba(255,106,19,0.55)] p-0 overflow-hidden max-h-[95vh] overflow-y-auto rounded-2xl [&>button]:text-[#fdf1e2] [&>button]:opacity-70 [&>button:hover]:opacity-100">
         <DialogTitle className="sr-only">
           {avisoAceptado ? "Completá tu compra" : avisoTitulo}
         </DialogTitle>
         {!avisoAceptado ? (
           /* Aviso importante antes de transferir */
           <div className="px-6 py-8">
-            <div className="poster bg-white p-6">
+            <div className="poster p-6">
               {/* Logo */}
               <div className="flex justify-center mb-5">
                 <img
                   src="/tdh-logo.jpg"
                   alt="Logo"
-                  className="w-16 h-16 rounded-xl object-cover border-[3px] border-[#120c08] shadow-[3px_3px_0_#120c08]"
+                  className="w-16 h-16 rounded-xl object-cover border border-[rgba(255,138,51,0.4)] shadow-[0_0_24px_-4px_rgba(255,106,19,0.75)]"
                 />
               </div>
               <div className="flex items-center gap-3 mb-5">
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#f4b400] border-[2.5px] border-[#120c08] shadow-[3px_3px_0_#120c08] flex-shrink-0">
-                  <AlertTriangle className="w-6 h-6 text-[#120c08]" />
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-[#ff8a33] to-[#ff6a13] border border-[rgba(255,200,140,0.5)] shadow-[0_0_20px_-4px_rgba(255,106,19,0.8)] flex-shrink-0">
+                  <AlertTriangle className="w-6 h-6 text-[#1a0e03]" />
                 </div>
-                <h2 className="font-display text-2xl uppercase tracking-wide text-[#c1351d] leading-[0.95]">
+                <h2 className="font-display text-2xl uppercase tracking-wide text-[#ff8a33] leading-[0.95]">
                   {avisoTitulo}
                 </h2>
               </div>
-              <p className="text-[#241608] text-[15px] leading-relaxed mb-6 whitespace-pre-line">
+              <p className="text-[#fdf1e2]/85 text-[15px] leading-relaxed mb-6 whitespace-pre-line">
                 {avisoTexto}
               </p>
               <Button
@@ -202,10 +202,10 @@ export function TransferenciaModal({
               <span className="sticker sticker-ketchup text-[10px] px-3 py-1 mb-3">
                 🧾 Tu pedido
               </span>
-              <h2 className="font-display text-4xl uppercase tracking-wide text-[#23170c] mt-2 leading-[0.95]">
+              <h2 className="font-display text-4xl uppercase tracking-wide text-[#fdf1e2] mt-2 leading-[0.95]">
                 Completá tu compra
               </h2>
-              <p className="text-[#241608]/60 text-sm mt-1 font-medium">
+              <p className="text-[#fdf1e2]/55 text-sm mt-1 font-medium">
                 Transferí y cargá el comprobante
               </p>
             </div>
@@ -224,12 +224,12 @@ export function TransferenciaModal({
             </div>
 
             {/* Alias */}
-            <div className="mx-6 mb-5 poster-sm bg-white p-4">
-              <p className="text-[11px] text-[#c1351d] uppercase tracking-widest mb-2 font-extrabold">
+            <div className="mx-6 mb-5 poster-sm p-4">
+              <p className="text-[11px] text-[#ff8a33] uppercase tracking-widest mb-2 font-extrabold">
                 Alias
               </p>
               <div className="flex items-center gap-2">
-                <div className="flex-1 bg-[#1d1510] rounded-lg border-[2.5px] border-[#120c08] px-4 py-3">
+                <div className="flex-1 bg-[#0f0a07] rounded-lg border border-[rgba(255,138,51,0.25)] px-4 py-3">
                   <span className="font-mono text-base text-[#ff8a33] tracking-wide">
                     {alias}
                   </span>
@@ -238,7 +238,7 @@ export function TransferenciaModal({
                   type="button"
                   onClick={copiarAlias}
                   aria-label="Copiar alias"
-                  className="flex items-center justify-center w-11 h-11 rounded-lg bg-[#ff6a13] border-[2.5px] border-[#120c08] shadow-[3px_3px_0_#120c08] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex-shrink-0"
+                  className="flex items-center justify-center w-11 h-11 rounded-lg bg-gradient-to-b from-[#ff8a33] to-[#ff6a13] border border-[rgba(255,200,140,0.5)] shadow-[0_0_16px_-4px_rgba(255,106,19,0.8)] active:scale-95 transition-all flex-shrink-0"
                 >
                   {aliasCopiado ? (
                     <Check className="w-5 h-5 text-[#1a0e03]" />
@@ -247,21 +247,21 @@ export function TransferenciaModal({
                   )}
                 </button>
               </div>
-              <p className="text-xs text-[#241608]/60 mt-2 font-medium">
+              <p className="text-xs text-[#fdf1e2]/55 mt-2 font-medium">
                 Titular: {titular}
               </p>
             </div>
 
             {/* Formulario */}
             <form onSubmit={handleSubmit} className="px-6 pb-6 space-y-3">
-              <p className="text-[11px] text-[#c1351d] uppercase tracking-widest font-extrabold mb-3">
+              <p className="text-[11px] text-[#ff8a33] uppercase tracking-widest font-extrabold mb-3">
                 Tus datos
               </p>
 
               <div>
                 <Label
                   htmlFor="nombre"
-                  className="text-[#241608] text-xs font-bold mb-1 block"
+                  className="text-[#fdf1e2] text-xs font-bold mb-1 block"
                 >
                   Nombre completo *
                 </Label>
@@ -271,7 +271,7 @@ export function TransferenciaModal({
                   value={formData.nombre}
                   onChange={handleInputChange}
                   placeholder="Juan Pérez"
-                  className="bg-white border-[2.5px] border-[#120c08] text-[#241608] placeholder:text-[#241608]/40 shadow-[2px_2px_0_#120c08] focus:border-[#ff6a13] focus-visible:ring-2 focus-visible:ring-[#ff6a13]/40 h-11 rounded-lg"
+                  className="bg-[#17110d] border border-[rgba(255,138,51,0.25)] text-[#fdf1e2] placeholder:text-[#fdf1e2]/35 focus:border-[#ff6a13] focus-visible:ring-2 focus-visible:ring-[#ff6a13]/40 h-11 rounded-lg"
                   disabled={loading}
                 />
               </div>
@@ -279,10 +279,10 @@ export function TransferenciaModal({
               <div>
                 <Label
                   htmlFor="email"
-                  className="text-[#241608] text-xs font-bold mb-1 block"
+                  className="text-[#fdf1e2] text-xs font-bold mb-1 block"
                 >
                   Email{" "}
-                  <span className="text-[#241608]/50 font-medium">
+                  <span className="text-[#fdf1e2]/45 font-medium">
                     (recibís tus números acá)
                   </span>
                 </Label>
@@ -293,7 +293,7 @@ export function TransferenciaModal({
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="juan@email.com"
-                  className="bg-white border-[2.5px] border-[#120c08] text-[#241608] placeholder:text-[#241608]/40 shadow-[2px_2px_0_#120c08] focus:border-[#ff6a13] focus-visible:ring-2 focus-visible:ring-[#ff6a13]/40 h-11 rounded-lg"
+                  className="bg-[#17110d] border border-[rgba(255,138,51,0.25)] text-[#fdf1e2] placeholder:text-[#fdf1e2]/35 focus:border-[#ff6a13] focus-visible:ring-2 focus-visible:ring-[#ff6a13]/40 h-11 rounded-lg"
                   disabled={loading}
                 />
               </div>
@@ -301,7 +301,7 @@ export function TransferenciaModal({
               <div>
                 <Label
                   htmlFor="contacto"
-                  className="text-[#241608] text-xs font-bold mb-1 block"
+                  className="text-[#fdf1e2] text-xs font-bold mb-1 block"
                 >
                   WhatsApp o Instagram *
                 </Label>
@@ -311,23 +311,23 @@ export function TransferenciaModal({
                   value={formData.contacto}
                   onChange={handleInputChange}
                   placeholder="3794123456 o @usuario"
-                  className="bg-white border-[2.5px] border-[#120c08] text-[#241608] placeholder:text-[#241608]/40 shadow-[2px_2px_0_#120c08] focus:border-[#ff6a13] focus-visible:ring-2 focus-visible:ring-[#ff6a13]/40 h-11 rounded-lg"
+                  className="bg-[#17110d] border border-[rgba(255,138,51,0.25)] text-[#fdf1e2] placeholder:text-[#fdf1e2]/35 focus:border-[#ff6a13] focus-visible:ring-2 focus-visible:ring-[#ff6a13]/40 h-11 rounded-lg"
                   disabled={loading}
                 />
               </div>
 
               {/* Comprobante */}
               <div>
-                <Label className="text-[11px] text-[#c1351d] mb-1 block uppercase tracking-widest font-extrabold">
+                <Label className="text-[11px] text-[#ff8a33] mb-1 block uppercase tracking-widest font-extrabold">
                   Comprobante *
                 </Label>
                 <div
-                  className={`mt-1 border-[2.5px] border-dashed rounded-xl p-5 text-center cursor-pointer transition-colors ${
+                  className={`mt-1 border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-colors ${
                     dragOver
                       ? "border-[#ff6a13] bg-[#ff6a13]/10"
                       : comprobanteFile
-                        ? "border-[#6fae3f] bg-[#6fae3f]/15"
-                        : "border-[#120c08]/40 hover:border-[#ff6a13] bg-white"
+                        ? "border-[#6fae3f] bg-[#6fae3f]/12"
+                        : "border-[rgba(255,138,51,0.3)] hover:border-[#ff6a13] bg-[#17110d]"
                   }`}
                   onDrop={handleDrop}
                   onDragOver={(e) => {
@@ -357,7 +357,7 @@ export function TransferenciaModal({
                           <p className="text-sm font-bold text-[#4d8a26] truncate max-w-[180px]">
                             {comprobanteFile.name}
                           </p>
-                          <p className="text-xs text-[#241608]/50">
+                          <p className="text-xs text-[#fdf1e2]/45">
                             {(comprobanteFile.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
@@ -368,19 +368,19 @@ export function TransferenciaModal({
                           e.stopPropagation()
                           setComprobanteFile(null)
                         }}
-                        className="w-7 h-7 rounded-full bg-[#241608]/10 hover:bg-[#241608]/20 flex items-center justify-center flex-shrink-0"
+                        className="w-7 h-7 rounded-full bg-[#fdf1e2]/10 hover:bg-[#fdf1e2]/20 flex items-center justify-center flex-shrink-0"
                         disabled={loading}
                       >
-                        <X className="w-4 h-4 text-[#241608]" />
+                        <X className="w-4 h-4 text-[#fdf1e2]" />
                       </button>
                     </div>
                   ) : (
                     <div className="space-y-1">
-                      <Upload className="w-7 h-7 text-[#241608]/50 mx-auto" />
-                      <p className="text-sm font-bold text-[#241608]">
+                      <Upload className="w-7 h-7 text-[#fdf1e2]/50 mx-auto" />
+                      <p className="text-sm font-bold text-[#fdf1e2]">
                         Tocá para subir el comprobante
                       </p>
-                      <p className="text-xs text-[#241608]/50">
+                      <p className="text-xs text-[#fdf1e2]/50">
                         JPG, PNG, WEBP o PDF · máx. 5MB
                       </p>
                     </div>

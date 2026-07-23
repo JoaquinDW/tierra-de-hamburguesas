@@ -3,9 +3,10 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ImageUpload } from "@/components/image-upload"
+import { MediaUpload } from "@/components/media-upload"
 import { X, Upload } from "lucide-react"
 import type { Sorteo } from "@/lib/supabase"
+import { isVideoUrl } from "@/lib/media"
 
 interface CarouselManagerProps {
   sorteo: Sorteo
@@ -152,7 +153,7 @@ export function CarouselManager({
       </CardHeader>
       <CardContent className="space-y-6">
         <p className="text-sm text-gray-600">
-          Gestiona hasta 8 imágenes que aparecerán en el carrusel de la página principal.
+          Gestiona hasta 8 imágenes o videos (MP4) que aparecerán en el carrusel de la página principal.
         </p>
 
         <div className="grid gap-6 md:grid-cols-4">
@@ -162,11 +163,21 @@ export function CarouselManager({
 
               {url ? (
                 <div className="relative">
-                  <img
-                    src={url}
-                    alt={`Carrusel imagen ${posicion}`}
-                    className="w-full h-32 object-cover rounded-lg border"
-                  />
+                  {isVideoUrl(url) ? (
+                    <video
+                      src={url}
+                      className="w-full h-32 object-cover rounded-lg border bg-black"
+                      muted
+                      playsInline
+                      controls
+                    />
+                  ) : (
+                    <img
+                      src={url}
+                      alt={`Carrusel ${posicion}`}
+                      className="w-full h-32 object-cover rounded-lg border"
+                    />
+                  )}
                   <Button
                     size="sm"
                     variant="destructive"
@@ -179,25 +190,17 @@ export function CarouselManager({
                 </div>
               ) : (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <p className="text-sm text-gray-500 mb-3">Sin imagen</p>
-                  <ImageUpload
-                    onImageChange={(url: string) =>
-                      handleImagenCambiada(url, posicion)
-                    }
-                    disabled={loading}
-                  />
+                  <p className="text-sm text-gray-500 mb-3">Sin contenido</p>
                 </div>
               )}
 
-              {url && (
-                <ImageUpload
-                  currentImage={url}
-                  onImageChange={(url: string) =>
-                    handleImagenCambiada(url, posicion)
-                  }
-                  disabled={loading}
-                />
-              )}
+              <MediaUpload
+                label={url ? "Cambiar" : "Subir imagen o video"}
+                onUploaded={(nuevaUrl: string) =>
+                  handleImagenCambiada(nuevaUrl, posicion)
+                }
+                disabled={loading}
+              />
             </div>
           ))}
         </div>

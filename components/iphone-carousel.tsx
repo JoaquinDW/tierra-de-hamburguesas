@@ -5,6 +5,7 @@ import useEmblaCarousel from "embla-carousel-react"
 import { obtenerSorteoActivo } from "@/lib/database"
 import type { Sorteo } from "@/lib/supabase"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { isVideoUrl } from "@/lib/media"
 
 export default function IphoneCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
@@ -73,14 +74,27 @@ export default function IphoneCarousel() {
           {finalSlides.map((src, idx) => (
             <div key={idx} className="flex-[0_0_100%] min-w-0">
               <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                {/* Imagen principal — usa la relación de aspecto natural, sin márgenes */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={src}
-                  alt={`Slide ${idx + 1}`}
-                  className="block w-full h-auto"
-                  loading={idx === 0 ? "eager" : "lazy"}
-                />
+                {/* Cada slide usa su relación de aspecto natural, sin márgenes */}
+                {isVideoUrl(src) ? (
+                  <video
+                    src={src}
+                    className="block w-full h-auto"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    controls
+                    preload={idx === 0 ? "auto" : "metadata"}
+                  />
+                ) : (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={src}
+                    alt={`Slide ${idx + 1}`}
+                    className="block w-full h-auto"
+                    loading={idx === 0 ? "eager" : "lazy"}
+                  />
+                )}
               </div>
             </div>
           ))}

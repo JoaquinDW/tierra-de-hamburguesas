@@ -29,7 +29,7 @@ function GanadorSlide({ slide }: GanadorSlideProps) {
       <CardContent className="p-0 h-full">
         <div className="grid md:grid-cols-2 gap-0 h-full">
           {/* Columna de imagen */}
-          <div className="relative bg-[#1d1510] aspect-square md:aspect-auto md:min-h-[480px] border-b-[3px] md:border-b-0 md:border-r-[3px] border-[#120c08]">
+          <div className="relative bg-[#0f0a07] aspect-square md:aspect-auto md:min-h-[480px] border-b md:border-b-0 md:border-r border-[rgba(255,138,51,0.18)]">
             {slide.imagen ? (
               <div className="absolute inset-0 flex items-center justify-center p-2 md:p-3">
                 <img
@@ -40,25 +40,25 @@ function GanadorSlide({ slide }: GanadorSlideProps) {
               </div>
             ) : (
               <div className="h-full flex items-center justify-center p-8 min-h-[300px]">
-                <div className="w-24 h-24 rounded-2xl bg-[#f4b400] flex items-center justify-center border-[3px] border-[#120c08] shadow-[4px_4px_0_#120c08] animate-bob">
-                  <Trophy className="h-12 w-12 text-[#120c08]" />
+                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#ff8a33] to-[#ff6a13] flex items-center justify-center border border-[rgba(255,200,140,0.5)] shadow-[0_0_34px_-6px_rgba(255,106,19,0.8)] animate-bob">
+                  <Trophy className="h-12 w-12 text-[#1a0e03]" />
                 </div>
               </div>
             )}
           </div>
 
           {/* Columna de información */}
-          <div className="p-8 md:p-10 flex flex-col justify-center space-y-6 tdh-stripes">
+          <div className="p-8 md:p-10 flex flex-col justify-center space-y-6">
             <span className="sticker text-[10px] px-3 py-1 w-fit">
               <Trophy className="h-3 w-3" />
               Ganador
             </span>
 
             <div>
-              <h3 className="font-display text-4xl md:text-5xl tracking-wide uppercase text-[#23170c] mb-3 leading-[0.95]">
+              <h3 className="font-display text-4xl md:text-5xl tracking-wide uppercase text-[#fdf1e2] mb-3 leading-[0.95]">
                 {slide.nombre}
               </h3>
-              <div className="h-1 w-16 bg-[#c1351d] rounded-full"></div>
+              <div className="h-1 w-16 bg-gradient-to-r from-[#ff8a33] to-[#ff6a13] rounded-full shadow-[0_0_12px_rgba(255,106,19,0.7)]"></div>
             </div>
           </div>
         </div>
@@ -145,16 +145,16 @@ export function GanadoresPasados({
 
   if (loading) {
     return (
-      <section className="tdh-grill py-20 border-t-[3px] border-[#120c08]">
+      <section className="tdh-grill py-20 border-t border-[rgba(255,138,51,0.12)]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#f4b400] rounded-2xl mb-4 border-[3px] border-[#120c08] shadow-[4px_4px_0_#120c08]">
-              <Trophy className="h-7 w-7 text-[#120c08]" />
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#ff8a33] to-[#ff6a13] rounded-2xl mb-4 border border-[rgba(255,200,140,0.5)] shadow-[0_0_30px_-6px_rgba(255,106,19,0.8)]">
+              <Trophy className="h-7 w-7 text-[#1a0e03]" />
             </div>
-            <h2 className="font-display text-5xl tracking-wide uppercase text-[#fff3df] mb-4">
+            <h2 className="font-display text-5xl tracking-wide uppercase text-[#fdf1e2] mb-4">
               {contenido.pasados_titulo}
             </h2>
-            <p className="text-[#fff3df]/50 text-sm">Cargando…</p>
+            <p className="text-[#fdf1e2]/50 text-sm">Cargando…</p>
           </div>
         </div>
       </section>
@@ -168,15 +168,15 @@ export function GanadoresPasados({
   return (
     <>
       {/* CTA de contacto */}
-      <div className="tdh-grill py-10 border-t-[3px] border-[#120c08] text-center">
-        <p className="text-[#fff3df]/70 text-sm mb-4 font-bold uppercase tracking-wide">
+      <div className="tdh-grill py-10 border-t border-[rgba(255,138,51,0.12)] text-center">
+        <p className="text-[#fdf1e2]/70 text-sm mb-4 font-bold uppercase tracking-wide">
           {contenido.pasados_cta_texto}
         </p>
         <a
           href={contenido.whatsapp_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-[#6fae3f] text-[#0e2106] border-[3px] border-[#120c08] shadow-[4px_4px_0_#120c08] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0_#120c08] font-extrabold uppercase tracking-wide px-8 py-3 rounded-xl text-sm transition-all duration-150"
+          className="btn-chunky inline-flex items-center gap-2 px-8 py-3 rounded-xl text-sm"
         >
           {contenido.pasados_cta_boton}
         </a>
@@ -184,17 +184,17 @@ export function GanadoresPasados({
 
       <section
         id="ganadores"
-        className="tdh-paper py-16 border-t-[3px] border-[#120c08]"
+        className="tdh-paper py-16 border-t border-[rgba(255,138,51,0.14)]"
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <span className="sticker sticker-ketchup text-[11px] px-3 py-1 mb-4">
               🏆 {contenido.pasados_kicker}
             </span>
-            <h2 className="font-display text-5xl lg:text-6xl tracking-wide uppercase text-[#23170c] mb-3 mt-2">
+            <h2 className="font-display text-5xl lg:text-6xl tracking-wide uppercase text-[#fdf1e2] mb-3 mt-2">
               {contenido.pasados_titulo}
             </h2>
-            <p className="text-[#23170c]/60 text-sm font-medium max-w-md mx-auto">
+            <p className="text-[#fdf1e2]/55 text-sm font-medium max-w-md mx-auto">
               {contenido.pasados_descripcion}
             </p>
           </div>
@@ -226,7 +226,7 @@ export function GanadoresPasados({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-[#1d1510] hover:bg-[#1d1510] text-[#fff3df] border-[2.5px] border-[#120c08] shadow-[3px_3px_0_#120c08] rounded-xl w-11 h-11 z-10 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-[#17110d]/90 hover:bg-[#201812] text-[#fdf1e2] border border-[rgba(255,138,51,0.3)] shadow-[0_0_18px_-6px_rgba(255,106,19,0.7)] backdrop-blur rounded-xl w-11 h-11 z-10 active:scale-95"
                   onClick={anteriorSlide}
                   aria-label="Ganador anterior"
                 >
@@ -235,7 +235,7 @@ export function GanadoresPasados({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#1d1510] hover:bg-[#1d1510] text-[#fff3df] border-[2.5px] border-[#120c08] shadow-[3px_3px_0_#120c08] rounded-xl w-11 h-11 z-10 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-[#17110d]/90 hover:bg-[#201812] text-[#fdf1e2] border border-[rgba(255,138,51,0.3)] shadow-[0_0_18px_-6px_rgba(255,106,19,0.7)] backdrop-blur rounded-xl w-11 h-11 z-10 active:scale-95"
                   onClick={siguienteSlide}
                   aria-label="Ganador siguiente"
                 >
@@ -248,10 +248,10 @@ export function GanadoresPasados({
                       key={index}
                       onClick={() => setSlideActual(index)}
                       aria-label={`Ir al ganador ${index + 1}`}
-                      className={`h-2 rounded-full border-2 border-[#120c08] transition-all ${
+                      className={`h-2 rounded-full transition-all ${
                         index === slideActual
-                          ? "bg-[#ff6a13] w-7"
-                          : "bg-[#23170c]/20 hover:bg-[#23170c]/40 w-2"
+                          ? "bg-[#ff6a13] w-7 shadow-[0_0_10px_rgba(255,106,19,0.8)]"
+                          : "bg-[#fdf1e2]/20 hover:bg-[#fdf1e2]/40 w-2"
                       }`}
                     />
                   ))}

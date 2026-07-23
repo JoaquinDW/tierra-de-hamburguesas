@@ -6,6 +6,7 @@ import {
   obtenerSorteoActivo,
 } from "@/lib/database"
 import { verificarNumerosUnicos } from "@/lib/verificarNumerosUnicos"
+import { isVideoUrl } from "@/lib/media"
 import { enviarEmailConfirmacion } from "@/lib/email"
 
 export async function POST(request: NextRequest) {
@@ -106,7 +107,10 @@ export async function POST(request: NextRequest) {
         numerosAsignados,
         precioPagado: 0,
         sorteoNombre: sorteo.nombre,
-        sorteoImagenUrl: sorteo.carousel_image_1 || sorteo.imagen_url || undefined,
+        sorteoImagenUrl:
+          (sorteo.carousel_image_1 && !isVideoUrl(sorteo.carousel_image_1)
+            ? sorteo.carousel_image_1
+            : sorteo.imagen_url) || undefined,
         // Sin compradorId a propósito: no hay contenido digital para participaciones gratuitas.
         esGratuito: true,
       })

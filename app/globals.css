@@ -124,23 +124,25 @@
 .animate-celebrate { animation: celebrate 0.6s ease-in-out; }
 .animate-steam { animation: steam 2.4s ease-in-out infinite; }
 
-/* Color de acento sin glow (naranja TDH) */
+/* Acento naranja con leve glow de texto */
 .neon-text {
-  color: var(--tdh-orange);
+  color: var(--tdh-orange-light);
+  text-shadow: 0 0 18px rgba(255, 106, 19, 0.55);
 }
 
-/* Borde de acento sutil */
+/* Borde de acento con glow */
 .neon-border {
-  border: 1px solid rgba(255, 106, 19, 0.25);
+  border: 1px solid rgba(255, 138, 51, 0.35);
+  box-shadow: 0 0 0 1px rgba(255, 106, 19, 0.08), 0 0 24px -6px rgba(255, 106, 19, 0.45);
 }
 
-/* Sombra suave de acento */
+/* Sombra/halo de acento reutilizable */
 .neon-glow {
-  box-shadow: 0 4px 24px rgba(255, 106, 19, 0.20);
+  box-shadow: 0 0 40px -8px rgba(255, 106, 19, 0.45);
 }
 
 .glow-red {
-  color: var(--tdh-orange);
+  color: var(--tdh-orange-light);
 }
 
 /* Fondos — negro cálido tipo carbón/parrilla */
@@ -154,15 +156,16 @@
 
 /* Card oscura limpia (cálida) */
 .bg-card-dark {
-  background: #17110c;
-  border: 1px solid rgba(255, 140, 40, 0.10);
+  background: var(--tdh-surface);
+  border: 1px solid var(--tdh-line);
 }
 
 /* Alias semántico para cards limpias */
 .card-clean {
-  background: #17110c;
-  border: 1px solid #2a1f15;
-  border-radius: 0.75rem;
+  background: var(--tdh-surface);
+  border: 1px solid var(--tdh-line);
+  border-radius: 0.9rem;
+  box-shadow: 0 0 30px -14px rgba(255, 106, 19, 0.4);
 }
 
 /* Botón sólido naranja */
@@ -249,122 +252,153 @@
 }
 
 /* ============================================================
-   TDH — Sistema visual "cartel de hamburguesería"
-   Bloques duros, bordes negros, sombras offset y texturas de
-   papel/parrilla. Pensado para sentirse como un menú impreso.
+   TDH — Sistema visual "dark neon" (híbrido)
+   Base negra cálida, superficies elevadas y un halo naranja que
+   resalta cada bloque. Se conserva la tipografía display y algún
+   guiño de marca, pero el lenguaje es moderno y luminoso.
    ============================================================ */
 :root {
-  --tdh-ink: #120c08;        /* negro cálido (tinta / bordes) */
-  --tdh-cream: #fff3df;      /* papel / pan */
-  --tdh-cream-2: #ffe9c7;    /* pan tostado */
-  --tdh-mustard: #f4b400;    /* mostaza */
-  --tdh-ketchup: #c1351d;    /* ketchup / tomate */
-  --tdh-lettuce: #6fae3f;    /* lechuga (acento puntual) */
+  --tdh-ink: #0b0806;        /* negro cálido base */
+  --tdh-cream: #fdf1e2;      /* texto claro / crema */
+  --tdh-surface: #17110d;    /* superficie de tarjeta */
+  --tdh-surface-2: #201812;  /* superficie elevada */
+  --tdh-line: rgba(255, 138, 51, 0.20);  /* borde tenue naranja */
+  --tdh-glow: rgba(255, 106, 19, 0.55);
 }
 
-/* Fondo carbón/parrilla con halftone naranja muy sutil */
+/* Fondo carbón con halo naranja superior + halftone muy sutil */
 .tdh-grill {
-  background-color: #161210;
-  background-image: radial-gradient(rgba(255, 106, 19, 0.10) 1px, transparent 1.5px);
-  background-size: 16px 16px;
+  background-color: #0b0806;
+  background-image:
+    radial-gradient(70% 55% at 50% -5%, rgba(255, 106, 19, 0.12), transparent 70%),
+    radial-gradient(rgba(255, 106, 19, 0.045) 1px, transparent 1.5px);
+  background-size: 100% 100%, 22px 22px;
 }
 
-/* Sección de papel (menú impreso) */
+/* Sección "panel" — una superficie apenas más clara sobre el fondo */
 .tdh-paper {
-  background-color: var(--tdh-cream);
-  color: #241608;
-  background-image: radial-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1.4px);
-  background-size: 18px 18px;
+  background-color: #0f0a07;
+  color: var(--tdh-cream);
+  background-image: radial-gradient(80% 60% at 50% 0%, rgba(255, 106, 19, 0.08), transparent 70%);
 }
 
-/* Rayas tipo toldo / papel de hamburguesa */
+/* La textura de rayas se retira en el look moderno */
 .tdh-stripes {
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(0, 0, 0, 0.05) 0 14px,
-    rgba(0, 0, 0, 0) 14px 28px
-  );
+  background-image: none;
 }
 
-/* Tarjeta "poster": borde negro grueso + sombra dura desplazada */
+/* Tarjeta "poster": superficie oscura con borde y halo naranja */
 .poster {
-  border: 3px solid var(--tdh-ink);
-  box-shadow: 6px 6px 0 var(--tdh-ink);
-  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 138, 51, 0.06), rgba(255, 255, 255, 0.012)),
+    var(--tdh-surface);
+  border: 1px solid var(--tdh-line);
+  border-radius: 18px;
+  color: var(--tdh-cream);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 20px 44px -24px rgba(0, 0, 0, 0.95),
+    0 0 34px -12px rgba(255, 106, 19, 0.35);
 }
 .poster-sm {
-  border: 2.5px solid var(--tdh-ink);
-  box-shadow: 4px 4px 0 var(--tdh-ink);
-  border-radius: 12px;
+  background: var(--tdh-surface);
+  border: 1px solid var(--tdh-line);
+  border-radius: 14px;
+  color: var(--tdh-cream);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 24px -12px rgba(255, 106, 19, 0.4);
 }
-.poster-cream { background: var(--tdh-cream); color: #23170c; }
-.poster-orange { background: var(--tdh-orange); color: #1a0e03; }
-.poster-ink { background: #1d1510; color: var(--tdh-cream); }
+/* Variantes de color (definidas después para ganar en cascada) */
+.poster-cream { background: var(--tdh-surface); color: var(--tdh-cream); }
+.poster-ink { background: #100b08; color: var(--tdh-cream); }
+.poster-orange {
+  background: linear-gradient(135deg, #ff8a33 0%, #ff6a13 55%, #c24a00 100%);
+  color: #1a0e03;
+  border-color: rgba(255, 200, 140, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 12px 40px -12px rgba(255, 106, 19, 0.6),
+    0 0 40px -10px rgba(255, 106, 19, 0.5);
+}
 
-/* Botón "chunky" (snack bar). Se presiona como un botón físico. */
+/* Botón principal: pastilla naranja luminosa */
 .btn-chunky {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--tdh-orange);
+  background: linear-gradient(180deg, #ff8a33 0%, #ff6a13 100%);
   color: #1a0e03;
-  border: 3px solid var(--tdh-ink);
-  box-shadow: 4px 4px 0 var(--tdh-ink);
+  border: 1px solid rgba(255, 200, 140, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 8px 24px -8px rgba(255, 106, 19, 0.65);
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   border-radius: 12px;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
 .btn-chunky:hover {
-  background: var(--tdh-orange-light);
-  transform: translate(-1px, -1px);
-  box-shadow: 6px 6px 0 var(--tdh-ink);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 12px 30px -8px rgba(255, 106, 19, 0.85);
 }
 .btn-chunky:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--tdh-ink);
+  transform: translateY(0);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 6px 16px -8px rgba(255, 106, 19, 0.7);
 }
 .btn-chunky:disabled {
-  opacity: 0.45;
-  box-shadow: 4px 4px 0 var(--tdh-ink);
+  opacity: 0.4;
+  filter: grayscale(0.2);
+  box-shadow: none;
   transform: none;
   cursor: not-allowed;
 }
 
-/* Botón secundario en crema */
+/* Botón secundario: contorno sobre oscuro */
 .btn-chunky-cream {
-  background: var(--tdh-cream);
-  color: #23170c;
+  background: rgba(255, 243, 223, 0.06);
+  color: var(--tdh-cream);
+  border-color: rgba(255, 243, 223, 0.18);
+  box-shadow: none;
 }
-.btn-chunky-cream:hover { background: #fff; }
+.btn-chunky-cream:hover { background: rgba(255, 243, 223, 0.12); filter: none; }
 
-/* Sticker rotado (etiqueta engomada) */
+/* Sticker → pastilla con glow (etiqueta luminosa) */
 .sticker {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: var(--tdh-mustard);
-  color: #221400;
-  border: 2.5px solid var(--tdh-ink);
+  background: rgba(255, 106, 19, 0.12);
+  color: var(--tdh-orange-light);
+  border: 1px solid rgba(255, 138, 51, 0.4);
   border-radius: 999px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  box-shadow: 3px 3px 0 var(--tdh-ink);
-  transform: rotate(-4deg);
+  letter-spacing: 0.12em;
+  box-shadow: 0 0 20px -6px rgba(255, 106, 19, 0.6);
+  transform: none;
 }
-.sticker-ketchup { background: var(--tdh-ketchup); color: #fff; }
-.sticker-orange { background: var(--tdh-orange); color: #1a0e03; }
+.sticker-ketchup { background: rgba(255, 106, 19, 0.12); color: var(--tdh-orange-light); }
+.sticker-orange {
+  background: linear-gradient(135deg, #ff8a33, #ff6a13);
+  color: #1a0e03;
+  border-color: rgba(255, 200, 140, 0.6);
+}
 
-/* Título estilo cartel con contorno */
+/* Título estilo cartel con contorno (contorno naranja tenue) */
 .text-stroke {
   color: transparent;
-  -webkit-text-stroke: 2px var(--tdh-cream);
+  -webkit-text-stroke: 2px rgba(255, 138, 51, 0.9);
 }
 .text-stroke-ink {
   color: transparent;
-  -webkit-text-stroke: 2.5px var(--tdh-ink);
+  -webkit-text-stroke: 2.5px rgba(255, 138, 51, 0.9);
 }
 
 /* Línea punteada tipo "leader" de menú (precio …………… $) */
@@ -376,8 +410,8 @@
 
 /* Animaciones de personalidad */
 @keyframes wiggle {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(-1deg) scale(1.03); }
+  0%, 100% { box-shadow: 0 0 18px -8px rgba(255, 106, 19, 0.55); transform: translateY(0); }
+  50% { box-shadow: 0 0 26px -4px rgba(255, 106, 19, 0.85); transform: translateY(-2px); }
 }
 .sticker-wiggle { animation: wiggle 2.8s ease-in-out infinite; }
 
@@ -403,6 +437,23 @@
   .animate-marquee {
     animation: none;
   }
+}
+
+/* Formularios sobre superficie oscura: inputs/textarea heredan el look dark.
+   No afecta radios/checkboxes (mantienen su accent-color). */
+[data-darkform] input:not([type="radio"]):not([type="checkbox"]),
+[data-darkform] textarea {
+  background: #17110d;
+  border-color: rgba(255, 138, 51, 0.25);
+  color: var(--tdh-cream);
+}
+[data-darkform] input:not([type="radio"]):not([type="checkbox"])::placeholder,
+[data-darkform] textarea::placeholder {
+  color: rgba(253, 241, 226, 0.35);
+}
+[data-darkform] input:not([type="radio"]):not([type="checkbox"]):focus-visible,
+[data-darkform] textarea:focus-visible {
+  border-color: rgba(255, 138, 51, 0.6);
 }
 
 /* Scroll reveal — entra al entrar en viewport (transform/opacity only) */

@@ -118,15 +118,15 @@ function PagoExitoContent() {
 
   if (estado === "loading") {
     return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <Card className="w-full max-w-md mx-4">
+      <div className="min-h-screen tdh-grill flex items-center justify-center">
+        <Card className="w-full max-w-md mx-4 card-clean text-[#fdf1e2]">
           <CardContent className="pt-6">
             <div className="text-center">
-              <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <div className="w-12 h-12 border-4 border-[#ff6a13] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
               <h2 className="text-xl font-semibold mb-2">
                 Confirmando pago...
               </h2>
-              <p className="text-gray-600">
+              <p className="text-[#fdf1e2]/60">
                 Estamos verificando tu pago con MercadoPago
               </p>
             </div>
@@ -138,24 +138,26 @@ function PagoExitoContent() {
 
   if (estado === "error") {
     return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <Card className="w-full max-w-md mx-4">
+      <div className="min-h-screen tdh-grill flex items-center justify-center">
+        <Card className="w-full max-w-md mx-4 card-clean text-[#fdf1e2]">
           <CardHeader className="text-center">
-            <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-            <CardTitle className="text-red-600">Error en el pago</CardTitle>
+            <XCircle className="w-16 h-16 text-[#ff6a4b] mx-auto mb-4" />
+            <CardTitle className="text-[#ff8a6a] font-display text-2xl uppercase tracking-wide">
+              Error en el pago
+            </CardTitle>
           </CardHeader>
           <CardContent className="text-center space-y-4">
-            <p className="text-gray-600">
+            <p className="text-[#fdf1e2]/70">
               Hubo un problema procesando tu pago. Puede ser que:
             </p>
-            <ul className="text-sm text-gray-500 text-left space-y-1">
+            <ul className="text-sm text-[#fdf1e2]/50 text-left space-y-1">
               <li>• El pago fue rechazado</li>
               <li>• La sesión expiró</li>
               <li>• Hubo un error técnico</li>
             </ul>
             <div className="pt-4">
               <Link href="/">
-                <Button className="w-full">
+                <Button className="btn-chunky w-full">
                   <Home className="w-4 h-4 mr-2" />
                   Volver al inicio
                 </Button>
@@ -168,11 +170,13 @@ function PagoExitoContent() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-      <Card className="w-full max-w-lg mx-4">
+    <div className="min-h-screen tdh-grill flex items-center justify-center py-10">
+      <Card className="w-full max-w-lg mx-4 card-clean text-[#fdf1e2]">
         <CardHeader className="text-center">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <CardTitle className="text-green-600">¡Pago exitoso!</CardTitle>
+          <CheckCircle className="w-16 h-16 text-[#8ed05a] mx-auto mb-4" />
+          <CardTitle className="text-[#8ed05a] font-display text-2xl uppercase tracking-wide">
+            ¡Pago exitoso!
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Carrusel de 3 fotos del iPhone como contenido principal */}
@@ -188,39 +192,39 @@ function PagoExitoContent() {
               <h3 className="text-lg font-bold text-orange-500 glow-red">
                 PARTICIPAS GRATIS DEL IPHONE 14 pro Max NUEVO EN CAJA
               </h3>
-              <p className="text-base font-semibold text-yellow-400 animate-pulse">
+              <p className="text-base font-semibold text-[#ffd27a] animate-pulse">
                 compra que se van volando👍🏻
               </p>
             </div>
           </div>
           <div className="text-center">
-            <p className="text-lg font-semibold mb-2">
+            <p className="text-lg font-semibold mb-2 text-[#fdf1e2]">
               ¡Gracias por tu compra, {datosCompra?.nombre}!
             </p>
-            <p className="text-gray-600">
+            <p className="text-[#fdf1e2]/60">
               Tu pago se procesó correctamente y ya tienes tus números
               asignados.
             </p>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+          <div className="bg-[#0f0a07] border border-[rgba(255,138,51,0.18)] rounded-lg p-4 space-y-3">
             <div className="flex justify-between">
-              <span className="text-gray-600">Chances compradas:</span>
-              <span className="font-semibold">{datosCompra?.chances}</span>
+              <span className="text-[#fdf1e2]/60">Chances compradas:</span>
+              <span className="font-semibold text-[#fdf1e2]">{datosCompra?.chances}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Precio pagado:</span>
-              <span className="font-semibold text-green-600">
+              <span className="text-[#fdf1e2]/60">Precio pagado:</span>
+              <span className="font-semibold text-[#ff8a33]">
                 ${datosCompra?.precio?.toLocaleString()}
               </span>
             </div>
-            <div className="border-t pt-3">
-              <span className="text-gray-600 block mb-2">Tus números:</span>
+            <div className="border-t border-[rgba(255,138,51,0.15)] pt-3">
+              <span className="text-[#fdf1e2]/60 block mb-2">Tus números:</span>
               <div className="flex flex-wrap gap-2">
                 {numerosAsignados.map((numero) => (
                   <span
                     key={numero}
-                    className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-mono font-semibold"
+                    className="bg-gradient-to-b from-[#ff8a33] to-[#ff6a13] text-[#1a0e03] px-3 py-1 rounded-full font-mono font-semibold border border-[rgba(255,200,140,0.5)] shadow-[0_0_12px_-4px_rgba(255,106,19,0.7)]"
                   >
                     #{numero}
                   </span>
@@ -232,14 +236,14 @@ function PagoExitoContent() {
           {compradorId && (
             <a
               href={`/api/descargar/${compradorId}`}
-              className="block w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold text-center py-3 px-4 rounded-lg shadow-lg transition-colors"
+              className="btn-chunky block w-full text-center py-3 px-4 rounded-lg"
             >
               📥 Descargar mi contenido
             </a>
           )}
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 ">
-            <p className="text-blue-800 text-sm">
+          <div className="bg-[#ff6a13]/10 border border-[rgba(255,138,51,0.3)] rounded-lg p-4 ">
+            <p className="text-[#fdf1e2]/85 text-sm">
               <strong>Importante:</strong> Recibirás un email de confirmación
               con todos los detalles de tu compra.
             </p>
@@ -247,7 +251,7 @@ function PagoExitoContent() {
 
           <div className="pt-4">
             <Link href="/">
-              <Button className="w-full">
+              <Button className="btn-chunky w-full">
                 <Home className="w-4 h-4 mr-2" />
                 Volver
               </Button>
@@ -283,7 +287,7 @@ function PagoExitoContent() {
                 <p className="text-sm text-orange-400 font-bold glow-red">
                   remera digital
                 </p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-[#fdf1e2]/50">
                   incluida con tu participación
                 </p>
               </div>
@@ -297,13 +301,13 @@ function PagoExitoContent() {
 
 function LoadingFallback() {
   return (
-    <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-      <Card className="w-full max-w-md mx-4">
+    <div className="min-h-screen tdh-grill flex items-center justify-center">
+      <Card className="w-full max-w-md mx-4 card-clean text-[#fdf1e2]">
         <CardContent className="pt-6">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-12 h-12 border-4 border-[#ff6a13] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <h2 className="text-xl font-semibold mb-2">Cargando...</h2>
-            <p className="text-gray-600">
+            <p className="text-[#fdf1e2]/60">
               Preparando la confirmación de tu pago
             </p>
           </div>
